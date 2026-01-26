@@ -38,9 +38,9 @@ const Home: React.FC = () => {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gray-900">
-                <div className="absolute inset-0 z-0 text-white">
-                    <img alt="Dynamic data visualization background" className="w-full h-full object-cover opacity-40 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU" />
+            <section className="relative min-h-screen flex items-center overflow-hidden bg-gray-900">
+                <div className="absolute inset-0 z-0">
+                    <img alt="Dynamic data visualization background" className="w-full h-full object-cover opacity-40 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU" />
                     <div className="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/40 to-gray-900/80"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-6 w-full text-center py-20 lg:py-0">
@@ -242,6 +242,27 @@ const Home: React.FC = () => {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Trusted By Section */}
+            <section className="py-16 bg-white border-y border-gray-100">
+                <div className="max-w-7xl mx-auto px-6">
+                    <p className="text-center text-sm font-bold text-gray-400 uppercase tracking-widest mb-12">Trusted By Leading Barbadian & International Brands</p>
+                    <div className="flex flex-wrap justify-center items-center gap-12 opacity-60">
+                        {[
+                            "Ocean Blue International",
+                            "Global Tourism Hub",
+                            "Barbados Tech Collective",
+                            "Caribbean Growth Partners",
+                            "Endeavor Hospitality Group",
+                            "Atlantic Digital Services"
+                        ].map((brand, i) => (
+                            <div key={i} className="text-gray-600 font-display font-bold text-lg hover:text-google-blue transition-colors">
+                                {brand}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

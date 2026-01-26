@@ -76,9 +76,10 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
 
 const Layout: React.FC = () => {
     const [modalConfig, setModalConfig] = useState<{ open: boolean, type: 'early-access' | 'audit' }>({ open: false, type: 'early-access' });
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
-        <div className="bg-background text-gray-700 antialiased font-sans min-h-screen relative overflow-x-hidden">
+        <div className="bg-background text-gray-700 antialiased font-sans min-h-screen relative">
             <EarlyAccessModal
                 isOpen={modalConfig.open}
                 onClose={() => setModalConfig({ ...modalConfig, open: false })}
@@ -92,42 +93,98 @@ const Layout: React.FC = () => {
                 <div className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] size-[1000px] bg-google-yellow/3 rounded-full blur-[200px]"></div>
             </div>
 
-            {/* Top Navigation */}
-            <header className="sticky top-0 z-50 w-full bg-white/70 backdrop-blur-xl border-b border-gray-100 transition-all duration-300">
-                <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                    <Link to="/" className="flex items-center gap-2 cursor-pointer group">
-                        <div className="flex gap-1 group-hover:gap-1.5 transition-all">
-                            <div className="w-1.5 h-8 bg-google-blue rounded-full"></div>
-                            <div className="w-1.5 h-8 bg-google-red rounded-full"></div>
-                            <div className="w-1.5 h-8 bg-google-yellow rounded-full"></div>
-                            <div className="w-1.5 h-8 bg-google-green rounded-full"></div>
+            {/* Mobile Header */}
+            <header className="lg:hidden sticky top-0 z-50 w-full bg-white/90 backdrop-blur-xl border-b border-gray-100">
+                <div className="px-6 h-16 flex items-center justify-between">
+                    <Link to="/" className="flex items-center gap-2">
+                        <div className="flex gap-0.5">
+                            <div className="w-1 h-6 bg-google-blue rounded-full"></div>
+                            <div className="w-1 h-6 bg-google-red rounded-full"></div>
+                            <div className="w-1 h-6 bg-google-yellow rounded-full"></div>
+                            <div className="w-1 h-6 bg-google-green rounded-full"></div>
                         </div>
-                        <h1 className="text-2xl font-display font-bold text-[#5f6368] ml-2 tracking-tight">OnLine<span className="text-google-blue">Everywhere</span></h1>
+                        <h1 className="text-lg font-display font-bold text-[#5f6368]">OLE</h1>
                     </Link>
-                    <nav className="hidden md:flex items-center gap-10">
-                        <Link className="text-sm font-bold text-gray-500 hover:text-google-blue transition-all" to="/">Overview</Link>
-                        <Link className="text-sm font-bold text-gray-500 hover:text-google-blue transition-all" to="/services">Solutions</Link>
-                        <Link className="text-sm font-bold text-gray-500 hover:text-google-blue transition-all" to="/portfolio">Portfolio</Link>
-                        <Link className="text-sm font-bold text-gray-500 hover:text-google-blue transition-all" to="/blog">Blog</Link>
-                        <Link className="text-sm font-bold text-gray-500 hover:text-google-blue transition-all" to="/about">About Us</Link>
-                        <Link className="text-sm font-bold text-gray-500 hover:text-google-blue transition-all" to="/contact">Contact</Link>
-                    </nav>
-                    <div className="flex items-center gap-4">
-                        <button
-                            onClick={() => setModalConfig({ open: true, type: 'early-access' })}
-                            className="bg-google-blue hover:bg-blue-600 text-white px-6 py-3 rounded-full text-sm font-bold transition-all shadow-lg hover:shadow-google-blue/20"
-                        >
-                            Get started
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                        className="size-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors"
+                    >
+                        <span className="material-symbols-outlined">{sidebarOpen ? 'close' : 'menu'}</span>
+                    </button>
                 </div>
             </header>
 
-            <main className="relative z-10 transition-opacity duration-500">
+            {/* Sidebar */}
+            <aside className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-100 z-40 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+                <div className="flex flex-col h-full">
+                    {/* Logo */}
+                    <div className="p-6 border-b border-gray-100">
+                        <Link to="/" className="flex items-center gap-3 group" onClick={() => setSidebarOpen(false)}>
+                            <div className="flex gap-1 group-hover:gap-1.5 transition-all">
+                                <div className="w-1.5 h-10 bg-google-blue rounded-full"></div>
+                                <div className="w-1.5 h-10 bg-google-red rounded-full"></div>
+                                <div className="w-1.5 h-10 bg-google-yellow rounded-full"></div>
+                                <div className="w-1.5 h-10 bg-google-green rounded-full"></div>
+                            </div>
+                            <div>
+                                <h1 className="text-xl font-display font-bold text-[#5f6368] leading-none">OnLine<span className="text-google-blue">Everywhere</span></h1>
+                                <p className="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Digital Growth</p>
+                            </div>
+                        </Link>
+                    </div>
+
+                    {/* Navigation */}
+                    <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+                        {[
+                            { to: '/', label: 'Overview', icon: 'home' },
+                            { to: '/services', label: 'Solutions', icon: 'business_center' },
+                            { to: '/portfolio', label: 'Portfolio', icon: 'work' },
+                            { to: '/blog', label: 'Blog', icon: 'article' },
+                            { to: '/barbados', label: 'Barbados', icon: 'location_on' },
+                            { to: '/about', label: 'About Us', icon: 'info' },
+                            { to: '/contact', label: 'Contact', icon: 'mail' }
+                        ].map((link) => (
+                            <Link
+                                key={link.to}
+                                to={link.to}
+                                onClick={() => setSidebarOpen(false)}
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-google-blue transition-all group"
+                            >
+                                <span className="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">{link.icon}</span>
+                                <span className="font-medium text-sm">{link.label}</span>
+                            </Link>
+                        ))}
+                    </nav>
+
+                    {/* CTA */}
+                    <div className="p-4 border-t border-gray-100">
+                        <button
+                            onClick={() => {
+                                setModalConfig({ open: true, type: 'early-access' });
+                                setSidebarOpen(false);
+                            }}
+                            className="w-full bg-google-blue hover:bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg"
+                        >
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            {/* Mobile Overlay */}
+            {sidebarOpen && (
+                <div
+                    className="lg:hidden fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-30"
+                    onClick={() => setSidebarOpen(false)}
+                />
+            )}
+
+            {/* Main Content */}
+            <main className="lg:ml-64 relative z-10 transition-opacity duration-500">
                 <Outlet context={{ setModalOpen: (open: boolean, type: any) => setModalConfig({ open, type }) }} />
             </main>
 
-            <footer className="bg-white border-t border-gray-100 py-16">
+            <footer className="lg:ml-64 bg-white border-t border-gray-100 py-16">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
                         <div className="col-span-1 space-y-6">
@@ -156,10 +213,10 @@ const Layout: React.FC = () => {
                         <div>
                             <h4 className="font-bold text-sm text-gray-900 mb-6 uppercase tracking-wider">Resources</h4>
                             <ul className="space-y-4 text-sm text-gray-500 font-medium">
-                                <li><Link className="hover:text-google-blue transition-colors" to="/about">Learning Center</Link></li>
-                                <li><Link className="hover:text-google-blue transition-colors" to="/about">Case Studies</Link></li>
-                                <li><Link className="hover:text-google-blue transition-colors" to="/about">Strategic Blog</Link></li>
-                                <li><Link className="hover:text-google-blue transition-colors" to="/about">Documentation</Link></li>
+                                <li><Link className="hover:text-google-blue transition-colors" to="/blog">Strategic Blog</Link></li>
+                                <li><Link className="hover:text-google-blue transition-colors" to="/portfolio">Case Studies</Link></li>
+                                <li><Link className="hover:text-google-blue transition-colors" to="/barbados">Barbados Services</Link></li>
+                                <li><Link className="hover:text-google-blue transition-colors" to="/about">About Us</Link></li>
                             </ul>
                         </div>
                         <div>
@@ -168,7 +225,7 @@ const Layout: React.FC = () => {
                                 <a className="size-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:text-google-blue hover:border-google-blue transition-all" href="#">
                                     <span className="material-symbols-outlined text-xl">public</span>
                                 </a>
-                                <a className="size-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:text-google-red hover:border-google-red transition-all" href="mailto:contact@onlineverywhere.com">
+                                <a className="size-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:text-google-red hover:border-google-red transition-all" href="mailto:devon@onlineverywhere.com">
                                     <span className="material-symbols-outlined text-xl">alternate_email</span>
                                 </a>
                                 <a className="size-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:text-google-green hover:border-google-green transition-all" href="https://maps.google.com/?q=Barbados" target="_blank" rel="noopener noreferrer">
