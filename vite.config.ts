@@ -20,12 +20,15 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': resolve(__dirname, '.'),
-      }
+      },
+      mainFields: ['browser', 'module', 'main'],
+    },
+    optimizeDeps: {
+      include: ['firebase/app', 'firebase/auth'],
     },
     build: {
+      chunkSizeWarningLimit: 1000,
       rollupOptions: {
-        // This fixes the "handleInvalidResolvedId" error by ignoring external deps if needed
-        // But we mostly want to see WHICH ID is failing.
         onwarn(warning, warn) {
           if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
             return
