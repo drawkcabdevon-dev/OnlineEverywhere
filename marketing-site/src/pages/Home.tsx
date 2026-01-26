@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, Link } from 'react-router-dom';
 
 const Typewriter = () => {
     const terms = ["Graphic Design", "Web Development", "Customer Insights"];
@@ -15,7 +15,7 @@ const Typewriter = () => {
     }, []);
 
     return (
-        <div className="inline-flex justify-center min-w-[300px]">
+        <div className="inline-flex justify-center w-full max-w-full overflow-hidden px-4">
             <AnimatePresence mode="wait">
                 <motion.span
                     key={index}
@@ -23,7 +23,7 @@ const Typewriter = () => {
                     animate={{ width: "auto", opacity: 1 }}
                     exit={{ width: 0, opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    className={`inline-block whitespace-nowrap overflow-hidden border-r-4 border-google-blue pr-2 ${colors[index]}`}
+                    className={`inline-block whitespace-nowrap overflow-hidden border-r-4 border-google-blue pr-2 ${colors[index]} text-4xl sm:text-6xl md:text-8xl lg:text-8xl`}
                 >
                     {terms[index]}
                 </motion.span>
@@ -40,22 +40,22 @@ const Home: React.FC = () => {
             {/* Hero Section */}
             <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-gray-900">
                 <div className="absolute inset-0 z-0 text-white">
-                    <img alt="Dynamic data visualization background" className="w-full h-full object-cover opacity-40 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU" />
+                    <img alt="Dynamic data visualization background" className="w-full h-full object-cover opacity-40 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU" />
                     <div className="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/40 to-gray-900/80"></div>
                 </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-6 w-full text-center">
+                <div className="relative z-10 max-w-7xl mx-auto px-6 w-full text-center py-20 lg:py-0">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-blue-300 text-xs font-medium tracking-wide mb-8">
                         <span className="material-symbols-outlined text-sm">analytics</span>
                         Strategic Digital Ecosystems
                     </div>
                     <div className="space-y-6">
-                        <h1 className="text-5xl lg:text-8xl font-display font-bold leading-tight text-white">
+                        <h1 className="text-4xl sm:text-5xl lg:text-8xl font-display font-bold leading-tight text-white px-4 md:px-0">
                             Partners in<br />
-                            <div className="h-24 mt-4">
+                            <div className="h-16 sm:h-20 md:h-24 mt-4 flex justify-center items-center">
                                 <Typewriter />
                             </div>
                         </h1>
-                        <h2 className="text-3xl lg:text-5xl font-display font-medium text-gray-300">
+                        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-display font-medium text-gray-300">
                             From Click to Client.
                         </h2>
                     </div>
@@ -64,7 +64,7 @@ const Home: React.FC = () => {
                     </p>
                     <div className="flex flex-wrap justify-center gap-4 mt-12">
                         <button
-                            onClick={() => setModalOpen(true)}
+                            onClick={() => setModalOpen(true, 'early-access')}
                             className="bg-google-blue hover:shadow-lg text-white px-10 py-4 rounded-full text-lg font-medium transition-all border border-transparent"
                         >
                             Start Your Digital Journey
@@ -246,6 +246,127 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
+            {/* Selected Work Section */}
+            <section className="py-24 bg-surface" id="work">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-16 px-4">
+                        <div>
+                            <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Case Studies</h2>
+                            <h3 className="text-4xl lg:text-5xl font-display font-bold text-gray-900 tracking-tight">Institutional Impact.</h3>
+                        </div>
+                        <Link to="/portfolio" className="text-google-blue font-bold flex items-center gap-2 hover:translate-x-2 transition-transform">
+                            View All Work
+                            <span className="material-symbols-outlined">arrow_forward</span>
+                        </Link>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {[
+                            {
+                                title: "Global Tourism Intelligence Hub",
+                                results: "+140% Conversion Lift",
+                                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU"
+                            },
+                            {
+                                title: "Ocean Blue International",
+                                results: "4.8x ROAS",
+                                image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCPUc8wJRKJL-idYU3ytHQhrGZPVnGYb0vbKABO9AfePRXqthWXoBEcNYWGPzGgRhZGRRmo84e7ZOHi3xHGb38xMj-wcCFT5Ig-6bsbAm0A-5vbnKpLM8HepUmr9O43e03_UIXQ1Yh4jBVmicRc5ItNXEnXsoqc9LZ_XhJKOaBhE9lbVxvCb-bXA3H5d9tMRCvOpPANQg2VuQLvOwPxHZ7heaZ7a8-yDmWVJU8dlssOKehykxoKH5cDjC_1NFwCKMDNhIyOQIoS1TE"
+                            }
+                        ].map((work, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                viewport={{ once: true }}
+                                className="group relative aspect-video rounded-3xl overflow-hidden bg-gray-900 shadow-xl"
+                            >
+                                <img src={work.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60" alt={work.title} />
+                                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
+                                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                                    <div>
+                                        <h4 className="text-2xl font-display font-bold text-white mb-2">{work.title}</h4>
+                                        <p className="text-google-blue font-bold text-sm tracking-widest uppercase">{work.results}</p>
+                                    </div>
+                                    <Link to="/portfolio" className="size-14 rounded-full bg-white flex items-center justify-center text-gray-900 hover:bg-google-blue hover:text-white transition-all shadow-lg">
+                                        <span className="material-symbols-outlined">arrow_outward</span>
+                                    </Link>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Featured Insights Section */}
+
+            <section className="py-24 bg-background overflow-hidden">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 border-l-4 border-google-blue pl-6">
+                        <div>
+                            <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Strategic Intelligence</h2>
+                            <h3 className="text-4xl lg:text-5xl font-display font-bold text-gray-900 tracking-tight">Featured Insights.</h3>
+                        </div>
+                        <Link to="/blog" className="text-google-blue font-bold flex items-center gap-2 hover:translate-x-2 transition-transform mb-2">
+                            Explore All Insights
+                            <span className="material-symbols-outlined">arrow_forward</span>
+                        </Link>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {[
+                            {
+                                title: "Scaling Digital Transformation in Tourism",
+                                excerpt: "How established brands are bridging the gap between local excellence and global digital demand.",
+                                color: "google-blue",
+                                icon: "travel_explore",
+                                date: "Jan 26, 2026"
+                            },
+                            {
+                                title: "The Psychology of High-Conversion Funnels",
+                                excerpt: "Analyzing the subconscious friction points that prevent users from converting on enterprise platforms.",
+                                color: "google-red",
+                                icon: "bolt",
+                                date: "Jan 24, 2026"
+                            },
+                            {
+                                title: "Data Sovereignty in AI",
+                                excerpt: "Why owning your audience and data infrastructure is critical for long-term strategic alignment.",
+                                color: "google-green",
+                                icon: "security",
+                                date: "Jan 20, 2026"
+                            }
+                        ].map((post, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                viewport={{ once: true }}
+                                className="bg-surface p-8 rounded-[2rem] border border-gray-100 transition-all hover:shadow-m3 group cursor-pointer"
+                            >
+                                <div className="flex justify-between items-start mb-6">
+                                    <div className={`size-12 rounded-xl bg-${post.color}/10 flex items-center justify-center text-${post.color}`}>
+                                        <span className="material-symbols-outlined text-2xl">{post.icon}</span>
+                                    </div>
+                                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{post.date}</span>
+                                </div>
+                                <h4 className="text-xl font-display font-bold text-gray-900 mb-4 group-hover:text-google-blue transition-colors">
+                                    {post.title}
+                                </h4>
+                                <p className="text-sm text-gray-500 leading-relaxed mb-6">
+                                    {post.excerpt}
+                                </p>
+                                <div className="flex items-center text-google-blue font-bold text-xs group-hover:gap-2 transition-all">
+                                    <span>Read Insight</span>
+                                    <span className="material-symbols-outlined text-sm">chevron_right</span>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
             {/* CTA Section */}
             <section className="py-24 bg-white overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6">
@@ -259,13 +380,13 @@ const Home: React.FC = () => {
                             </p>
                             <div className="flex flex-col sm:flex-row justify-center gap-4 pt-6">
                                 <button
-                                    onClick={() => setModalOpen(true)}
+                                    onClick={() => setModalOpen(true, 'audit')}
                                     className="bg-google-blue hover:bg-blue-600 text-white px-10 py-4 rounded-full text-lg font-medium transition-all shadow-lg hover:scale-105"
                                 >
                                     Book Your Free Audit
                                 </button>
                                 <button
-                                    onClick={() => setModalOpen(true)}
+                                    onClick={() => setModalOpen(true, 'early-access')}
                                     className="bg-transparent border border-gray-700 text-white hover:bg-gray-800 px-10 py-4 rounded-full text-lg font-medium transition-all"
                                 >
                                     Request Access

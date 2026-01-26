@@ -7,28 +7,28 @@ const Services: React.FC = () => {
 
     const serviceCategories = [
         {
+            title: "Web Engineering",
+            icon: "code",
+            description: "High-performance digital infrastructure. From new website platforms to migrations, we ensure a fast, modern, and ready technical core.",
+            services: ["New Platform & Migrations", "Google PageSpeed Audits", "Core Web Vitals Implementation", "Data-First Content Strategy", "CRM & API Orchestration", "Security & Uptime Monitoring"]
+        },
+        {
+            title: "Search & Visibility",
+            icon: "search",
+            description: "Ensuring Google immediately recognizes and indexes all content through rigorous technical SEO and site mapping.",
+            services: ["Full Page Indexing Setup", "Sitemap Submission", "URL Inspection Protocols", "Google Search Console Mastery", "Technical SEO Audits", "Schema Data Implementation"]
+        },
+        {
+            title: "Strategic Research & Analysis",
+            icon: "analytics",
+            description: "Deep behavioral insights. We track every click to client, uncovering the exact friction points costing you revenue.",
+            services: ["GA4 & GTM Configuration", "Customer Journey Mapping", "Event Tracking Enablement", "Deep Behavior Audits", "Looker Studio Dashboards", "Conversion ROI Reporting"]
+        },
+        {
             title: "Graphic Design",
             icon: "palette",
             description: "Visual excellence that communicates institutional authority and brand prestige.",
             services: ["Brand Identity & Logo", "High-Conversion Ad Assets", "Digital Visual Assets", "Video Thumbnail Design", "Custom QR Code Solutions", "Product & Service Showcases"]
-        },
-        {
-            title: "Strategic Research",
-            icon: "travel_explore",
-            description: "Data-driven insights that bridge local excellence to global market demand.",
-            services: ["Direct vs Indirect Attribution", "Customer Journey Mapping", "Deep Persona Development", "Competitive Business Analysis", "GA4 Behavioral Audits", "E-commerce Performance Data"]
-        },
-        {
-            title: "Web Engineering",
-            icon: "code",
-            description: "High-performance digital infrastructure engineered for global scale and security.",
-            services: ["AI-Native Infrastructure", "Data-First Content Strategy", "Technical SEO Audits", "Core Web Vitals Mastery", "CRM & API Orchestration", "Security & Uptime Monitoring"]
-        },
-        {
-            title: "Marketing Analysis",
-            icon: "query_stats",
-            description: "Unified growth reporting that provides absolute clarity on every marketing endeavor.",
-            services: ["GSC & Search Console", "GTM Tag Management", "Google Maps & My Business", "Looker Studio Dashboards", "Social Paid Attribution", "Unified Growth Reporting"]
         }
     ];
 
@@ -93,7 +93,7 @@ const Services: React.FC = () => {
                                 Every service we provide is augmented by our proprietary AI frameworks. We don't just build websites; we build self-optimizing digital ecosystems that learn from your audience's behavior.
                             </p>
                             <button
-                                onClick={() => setModalOpen(true)}
+                                onClick={() => setModalOpen(true, 'audit')}
                                 className="bg-white text-gray-900 px-8 py-4 rounded-full font-bold flex items-center gap-3 hover:bg-google-blue hover:text-white transition-all shadow-xl"
                             >
                                 <span className="material-symbols-outlined">bolt</span>

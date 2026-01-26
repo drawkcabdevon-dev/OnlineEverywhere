@@ -1,5 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
+import { submitLead } from '../lib/firebase';
 
 const ContactUs: React.FC = () => {
     return (
@@ -23,7 +23,7 @@ const ContactUs: React.FC = () => {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-gray-900">Direct Inquiry</h4>
-                                    <a href="mailto:contact@onlineverywhere.com" className="text-google-blue hover:underline">contact@onlineverywhere.com</a>
+                                    <a href="mailto:devon@onlineverywhere.com" className="text-google-blue hover:underline">devon@onlineverywhere.com</a>
                                 </div>
                             </div>
                             <div className="flex gap-6 items-start">
@@ -57,20 +57,36 @@ const ContactUs: React.FC = () => {
                                 <span className="material-symbols-outlined text-[10rem]">send</span>
                             </div>
 
-                            <form className="space-y-6 relative z-10" onSubmit={e => { e.preventDefault(); alert('Submission testing: Inquiry received. We will contact you shortly.'); }}>
+                            <form className="space-y-6 relative z-10" onSubmit={async e => {
+                                e.preventDefault();
+                                const formData = new FormData(e.currentTarget);
+                                const data = {
+                                    name: formData.get('name'),
+                                    email: formData.get('email'),
+                                    service: formData.get('service'),
+                                    message: formData.get('message'),
+                                };
+                                const res = await submitLead('contact', data);
+                                if (res.success) {
+                                    alert('Inquiry received. We will contact you shortly.');
+                                    (e.target as HTMLFormElement).reset();
+                                } else {
+                                    alert('Error submitting inquiry. Please try again or email us directly.');
+                                }
+                            }}>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                     <div className="space-y-2">
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Name</label>
-                                        <input type="text" placeholder="Your Name" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
+                                        <input name="name" type="text" placeholder="Your Name" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
                                     </div>
                                     <div className="space-y-2">
                                         <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Email</label>
-                                        <input type="email" placeholder="email@company.com" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
+                                        <input name="email" type="email" placeholder="email@company.com" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Service of Interest</label>
-                                    <select className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all appearance-none" required>
+                                    <select name="service" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all appearance-none" required>
                                         <option value="">Select a service...</option>
                                         <option value="launchpad">Digital Launchpad (Setup)</option>
                                         <option value="catalyst">Conversion Catalyst (Growth)</option>
@@ -80,7 +96,7 @@ const ContactUs: React.FC = () => {
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-gray-400 uppercase tracking-widest pl-1">Message</label>
-                                    <textarea rows={4} placeholder="How can we help multiply your growth?" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all resize-none" required></textarea>
+                                    <textarea name="message" rows={4} placeholder="How can we help multiply your growth?" className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all resize-none" required></textarea>
                                 </div>
                                 <button type="submit" className="w-full bg-google-blue hover:bg-blue-600 text-white py-5 rounded-2xl font-bold transition-all transform hover:scale-[1.02] shadow-lg flex items-center justify-center gap-3">
                                     <span className="material-symbols-outlined">rocket_launch</span>
