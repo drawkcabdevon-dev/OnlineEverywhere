@@ -48,6 +48,11 @@ steps:
     args: ['-m', 'rsync', '-r', '-d', 'marketing-site/dist', 'gs://$_MARKETING_BUCKET']
     id: 'Deploy Marketing Site'
 
+  # 6. Set public-read permissions on all objects in the bucket
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'iam', 'ch', 'allUsers:objectViewer', 'gs://$_MARKETING_BUCKET']
+    id: 'Set Marketing Site Permissions'
+
 options:
   logging: CLOUD_LOGGING_ONLY
 
