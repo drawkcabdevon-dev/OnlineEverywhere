@@ -53,6 +53,11 @@ steps:
     args: ['-m', 'iam', 'ch', 'allUsers:objectViewer', 'gs://$_MARKETING_BUCKET']
     id: 'Set Marketing Site Permissions'
 
+  # 7. Set no-cache for index.html so users always get the latest version
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['setmeta', '-h', 'Cache-Control:no-cache, no-store, must-revalidate', 'gs://$_MARKETING_BUCKET/index.html']
+    id: 'Set Cache Control for Index'
+
 options:
   logging: CLOUD_LOGGING_ONLY
 

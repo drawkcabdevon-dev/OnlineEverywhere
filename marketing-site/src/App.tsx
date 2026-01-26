@@ -12,7 +12,7 @@ const Typewriter = ({ terms }: { terms: string[] }) => {
     }, [terms]);
 
     return (
-        <span style={{ display: 'inline-block', minWidth: '300px', color: 'var(--accent)' }}>
+        <span className="text-primary inline-block min-w-[200px]">
             <AnimatePresence mode="wait">
                 <motion.span
                     key={index}
@@ -20,7 +20,7 @@ const Typewriter = ({ terms }: { terms: string[] }) => {
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -20, opacity: 0 }}
                     transition={{ duration: 0.5 }}
-                    style={{ display: 'inline-block' }}
+                    className="inline-block"
                 >
                     {terms[index]}
                 </motion.span>
@@ -29,213 +29,394 @@ const Typewriter = ({ terms }: { terms: string[] }) => {
     );
 };
 
-const App: React.FC = () => {
+const EarlyAccessModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+    if (!isOpen) return null;
+
     return (
-        <div className="premium-gradient min-h-screen">
-            {/* Navigation */}
-            <nav style={{
-                position: 'fixed',
-                top: 0,
-                width: '100%',
-                zIndex: 100,
-                padding: '1.5rem 2rem',
-                background: 'rgba(15, 23, 42, 0.8)',
-                backdropFilter: 'blur(10px)',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
-            }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: 800, fontFamily: 'var(--font-heading)' }}>
-                    ONLINE<span style={{ color: 'var(--accent)' }}>EVERYWHERE</span>
-                </div>
-                <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-                    <a href="#app" className="nav-link">The App</a>
-                    <a href="#services" className="nav-link">Services</a>
-                    <a href="#about" className="nav-link">About</a>
-                    <a href="https://app.onlineverywhere.com" className="btn-primary" style={{ padding: '0.5rem 1.5rem', fontSize: '0.9rem' }}>Launch App</a>
-                </div>
-            </nav>
-
-            {/* Hero Section */}
-            <section id="hero" style={{
-                paddingTop: '15rem',
-                paddingBottom: '12rem',
-                textAlign: 'center',
-                position: 'relative',
-                overflow: 'hidden'
-            }}>
-                {/* Dynamic Background */}
-                <motion.div
-                    animate={{
-                        background: [
-                            'radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)',
-                            'radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)',
-                            'radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)'
-                        ]
-                    }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        zIndex: -1
-                    }}
-                />
-
-                {/* Floating Elements (Interactivity) */}
-                <motion.div
-                    animate={{ y: [0, -20, 0], opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    style={{
-                        position: 'absolute',
-                        top: '20%',
-                        left: '10%',
-                        width: '300px',
-                        height: '300px',
-                        background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
-                        zIndex: -1
-                    }}
-                />
-
-                <span className="section-tag">Empowering the Team of One</span>
-                <h1 className="section-title" style={{ fontSize: '5rem', marginBottom: '1.5rem', lineHeight: 1.1 }}>
-                    Your AI-Native <br />
-                    <Typewriter terms={["Marketing Department.", "Strategist.", "Copywriter.", "SEO Analyst.", "Researcher."]} />
-                </h1>
-                <p style={{
-                    fontSize: '1.35rem',
-                    color: 'var(--text-muted)',
-                    maxWidth: '750px',
-                    margin: '0 auto 3.5rem',
-                    lineHeight: 1.6
-                }}>
-                    OLE (OnlineEverywhere) is the central brain for your business.
-                    Bridge the gap from <strong>Click to Client</strong> with a unified ecosystem
-                    designed to multiply your strategic power.
-                </p>
-                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                    <a href="#services" className="btn-primary">View Solutions</a>
-                    <a href="#app" className="glass-card" style={{ padding: '0.8rem 2rem', borderRadius: '50px', textDecoration: 'none', color: 'white' }}>Explore OLE</a>
-                </div>
-            </section>
-
-            {/* The Central Brain (Core IP) */}
-            <section id="brain">
-                <div className="glass-card" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-sm" onClick={onClose}>
+            <motion.div
+                className="bg-[#1c2127] border border-white/10 p-8 md:p-12 rounded-2xl w-full max-w-lg shadow-2xl"
+                onClick={e => e.stopPropagation()}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+            >
+                <div className="flex justify-between items-start mb-6">
                     <div>
-                        <span className="section-tag">Proprietary Architecture</span>
-                        <h2 className="section-title">The "Central Brain" Strategy</h2>
-                        <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', lineHeight: 1.7 }}>
-                            Unlike fragmented AI tools, OLE is built on a single source of truth.
-                            Our <strong>Project Foundation</strong> module defines your brand voice,
-                            target audience, and goals once.
-                        </p>
-                        <p style={{ color: 'var(--text-main)', fontWeight: 500 }}>
-                            This intelligence then flows into every email, every strategy brief,
-                            and every web component—ensuring perfect brand alignment across every channel.
-                        </p>
+                        <h2 className="text-2xl font-black text-white">Join the Inner Circle</h2>
+                        <p className="text-slate-400 mt-2">Be the first to experience the AI-native marketing revolution.</p>
                     </div>
-                    <div style={{
-                        background: 'linear-gradient(45deg, #3b82f622, #8b5cf622)',
-                        height: '300px',
-                        borderRadius: '16px',
-                        border: '1px dashed var(--glass-border)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.9rem',
-                        color: 'var(--accent)'
-                    }}>
-                        [ Interactive Brain Visualization ]
-                    </div>
-                </div>
-            </section>
-
-            {/* The Ecosystem (Modules) */}
-            <section id="app">
-                <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                    <span className="section-tag">An End-to-End Ecosystem</span>
-                    <h2 className="section-title">13 Specialized Modules</h2>
-                    <p style={{ color: 'var(--text-muted)' }}>From research to execution, OLE is your complete marketing assembly line.</p>
+                    <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors">
+                        <span className="material-symbols-outlined">close</span>
+                    </button>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+                <form className="space-y-4" onSubmit={e => { e.preventDefault(); alert('Success! You are on the list for early access.'); onClose(); }}>
+                    <div>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">Full Name</label>
+                        <input type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" required />
+                    </div>
+                    <div>
+                        <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">Business Email</label>
+                        <input type="email" placeholder="john@company.com" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" required />
+                    </div>
+                    <button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold transition-all transform hover:scale-[1.02]">
+                        Request Early Access
+                    </button>
+                </form>
+            </motion.div>
+        </div>
+    );
+};
+
+const App: React.FC = () => {
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    useEffect(() => {
+        // Ensure dark mode is active to match the design
+        document.documentElement.classList.add('dark');
+    }, []);
+
+    return (
+        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white transition-colors duration-300 min-h-screen">
+            <EarlyAccessModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+
+            {/* Top Navigation */}
+            <header className="sticky top-0 z-50 backdrop-blur-md bg-[#101922]/80 border-b border-white/10">
+                <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white shadow-lg shadow-primary/20">
+                            <span className="material-symbols-outlined">rocket_launch</span>
+                        </div>
+                        <h1 className="text-xl font-black tracking-tight">OnLine<span className="text-primary">Everywhere</span></h1>
+                    </div>
+                    <nav className="hidden md:flex items-center gap-8">
+                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#hero">Home</a>
+                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#packages">Service Packages</a>
+                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#pillars">Core Pillars</a>
+                        <a className="text-sm font-medium hover:text-primary transition-colors" href="https://app.onlineverywhere.com">Launch App</a>
+                    </nav>
+                    <button
+                        onClick={() => setModalOpen(true)}
+                        className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-lg text-sm font-bold transition-all transform hover:scale-105 shadow-lg shadow-primary/20"
+                    >
+                        Request Access
+                    </button>
+                </div>
+            </header>
+
+            <main className="max-w-7xl mx-auto px-6 py-12">
+                {/* Hero Section */}
+                <div id="hero" className="mb-24 pt-12">
+                    <div className="flex flex-wrap justify-between items-end gap-6 border-l-4 border-primary pl-6">
+                        <div className="max-w-3xl">
+                            <span className="text-primary font-bold tracking-widest text-xs uppercase mb-2 block">Strategic AI Frameworks</span>
+                            <h2 className="text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
+                                Your AI-Native <br />
+                                <Typewriter terms={["Marketing Department.", "Strategist.", "Copywriter.", "SEO Analyst.", "Researcher."]} />
+                            </h2>
+                            <p className="text-slate-500 dark:text-slate-400 text-xl leading-relaxed max-w-2xl">
+                                OLE (OnlineEverywhere) is the central brain for your business. Bridge the gap from <strong>Click to Client</strong> with a unified ecosystem designed to multiply your strategic power.
+                            </p>
+                        </div>
+                        <button
+                            onClick={() => setModalOpen(true)}
+                            className="flex items-center gap-2 bg-slate-200 dark:bg-[#1c2127] hover:bg-slate-300 dark:hover:bg-[#283039] text-slate-900 dark:text-white px-8 py-4 rounded-xl font-bold transition-all hover:scale-105"
+                        >
+                            <span className="material-symbols-outlined text-xl">event</span>
+                            Request a Free Audit
+                        </button>
+                    </div>
+                </div>
+
+                {/* Pricing Cards Section */}
+                <div id="packages" className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
+                    {/* Tier 1 */}
+                    <div className="group flex flex-col gap-6 rounded-2xl border border-slate-200 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] p-8 shadow-xl hover:border-primary/50 transition-all duration-300">
+                        <div className="flex flex-col gap-2">
+                            <h3 className="text-primary font-bold text-sm uppercase tracking-widest">Level 01</h3>
+                            <h4 className="text-3xl font-black leading-tight">The Digital Launchpad</h4>
+                            <p className="flex items-baseline gap-1 mt-2">
+                                <span className="text-3xl font-black tracking-tight text-white">Custom</span>
+                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/monthly</span>
+                            </p>
+                        </div>
+                        <button onClick={() => setModalOpen(true)} className="w-full bg-slate-100 dark:bg-[#283039] hover:bg-slate-200 dark:hover:bg-[#323c47] text-slate-900 dark:text-white py-4 rounded-xl text-sm font-bold transition-colors">
+                            Get Started
+                        </button>
+                        <hr className="border-slate-200 dark:border-[#3b4754]" />
+                        <div className="flex flex-col gap-4">
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Deliverables</p>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">Brand Foundation</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">Website Build</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">Initial Tracking</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Tier 2 (Featured) */}
+                    <div className="relative flex flex-col gap-6 rounded-2xl border-2 border-primary bg-white dark:bg-[#1c2127] p-8 shadow-2xl scale-105 z-10 transition-all duration-300">
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full">
+                            Most Popular
+                        </div>
+                        <div className="flex flex-col gap-2">
+                            <h3 className="text-primary font-bold text-sm uppercase tracking-widest">Level 02</h3>
+                            <h4 className="text-3xl font-black leading-tight">The Conversion Catalyst</h4>
+                            <p className="flex items-baseline gap-1 mt-2">
+                                <span className="text-4xl font-black tracking-tight text-white">Custom</span>
+                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/monthly</span>
+                            </p>
+                        </div>
+                        <button onClick={() => setModalOpen(true)} className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl text-sm font-bold transition-colors shadow-lg shadow-primary/20">
+                            Maximize ROI
+                        </button>
+                        <hr className="border-slate-200 dark:border-[#3b4754]" />
+                        <div className="flex flex-col gap-4">
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter text-white">Deliverables</p>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">Behavioral Audits</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">Performance Overhaul</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">CRO Strategy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Tier 3 */}
+                    <div className="flex flex-col gap-6 rounded-2xl border border-slate-200 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] p-8 shadow-xl hover:border-primary/50 transition-all duration-300">
+                        <div className="flex flex-col gap-2">
+                            <h3 className="text-primary font-bold text-sm uppercase tracking-widest">Level 03</h3>
+                            <h4 className="text-3xl font-black leading-tight">The Proactive Partnership</h4>
+                            <p className="flex items-baseline gap-1 mt-2">
+                                <span className="text-3xl font-black tracking-tight text-white">Custom</span>
+                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/monthly</span>
+                            </p>
+                        </div>
+                        <button onClick={() => setModalOpen(true)} className="w-full bg-slate-100 dark:bg-[#283039] hover:bg-slate-200 dark:hover:bg-[#323c47] text-slate-900 dark:text-white py-4 rounded-xl text-sm font-bold transition-colors">
+                            Partner with Us
+                        </button>
+                        <hr className="border-slate-200 dark:border-[#3b4754]" />
+                        <div className="flex flex-col gap-4">
+                            <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Deliverables</p>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">Unified Reporting</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">Technical Health</span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <span className="material-symbols-outlined text-primary">verified</span>
+                                <span className="text-sm">Ongoing Strategy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Pillar Grid Section Header */}
+                <div id="pillars" className="mb-12">
+                    <h2 className="text-3xl font-black tracking-tight px-4 border-l-4 border-primary">The Pillars of Your Success</h2>
+                    <p className="px-4 mt-2 text-slate-500 text-lg">Every package is built upon our four core strategic pillars.</p>
+                </div>
+                {/* Pillar Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 mb-32">
                     {[
-                        { title: 'Foundation', desc: 'Define your Central Brain: Identity, Personas, and Goals.' },
-                        { title: 'Market Radar', desc: 'Live competitor analysis and market opportunity tracking.' },
-                        { title: 'PersonaLab', desc: 'In-depth audience profiling driven by real-time data.' },
-                        { title: 'Page Performance Lab', desc: 'Deep SEO audits and conversion path optimization.' },
-                        { title: 'Strategy Briefs', desc: 'High-level campaign plans synthesized from raw research.' },
-                        { title: 'Website Builder', desc: 'Generative themed components for high-conversion sites.' }
-                    ].map((item, i) => (
-                        <div key={i} className="glass-card">
-                            <h3 style={{ marginBottom: '0.5rem', color: 'var(--accent)' }}>{item.title}</h3>
-                            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>{item.desc}</p>
+                        { icon: 'search', title: 'SEO Strategy', desc: 'Advanced optimization for high intent keywords and organic visibility.' },
+                        { icon: 'dashboard', title: 'UX Design', desc: 'User-centric interfaces engineered to maximize conversion rates.' },
+                        { icon: 'bar_chart', title: 'Data Analytics', desc: 'Deep-dive behavioral tracking and multi-channel attribution.' },
+                        { icon: 'memory', title: 'Technical Health', desc: 'Infrastructure audits and site speed performance optimization.' }
+                    ].map((pillar, i) => (
+                        <div key={i} className="flex flex-col gap-4 rounded-2xl border border-slate-200 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] p-8 hover:border-primary/50 transition-all group shadow-lg">
+                            <div className="size-14 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-inner">
+                                <span className="material-symbols-outlined text-3xl">{pillar.icon}</span>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <h3 className="text-xl font-black">{pillar.title}</h3>
+                                <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{pillar.desc}</p>
+                            </div>
                         </div>
                     ))}
                 </div>
-            </section>
 
-            {/* Services Section */}
-            <section id="services" style={{ background: 'rgba(15, 23, 42, 0.4)' }}>
-                <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                    <span className="section-tag">Comprehensive Digital Partnerships</span>
-                    <h2 className="section-title">Strategic Solutions</h2>
-                    <p style={{ color: 'var(--text-muted)', maxWidth: '600px', margin: '0 auto' }}>
-                        We don't just provide a tool; we provide the expertise to scale it.
-                        The OLE app supports our services, but can also be used independently to
-                        power your internal team.
-                    </p>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-                    {[
-                        { name: 'Digital Launchpad', phase: 'Setup', desc: 'Brand assets, optimized website, and analytics (GA4/Search Console) setup.' },
-                        { name: 'Conversion Catalyst', phase: 'Optimization', desc: 'Technical refinement, Core Web Vitals, and Structured Data implementation.' },
-                        { name: 'Proactive Partnership', phase: 'Sustaining', desc: 'Long-term retainer for maintenance, content refreshes, and reporting.' },
-                        { name: 'Paid Media Ignition', phase: 'Growth', desc: 'Integrated ad management combining creative design with deep tracking.' }
-                    ].map((svc, i) => (
-                        <div key={i} className="glass-card" style={{ borderTop: `4px solid var(--accent)` }}>
-                            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)' }}>{svc.phase} PHASE</span>
-                            <h3 style={{ margin: '0.5rem 0' }}>{svc.name}</h3>
-                            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>{svc.desc}</p>
+                {/* Deep Dive Section */}
+                <div className="space-y-40 mb-32">
+                    {/* Deep Dive 1 */}
+                    <div className="flex flex-col md:flex-row items-center gap-16">
+                        <div className="flex-1 space-y-8 order-2 md:order-1">
+                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
+                                Focus: Conversions
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Behavioral Audits & CRO</h2>
+                            <p className="text-slate-500 dark:text-slate-400 text-xl leading-relaxed">
+                                We don't just look at traffic; we look at human behavior. Our Conversion Catalyst tier includes heatmapping, session recordings, and A/B testing frameworks to identify exactly where your funnel is leaking and how to fix it.
+                            </p>
+                            <ul className="space-y-4">
+                                <li className="flex items-center gap-4 group">
+                                    <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
+                                    <span className="font-medium">Heatmap analysis & click-tracking</span>
+                                </li>
+                                <li className="flex items-center gap-4 group">
+                                    <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
+                                    <span className="font-medium">Multi-variant testing implementation</span>
+                                </li>
+                                <li className="flex items-center gap-4 group">
+                                    <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
+                                    <span className="font-medium">User journey friction identification</span>
+                                </li>
+                            </ul>
                         </div>
-                    ))}
-                </div>
-            </section>
+                        <div className="flex-1 order-1 md:order-2 w-full">
+                            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/30 to-background-dark/80 aspect-video flex items-center justify-center border border-white/10 group">
+                                <img
+                                    alt="Data visualization dashboard"
+                                    className="w-full h-full object-cover opacity-60 mix-blend-overlay group-hover:scale-110 transition-transform duration-700"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAc46Y1r76m11xHTiJWE7ePKXeqbsYPfrSEgd4-iVb0ejpsmdZ2KjkorntPMZiJU7YTk76vOXHnVl0iB_gLOHFoEumg57qG3HsfZDcJhligHgPwzoFAOmaP-Id-ZmrdBKbvhkM9XrVHz-rKZiojx4-iKoHfqvbLEUur9NBgsJmXUahZ_1bwDzAgkwVU-5bdqR9Cw2MZ9bnsJ8mNcKd79HrdGhsFeH7v1ZBZBEfkpf8R_R17q6CGT6NIoFUsc88mkk-SAOj6FiqwuVs"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-background-dark to-transparent opacity-40"></div>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="size-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
+                                        <span className="material-symbols-outlined text-4xl text-white">analytics</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            {/* Footer */}
-            <footer style={{ padding: '4rem 2rem', borderTop: '1px solid var(--glass-border)', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: '1rem' }}>ONLINEEVERYWHERE</div>
-                <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>Your digital partner for the AI era.</p>
-                <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center' }}>
-                    <a href="#" className="nav-link">Privacy Policy</a>
-                    <a href="#" className="nav-link">Terms of Service</a>
-                    <a href="mailto:contact@onlineverywhere.com" className="nav-link">Contact Us</a>
+                    {/* Deep Dive 2 */}
+                    <div className="flex flex-col md:flex-row items-center gap-16">
+                        <div className="flex-1 w-full">
+                            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-tr from-background-dark/80 to-primary/30 aspect-video flex items-center justify-center border border-white/10 group">
+                                <img
+                                    alt="Code on screen"
+                                    className="w-full h-full object-cover opacity-60 mix-blend-overlay group-hover:scale-110 transition-transform duration-700"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPUc8wJRKJL-idYU3ytHQhrGZPVnGYb0vbKABO9AfePRXqthWXoBEcNYWGPzGgRhZGRRmo84e7ZOHi3xHGb38xMj-wcCFT5Ig-6bsbAm0A-5vbnKpLM8HepUmr9O43e03_UIXQ1Yh4jBVmicRc5ItNXEnXsoqc9LZ_XhJKOaBhE9lbVxvCb-bXA3H5d9tMRCvOpPANQg2VuQLvOwPxHZ7heaZ7a8-yDmWVJU8dlssOKehykxoKH5cDjC_1NFwCKMDNhIyOQIoS1TE"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-background-dark to-transparent opacity-40"></div>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="size-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
+                                        <span className="material-symbols-outlined text-4xl text-white">speed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex-1 space-y-8">
+                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
+                                Focus: Infrastructure
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Unified Technical Health</h2>
+                            <p className="text-slate-500 dark:text-slate-400 text-xl leading-relaxed">
+                                Scale requires a robust foundation. In our Proactive Partnership, we manage your entire digital ecosystem's health—ensuring 99.9% uptime, rapid load speeds, and seamless API integrations between your CRM and marketing stack.
+                            </p>
+                            <ul className="space-y-4">
+                                <li className="flex items-center gap-4 group">
+                                    <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
+                                    <span className="font-medium">Core Web Vitals monitoring</span>
+                                </li>
+                                <li className="flex items-center gap-4 group">
+                                    <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
+                                    <span className="font-medium">Server-side API architecture</span>
+                                </li>
+                                <li className="flex items-center gap-4 group">
+                                    <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
+                                    <span className="font-medium">Automated uptime & security alerts</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div style={{ marginTop: '2rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    © 2026 Online Everywhere. All rights reserved.
+
+                {/* Sticky Footer CTA */}
+                <section className="rounded-3xl bg-primary p-12 md:p-24 text-center text-white relative overflow-hidden shadow-2xl">
+                    <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+                        <svg height="100%" preserveAspectRatio="none" viewBox="0 0 100 100" width="100%">
+                            <defs>
+                                <pattern height="10" id="grid" patternUnits="userSpaceOnUse" width="10">
+                                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" strokeWidth="0.5"></path>
+                                </pattern>
+                            </defs>
+                            <rect fill="url(#grid)" height="100" width="100"></rect>
+                        </svg>
+                    </div>
+                    <div className="relative z-10 max-w-3xl mx-auto space-y-8">
+                        <h2 className="text-4xl md:text-6xl font-black leading-tight">Ready to scale your digital presence?</h2>
+                        <p className="text-white/80 text-xl">Our experts are ready to audit your current stack and recommend the perfect framework for your goals.</p>
+                        <div className="flex flex-wrap justify-center gap-6 pt-6">
+                            <button onClick={() => setModalOpen(true)} className="bg-white text-primary px-10 py-5 rounded-2xl font-black text-xl shadow-xl hover:scale-105 transition-all">
+                                Book Your Free Audit
+                            </button>
+                            <button onClick={() => setModalOpen(true)} className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xl hover:bg-white/20 transition-all">
+                                Get Early Access
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer className="border-t border-slate-200 dark:border-white/10 py-20 bg-white dark:bg-[#0d141b]">
+                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-16">
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+                                <span className="material-symbols-outlined text-lg">rocket_launch</span>
+                            </div>
+                            <span className="font-black text-2xl tracking-tight">OnLineEverywhere</span>
+                        </div>
+                        <p className="text-slate-500 text-base leading-relaxed">Empowering brands through strategic technical excellence and data-driven marketing since 2018.</p>
+                    </div>
+                    <div>
+                        <h4 className="font-black text-lg mb-6">Packages</h4>
+                        <ul className="text-slate-500 text-sm space-y-4">
+                            <li><a className="hover:text-primary transition-colors flex items-center gap-2" href="#">Digital Launchpad</a></li>
+                            <li><a className="hover:text-primary transition-colors flex items-center gap-2" href="#">Conversion Catalyst</a></li>
+                            <li><a className="hover:text-primary transition-colors flex items-center gap-2" href="#">Proactive Partnership</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="font-black text-lg mb-6">Resources</h4>
+                        <ul className="text-slate-500 text-sm space-y-4">
+                            <li><a className="hover:text-primary transition-colors flex items-center gap-2" href="#">Technical Blog</a></li>
+                            <li><a className="hover:text-primary transition-colors flex items-center gap-2" href="#">Market Reports</a></li>
+                            <li><a className="hover:text-primary transition-colors flex items-center gap-2" href="#">API Documentation</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="font-black text-lg mb-6">Connect</h4>
+                        <div className="flex gap-4">
+                            <a className="size-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all group" href="#">
+                                <span className="material-symbols-outlined text-xl">share</span>
+                            </a>
+                            <a className="size-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all group" href="mailto:contact@onlineverywhere.com">
+                                <span className="material-symbols-outlined text-xl">mail</span>
+                            </a>
+                            <a className="size-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all group" href="#">
+                                <span className="material-symbols-outlined text-xl">location_on</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-slate-200 dark:border-white/5 flex flex-wrap justify-between gap-6 text-xs text-slate-500 font-bold uppercase tracking-widest">
+                    <p>© 2026 OnLineEverywhere Strategic Partners. All rights reserved.</p>
+                    <div className="flex gap-8">
+                        <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                        <a href="#" className="hover:text-white transition-colors">Cookie Settings</a>
+                    </div>
                 </div>
             </footer>
-
-            <style>{`
-        .nav-link {
-          text-decoration: none;
-          color: var(--text-muted);
-          font-weight: 500;
-          font-size: 0.95rem;
-          transition: color 0.3s ease;
-        }
-        .nav-link:hover {
-          color: var(--text-main);
-        }
-        html {
-          scroll-behavior: smooth;
-        }
-      `}</style>
         </div>
     );
 };
