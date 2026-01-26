@@ -5,7 +5,7 @@ import { ProjectProvider } from './contexts/ProjectContext';
 import { ErrorProvider } from './contexts/ErrorContext';
 import { AuthProvider } from './contexts/AuthContext';
 
-import WebsitePlaceholder from './modules/Website';
+import WebsitePlaceholder from './modules/website';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
