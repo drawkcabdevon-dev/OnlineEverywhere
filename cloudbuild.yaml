@@ -10,8 +10,8 @@ steps:
       '--build-arg', 'VITE_FIREBASE_STORAGE_BUCKET=$_FIREBASE_STORAGE_BUCKET',
       '--build-arg', 'VITE_FIREBASE_MESSAGING_SENDER_ID=$_FIREBASE_MESSAGING_SENDER_ID',
       '--build-arg', 'VITE_FIREBASE_APP_ID=$_FIREBASE_APP_ID',
-      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/onlineeverywhere-repo/app-suite:$COMMIT_SHA',
-      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/onlineeverywhere-repo/app-suite:latest',
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA',
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:latest',
       '.'
     ]
     id: 'Build App Image'
@@ -29,7 +29,7 @@ steps:
 
   # 3. Push Images (App only)
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/onlineeverywhere-repo/app-suite:$COMMIT_SHA']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA']
     id: 'Push App Image'
 
   # 4. Deploy APP to Cloud Run
@@ -37,7 +37,7 @@ steps:
     entrypoint: gcloud
     args: [
       'run', 'deploy', 'app-suite',
-      '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/onlineeverywhere-repo/app-suite:$COMMIT_SHA',
+      '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA',
       '--region', 'us-central1',
       '--allow-unauthenticated'
     ]

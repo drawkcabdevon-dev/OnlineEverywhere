@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import TourismLanding from './TourismLanding';
 
 const Typewriter = ({ terms }: { terms: string[] }) => {
     const [index, setIndex] = useState(0);
@@ -70,14 +71,21 @@ const EarlyAccessModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () =>
 
 const App: React.FC = () => {
     const [isModalOpen, setModalOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState<'main' | 'tourism'>('main');
 
     useEffect(() => {
         // Ensure dark mode is active to match the design
         document.documentElement.classList.add('dark');
     }, []);
 
+    if (currentPage === 'tourism') return <TourismLanding onBack={() => setCurrentPage('main')} />;
+
     return (
-        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white transition-colors duration-300 min-h-screen">
+        <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white transition-colors duration-300 min-h-screen relative overflow-hidden">
+            {/* Background Glows */}
+            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse" />
+            <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none -z-10" />
+
             <EarlyAccessModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
 
             {/* Top Navigation */}
@@ -91,8 +99,10 @@ const App: React.FC = () => {
                     </div>
                     <nav className="hidden md:flex items-center gap-8">
                         <a className="text-sm font-medium hover:text-primary transition-colors" href="#hero">Home</a>
-                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#packages">Service Packages</a>
-                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#pillars">Core Pillars</a>
+                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#services">All Services</a>
+                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#process">Our Process</a>
+                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#philosophy">Philosophy</a>
+                        <a className="text-sm font-medium hover:text-primary transition-colors" href="#packages">Solutions</a>
                         <a className="text-sm font-medium hover:text-primary transition-colors" href="https://app.onlineverywhere.com">Launch App</a>
                     </nav>
                     <button
@@ -109,22 +119,164 @@ const App: React.FC = () => {
                 <div id="hero" className="mb-24 pt-12">
                     <div className="flex flex-wrap justify-between items-end gap-6 border-l-4 border-primary pl-6">
                         <div className="max-w-3xl">
-                            <span className="text-primary font-bold tracking-widest text-xs uppercase mb-2 block">Strategic AI Frameworks</span>
+                            <span className="text-primary font-bold tracking-widest text-xs uppercase mb-2 block italic">Institutional Digital Transformation Frameworks</span>
                             <h2 className="text-5xl md:text-7xl font-black leading-tight tracking-tight mb-6">
-                                Your AI-Native <br />
-                                <Typewriter terms={["Marketing Department.", "Strategist.", "Copywriter.", "SEO Analyst.", "Researcher."]} />
+                                Bridge the Gap to <br />
+                                <Typewriter terms={["Global Markets.", "International Traffic.", "Digital Maturity.", "Tourism Growth.", "Enterprise Power."]} />
                             </h2>
                             <p className="text-slate-500 dark:text-slate-400 text-xl leading-relaxed max-w-2xl">
-                                OLE (OnlineEverywhere) is the central brain for your business. Bridge the gap from <strong>Click to Client</strong> with a unified ecosystem designed to multiply your strategic power.
+                                We specialize in <strong>Digital Transformation</strong> for industries targeting the global tourism economy. We provide the technical leverage necessary to capture sophisticated international audiences who already live online.
                             </p>
                         </div>
-                        <button
-                            onClick={() => setModalOpen(true)}
-                            className="flex items-center gap-2 bg-slate-200 dark:bg-[#1c2127] hover:bg-slate-300 dark:hover:bg-[#283039] text-slate-900 dark:text-white px-8 py-4 rounded-xl font-bold transition-all hover:scale-105"
-                        >
-                            <span className="material-symbols-outlined text-xl">event</span>
-                            Request a Free Audit
-                        </button>
+                        <div className="flex flex-wrap gap-4 mt-8">
+                            <button
+                                onClick={() => setModalOpen(true)}
+                                className="flex items-center gap-2 bg-slate-200 dark:bg-[#1c2127] hover:bg-slate-300 dark:hover:bg-[#283039] text-slate-900 dark:text-white px-8 py-4 rounded-xl font-bold transition-all hover:scale-105"
+                            >
+                                <span className="material-symbols-outlined text-xl">event</span>
+                                Request a Free Audit
+                            </button>
+                            <button
+                                onClick={() => setCurrentPage('tourism')}
+                                className="flex items-center gap-2 bg-primary/10 border border-primary/20 hover:bg-primary/20 text-primary px-8 py-4 rounded-xl font-bold transition-all hover:scale-105"
+                            >
+                                <span className="material-symbols-outlined text-xl">travel_explore</span>
+                                Explore Tourism Solutions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Comprehensive Services Section */}
+                <div id="services" className="mb-32">
+                    <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-12 border-l-4 border-primary pl-6">
+                        <div>
+                            <h2 className="text-4xl font-black tracking-tight">Our Full Spectrum of Services</h2>
+                            <p className="text-slate-500 dark:text-slate-400 text-lg mt-2">Beyond bundles—individual expertise tailored to your growth.</p>
+                        </div>
+                        <div className="text-primary font-bold text-sm tracking-widest uppercase">Everything you need to dominate</div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[
+                            {
+                                title: "Graphic Design",
+                                icon: "palette",
+                                services: ["Brand Identity & Logo", "High-Conversion Ad Assets", "Digital Visual Assets", "Video Thumbnail Design", "Custom QR Code Solutions", "Product & Service Showcases"]
+                            },
+                            {
+                                title: "Strategic Research",
+                                icon: "travel_explore",
+                                services: ["Direct vs Indirect Attribution", "Customer Journey Mapping", "Deep Persona Development", "Competitive Business Analysis", "GA4 Behavioral Audits", "E-commerce Performance Data"]
+                            },
+                            {
+                                title: "Web Engineering",
+                                icon: "code",
+                                services: ["AI-Native Infrastructure", "Data-First Content Strategy", "Technical SEO Audits", "Core Web Vitals Mastery", "CRM & API Orchestration", "Security & Uptime Monitoring"]
+                            },
+                            {
+                                title: "Marketing Analysis",
+                                icon: "query_stats",
+                                services: ["GSC & Search Console", "GTM Tag Management", "Google Maps & My Business", "Looker Studio Dashboards", "Social Paid Attribution", "Unified Growth Reporting"]
+                            }
+                        ].map((cat, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                                viewport={{ once: true }}
+                                className="group p-8 rounded-2xl border border-slate-200 dark:border-[#3b4754] bg-white dark:bg-[#1c2127] hover:border-primary transition-all duration-300 shadow-xl"
+                            >
+                                <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-all shadow-inner">
+                                    <span className="material-symbols-outlined text-2xl">{cat.icon}</span>
+                                </div>
+                                <h3 className="text-xl font-black mb-4">{cat.title}</h3>
+                                <ul className="space-y-3">
+                                    {cat.services.map((item, j) => (
+                                        <li key={j} className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
+                                            <span className="size-1 rounded-full bg-primary/40" />
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Our Process Section */}
+                <div id="process" className="mb-40 pt-16">
+                    <div className="text-center max-w-3xl mx-auto mb-20">
+                        <span className="text-primary font-bold tracking-widest text-xs uppercase mb-2 block">The OLE Methodology</span>
+                        <h2 className="text-4xl md:text-5xl font-black mb-6">Execution as an Endeavor</h2>
+                        <p className="text-slate-500 dark:text-slate-400 text-xl leading-relaxed">
+                            We don't just "run ads"—we embark on strategic endeavors to multiply your search traffic and conversion power.
+                        </p>
+                    </div>
+
+                    <div className="relative">
+                        {/* Connecting Line */}
+                        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-primary/20 -translate-y-1/2 hidden lg:block" />
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
+                            {[
+                                { step: "01", title: "Discovery & Mapping", desc: "We analyze your digital presence, identifying direct vs. indirect traffic flows and mapping the current customer journey." },
+                                { step: "02", title: "Infrastructure Audit", desc: "A rigorous technical audit of your website health, Core Web Vitals, and GA4 tracking variable enablement." },
+                                { step: "03", title: "Strategic Execution", desc: "From Google My Business optimization to high-fidelity AI-assisted web development and ad creation." },
+                                { step: "04", title: "Unified Attribution", desc: "We deliver comprehensive Looker Studio dashboards that track every click to client, closing the loop on your ROI." }
+                            ].map((item, i) => (
+                                <div key={i} className="flex flex-col items-center lg:items-start text-center lg:text-left group relative bg-background-dark/50 p-6 rounded-2xl border border-white/5 backdrop-blur-sm">
+                                    <div className="size-16 rounded-full bg-primary text-white flex items-center justify-center text-xl font-black mb-6 shadow-xl shadow-primary/20 group-hover:scale-110 transition-transform relative z-10">
+                                        {item.step}
+                                    </div>
+                                    <h3 className="text-xl font-black mb-4">{item.title}</h3>
+                                    <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{item.desc}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Mission/Philosophy Section */}
+                <div id="philosophy" className="mb-40 pt-16">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center bg-white dark:bg-[#1c2127] rounded-[40px] p-12 md:p-20 border border-slate-200 dark:border-white/5 shadow-2xl">
+                        <div className="space-y-8">
+                            <span className="text-primary font-bold tracking-widest text-xs uppercase block">Our Philosophy</span>
+                            <h2 className="text-4xl md:text-6xl font-black leading-tight tracking-tight">
+                                Bridging Local Excellence <br />
+                                <span className="text-slate-500">to Global Demand.</span>
+                            </h2>
+                            <p className="text-slate-500 dark:text-slate-400 text-xl leading-relaxed">
+                                We believe that true growth in the modern era requires more than just marketing; it requires a fundamental transition to a digital-first, data-driven institutional culture.
+                            </p>
+                            <div className="space-y-4">
+                                {[
+                                    { title: "Institutional Integrity", desc: "We provide frameworks, not just fixes." },
+                                    { title: "Global Reach", desc: "We target the world, not just the neighborhood." },
+                                    { title: "Data Sovereignty", desc: "We enable businesses to own and act on their data." }
+                                ].map((step, i) => (
+                                    <div key={i} className="flex gap-4">
+                                        <span className="material-symbols-outlined text-primary">verified</span>
+                                        <div>
+                                            <h4 className="font-bold text-lg">{step.title}</h4>
+                                            <p className="text-sm text-slate-500">{step.desc}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="relative">
+                            <div className="aspect-square rounded-3xl bg-primary/20 flex flex-col items-center justify-center p-12 text-center space-y-6 relative overflow-hidden group border border-primary/30">
+                                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
+                                <span className="material-symbols-outlined text-8xl text-primary animate-pulse">account_balance</span>
+                                <h3 className="text-3xl font-black relative z-10">Institutional Growth Framework</h3>
+                                <p className="text-slate-500 relative z-10 text-lg">Our methodology is designed to scale with your ambition.</p>
+                            </div>
+                            {/* Decorative Elements */}
+                            <div className="absolute -top-6 -right-6 size-24 rounded-2xl bg-primary/40 -z-10 blur-xl" />
+                            <div className="absolute -bottom-6 -left-6 size-32 rounded-full bg-blue-500/20 -z-10 blur-2xl" />
+                        </div>
                     </div>
                 </div>
 
@@ -136,8 +288,8 @@ const App: React.FC = () => {
                             <h3 className="text-primary font-bold text-sm uppercase tracking-widest">Level 01</h3>
                             <h4 className="text-3xl font-black leading-tight">The Digital Launchpad</h4>
                             <p className="flex items-baseline gap-1 mt-2">
-                                <span className="text-3xl font-black tracking-tight text-white">Custom</span>
-                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/monthly</span>
+                                <span className="text-3xl font-black tracking-tight text-white italic">Foundational</span>
+                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/setup</span>
                             </p>
                         </div>
                         <button onClick={() => setModalOpen(true)} className="w-full bg-slate-100 dark:bg-[#283039] hover:bg-slate-200 dark:hover:bg-[#323c47] text-slate-900 dark:text-white py-4 rounded-xl text-sm font-bold transition-colors">
@@ -148,15 +300,15 @@ const App: React.FC = () => {
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Deliverables</p>
                             <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">verified</span>
-                                <span className="text-sm">Brand Foundation</span>
+                                <span className="text-sm">Global Market Readiness</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">verified</span>
-                                <span className="text-sm">Website Build</span>
+                                <span className="text-sm">International Performance Build</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">verified</span>
-                                <span className="text-sm">Initial Tracking</span>
+                                <span className="text-sm">Cross-Border Attribution</span>
                             </div>
                         </div>
                     </div>
@@ -170,8 +322,8 @@ const App: React.FC = () => {
                             <h3 className="text-primary font-bold text-sm uppercase tracking-widest">Level 02</h3>
                             <h4 className="text-3xl font-black leading-tight">The Conversion Catalyst</h4>
                             <p className="flex items-baseline gap-1 mt-2">
-                                <span className="text-4xl font-black tracking-tight text-white">Custom</span>
-                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/monthly</span>
+                                <span className="text-4xl font-black tracking-tight text-white italic">Accelerated</span>
+                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/growth</span>
                             </p>
                         </div>
                         <button onClick={() => setModalOpen(true)} className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl text-sm font-bold transition-colors shadow-lg shadow-primary/20">
@@ -182,15 +334,15 @@ const App: React.FC = () => {
                             <p className="text-xs font-bold text-slate-400 uppercase tracking-tighter text-white">Deliverables</p>
                             <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">verified</span>
-                                <span className="text-sm">Behavioral Audits</span>
+                                <span className="text-sm">Psychological Behavioral Audits</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">verified</span>
-                                <span className="text-sm">Performance Overhaul</span>
+                                <span className="text-sm">Conversion Funnel Overhaul</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <span className="material-symbols-outlined text-primary">verified</span>
-                                <span className="text-sm">CRO Strategy</span>
+                                <span className="text-sm">Predictive CRO Strategy</span>
                             </div>
                         </div>
                     </div>
@@ -201,8 +353,8 @@ const App: React.FC = () => {
                             <h3 className="text-primary font-bold text-sm uppercase tracking-widest">Level 03</h3>
                             <h4 className="text-3xl font-black leading-tight">The Proactive Partnership</h4>
                             <p className="flex items-baseline gap-1 mt-2">
-                                <span className="text-3xl font-black tracking-tight text-white">Custom</span>
-                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/monthly</span>
+                                <span className="text-3xl font-black tracking-tight text-white italic">Enterprise</span>
+                                <span className="text-slate-500 dark:text-slate-400 text-sm font-bold">/ongoing</span>
                             </p>
                         </div>
                         <button onClick={() => setModalOpen(true)} className="w-full bg-slate-100 dark:bg-[#283039] hover:bg-slate-200 dark:hover:bg-[#323c47] text-slate-900 dark:text-white py-4 rounded-xl text-sm font-bold transition-colors">
@@ -260,9 +412,9 @@ const App: React.FC = () => {
                             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
                                 Focus: Conversions
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Behavioral Audits & CRO</h2>
+                            <h2 className="text-4xl md:text-5xl font-black tracking-tight">Psychological Behavioral Audits</h2>
                             <p className="text-slate-500 dark:text-slate-400 text-xl leading-relaxed">
-                                We don't just look at traffic; we look at human behavior. Our Conversion Catalyst tier includes heatmapping, session recordings, and A/B testing frameworks to identify exactly where your funnel is leaking and how to fix it.
+                                We don't just look at traffic; we look at human behavior. Our Conversion Catalyst tier utilizes heatmapping, session recordings, and custom A/B testing frameworks to identify exactly where your funnel is leaking. We apply psychological triggers and data-driven optimizations to turn visitors into brand advocates.
                             </p>
                             <ul className="space-y-4">
                                 <li className="flex items-center gap-4 group">
@@ -324,7 +476,7 @@ const App: React.FC = () => {
                             <ul className="space-y-4">
                                 <li className="flex items-center gap-4 group">
                                     <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
-                                    <span className="font-medium">Core Web Vitals monitoring</span>
+                                    <span className="font-medium">Enterprise-Grade Technical Oversight</span>
                                 </li>
                                 <li className="flex items-center gap-4 group">
                                     <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
@@ -332,7 +484,7 @@ const App: React.FC = () => {
                                 </li>
                                 <li className="flex items-center gap-4 group">
                                     <span className="material-symbols-outlined text-primary size-6 flex items-center justify-center bg-primary/10 rounded-full group-hover:bg-primary group-hover:text-white transition-all">check</span>
-                                    <span className="font-medium">Automated uptime & security alerts</span>
+                                    <span className="font-medium">Global CDN & Security Audits</span>
                                 </li>
                             </ul>
                         </div>
@@ -364,7 +516,7 @@ const App: React.FC = () => {
                         </div>
                     </div>
                 </section>
-            </main>
+            </main >
 
             <footer className="border-t border-slate-200 dark:border-white/10 py-20 bg-white dark:bg-[#0d141b]">
                 <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-16">
@@ -375,7 +527,9 @@ const App: React.FC = () => {
                             </div>
                             <span className="font-black text-2xl tracking-tight">OnLineEverywhere</span>
                         </div>
-                        <p className="text-slate-500 text-base leading-relaxed">Empowering brands through strategic technical excellence and data-driven marketing since 2018.</p>
+                        <p className="text-slate-500 text-base leading-relaxed">
+                            Leading digital transformation through technical excellence and strategic institutional frameworks. OnLineEverywhere: Your bridge to the global digital economy.
+                        </p>
                     </div>
                     <div>
                         <h4 className="font-black text-lg mb-6">Packages</h4>
@@ -402,14 +556,16 @@ const App: React.FC = () => {
                             <a className="size-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all group" href="mailto:contact@onlineverywhere.com">
                                 <span className="material-symbols-outlined text-xl">mail</span>
                             </a>
-                            <a className="size-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all group" href="#">
+                            <a className="size-12 rounded-2xl bg-slate-100 dark:bg-white/5 flex items-center justify-center hover:bg-primary hover:text-white transition-all group" href="https://maps.google.com/?q=Barbados" target="_blank" rel="noopener noreferrer">
                                 <span className="material-symbols-outlined text-xl">location_on</span>
                             </a>
                         </div>
                     </div>
                 </div>
                 <div className="max-w-7xl mx-auto px-6 mt-20 pt-8 border-t border-slate-200 dark:border-white/5 flex flex-wrap justify-between gap-6 text-xs text-slate-500 font-bold uppercase tracking-widest">
-                    <p>© 2026 OnLineEverywhere Strategic Partners. All rights reserved.</p>
+                    <div className="flex items-center gap-2">
+                        <span>© 2026 OnLineEverywhere Strategic Partners. All rights reserved.</span>
+                    </div>
                     <div className="flex gap-8">
                         <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
                         <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
