@@ -50,6 +50,6 @@ options:
 
 substitutions:
   _FIREBASE_API_KEY: "CHANGE_ME"
-  _FIREBASE_AUTH_DOMAIN: "CHANGE_ME"
-  _FIREBASE_PROJECT_ID: "CHANGE_ME"
-  _MARKETING_BUCKET: "www.onlineverywhere.com" # Change this to your actual GCS bucket name
+  _FIREBASE_AUTH_DOMAIN: "ole-f8b3b.firebaseapp.com"
+  _FIREBASE_PROJECT_ID: "ole-f8b3b"
+  _MARKETING_BUCKET: "www.onlineverywhere.com"
