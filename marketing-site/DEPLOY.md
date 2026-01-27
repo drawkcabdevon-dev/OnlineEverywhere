@@ -60,16 +60,16 @@ Since your domain is hosted on Squarespace (transferred from Google):
     *   **Data/Value**: Paste the same Load Balancer IP Address.
 
 ---
-### Troubleshooting: "Invalid IP Address" Error
-If Squarespace says the IP address is **invalid**, check these two common issues:
+### CRITICAL: Fixing 404 Errors for Google Search Console (SPA Routing)
+Since this is a React SPA, routes like `/services` or `/barbados` don't exist as physical files in the GCS bucket. If Google tries to crawl them, it will get a 404 unless you configure the fallback:
 
-1.  **Is it IPv6?**
-    *   Google Load Balancers sometimes give you an IPv6 address (long, contains letters like `2600:1900:...`).
-    *   **Fix**: Squarespace `A` records *only* accept **IPv4** (short, numbers like `34.120.x.x`).
-    *   **Solution**: In Google Cloud Console, go to your Load Balancer -> **Frontend configuration**. Create a NEW Frontend IP and specifically choose **IPv4**. Use that new number.
+1.  **GCS Bucket Configuration**: 
+    - Go to **Edit website configuration**.
+    - Set **Index (main) page** to `index.html`.
+    - **Crucial**: Set **Error page** to `index.html`. This tells GCS to send all "Not Found" requests to React, which then handles the routing.
+2.  **Domain Consistency**: Ensure your DNS and GSC property match the domain in `sitemap.xml` (`onlineverywhere.com`).
+3.  **Load Balancer (Optional but Recommended)**: If using a GCLB, ensure you have a "Default Service" or "URL Map" that catches all paths and points them to the GCS bucket.
 
-2.  **Is it an ephemeral IP?**
-    *   Ensure you reserved a **Static IP** address when creating the frontend, not an ephemeral one, although Squarespace usually accepts ephemeral ones, static is better for reliability.
 ## Testing Locally
 Before deploying, you can test the production build locally:
 ```bash

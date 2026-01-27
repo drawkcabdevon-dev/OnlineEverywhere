@@ -2,6 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const Portfolio: React.FC = () => {
+    const [activeCategory, setActiveCategory] = React.useState('All');
+
+    const categories = ['All', 'Technical Architecture', 'Brand & Web Engineering', 'Strategic Analytics', 'Digital Transformation'];
+
     const projects = [
         {
             title: "Global Tourism Intelligence Hub",
@@ -37,21 +41,55 @@ const Portfolio: React.FC = () => {
         }
     ];
 
+    const filteredProjects = activeCategory === 'All'
+        ? projects
+        : projects.filter(p => p.category === activeCategory);
+
     return (
-        <div className="py-24 bg-background">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="mb-20">
-                    <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Proof of Excellence</h2>
-                    <h1 className="text-5xl lg:text-7xl font-display font-bold text-gray-900 tracking-tight mb-8">
-                        Selected <span className="text-gray-400">Work.</span>
-                    </h1>
-                    <p className="text-xl text-gray-500 max-w-3xl leading-relaxed">
-                        A curated showcase of institutional digital transformations and strategic technical endeavors. We focus on impact, scale, and uncompromising quality.
-                    </p>
+        <div className="bg-white min-h-screen">
+            {/* Portfolio Hero */}
+            <section className="relative h-[60vh] min-h-[500px] flex items-center overflow-hidden bg-navy-deep">
+                <div className="absolute inset-0 opacity-40">
+                    <div className="absolute inset-0 bg-gradient-to-br from-google-blue/80 via-navy-deep to-google-green/20"></div>
+                </div>
+                <div className="absolute inset-0 opacity-5 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+
+                <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 w-full text-center">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-6">Proof of Excellence</h2>
+                        <h1 className="text-5xl lg:text-8xl font-display font-bold text-white leading-tight mb-8">
+                            Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue to-cyan-300">Work.</span>
+                        </h1>
+                        <p className="text-2xl text-blue-100/70 leading-relaxed max-w-3xl mx-auto">
+                            A curated showcase of institutional digital transformations and strategic technical endeavors. We focus on impact, scale, and uncompromising quality.
+                        </p>
+                    </motion.div>
+                </div>
+            </section>
+
+            <div className="max-w-7xl mx-auto px-6 py-24">
+                {/* Category Tabs */}
+                <div className="flex flex-wrap items-center justify-center gap-4 mb-20 border-b border-gray-100 pb-12">
+                    {categories.map(category => (
+                        <button
+                            key={category}
+                            onClick={() => setActiveCategory(category)}
+                            className={`px-8 py-3 rounded-pill text-sm font-bold transition-all ${activeCategory === category
+                                    ? 'bg-navy-deep text-white shadow-xl'
+                                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-navy-deep'
+                                }`}
+                        >
+                            {category}
+                        </button>
+                    ))}
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    {projects.map((project, i) => (
+                    {filteredProjects.map((project, i) => (
                         <motion.div
                             key={i}
                             initial={{ opacity: 0, scale: 0.95 }}

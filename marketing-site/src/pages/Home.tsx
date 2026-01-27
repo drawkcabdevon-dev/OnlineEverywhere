@@ -1,36 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useOutletContext, Link } from 'react-router-dom';
 
-const Typewriter = () => {
-    const terms = ["Graphic Design", "Web Development", "Customer Insights"];
-    const colors = ["text-google-blue", "text-google-red", "text-google-green"];
-    const [index, setIndex] = useState(0);
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setIndex((prev) => (prev + 1) % terms.length);
-        }, 4000);
-        return () => clearInterval(timer);
-    }, []);
-
-    return (
-        <div className="inline-flex justify-center w-full max-w-full overflow-hidden px-4">
-            <AnimatePresence mode="wait">
-                <motion.span
-                    key={index}
-                    initial={{ width: 0, opacity: 0 }}
-                    animate={{ width: "auto", opacity: 1 }}
-                    exit={{ width: 0, opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className={`inline-block whitespace-nowrap overflow-hidden border-r-4 border-google-blue pr-2 ${colors[index]} text-4xl sm:text-6xl md:text-8xl lg:text-8xl`}
-                >
-                    {terms[index]}
-                </motion.span>
-            </AnimatePresence>
-        </div>
-    );
-};
 
 const Home: React.FC = () => {
     const { setModalOpen }: any = useOutletContext();
@@ -38,52 +10,205 @@ const Home: React.FC = () => {
     return (
         <>
             {/* Hero Section */}
-            <section className="relative min-h-screen flex items-center overflow-hidden bg-gray-900">
-                <div className="absolute inset-0 z-0">
-                    <img alt="Dynamic data visualization background" className="w-full h-full object-cover opacity-40 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/40 to-gray-900/80"></div>
-                </div>
-                <div className="relative z-10 max-w-7xl mx-auto px-6 w-full text-center py-20 lg:py-0">
+            <section className="relative min-h-screen flex flex-col items-center pt-32 pb-32 px-6 lg:px-12 overflow-hidden bg-white">
+                <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50/40 via-white to-white"></div>
+
+                <div className="relative z-10 max-w-4xl mx-auto text-center mb-20">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-4xl lg:text-8xl font-display font-bold text-white mb-6 lg:mb-8 leading-tight tracking-tight">
-                            Your Brand, <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue via-google-red to-google-yellow mt-2 block pb-4 lg:pb-6 relative z-20">
-                                <Typewriter
-                                    options={{
-                                        strings: ['Everywhere.', 'Optimized.', 'Global.', 'Future-Proof.'],
-                                        autoStart: true,
-                                        loop: true,
-                                        cursor: '|',
-                                        delay: 50, // Typing speeed
-                                        deleteSpeed: 30, // Deleting speed
-                                    }}
-                                />
-                            </span>
+                        <h1 className="text-5xl lg:text-8xl font-display font-bold text-navy-deep leading-tight tracking-tight">
+                            Partners in<br />
+                            <div className="typewriter-container h-24 lg:h-32 mt-4">
+                                <span className="typewriter-text typewriter-content text-5xl lg:text-8xl"></span>
+                            </div>
                         </h1>
-                        <h2 className="text-2xl sm:text-3xl lg:text-5xl font-display font-medium text-gray-300">
+                        <h2 className="text-2xl lg:text-3xl font-display font-medium text-navy-muted mt-8">
                             From Click to Client.
                         </h2>
-                        <p className="mt-8 text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                        <p className="mt-8 text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
                             Online Everywhere (OLE) designs, builds, and manages unified digital marketing infrastructure that turns interest into sustained growth.
                         </p>
                     </motion.div>
+
                     <div className="flex flex-wrap justify-center gap-4 mt-12">
                         <button
                             onClick={() => setModalOpen(true, 'early-access')}
-                            className="bg-google-blue hover:shadow-lg text-white px-10 py-4 rounded-full text-lg font-medium transition-all border border-transparent"
+                            className="bg-google-blue text-white px-12 py-4 rounded-pill text-lg font-bold hover:bg-blue-700 transition-all shadow-xl hover:shadow-google-blue/20"
                         >
-                            Start Your Digital Journey
+                            Get started now
                         </button>
-                        <button className="bg-white/10 backdrop-blur-md hover:bg-white/20 text-white px-10 py-4 rounded-full text-lg font-medium transition-all border border-white/30">
-                            View Case Studies
+                        <button
+                            onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="bg-white border border-gray-100 text-navy-deep px-12 py-4 rounded-pill text-lg font-bold hover:bg-gray-50 transition-all"
+                        >
+                            Watch how it works
                         </button>
                     </div>
-                </div >
-            </section >
+                </div>
+
+                {/* Floating Cards Visual Area */}
+                <div className="relative w-full max-w-7xl mx-auto h-[700px] perspective-[2000px] mt-12">
+                    {/* Background Blur Glow */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-google-blue/5 rounded-full blur-[150px] -z-10 pointer-events-none animate-pulse"></div>
+
+                    {/* Card 1: Left - Social Hub (Engagement Dashboard) */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -100, rotate: -15 }}
+                        animate={{ opacity: 1, x: 0, rotate: -6 }}
+                        transition={{ delay: 0.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        className="hero-card absolute top-24 left-[2%] w-full max-w-sm lg:max-w-md bg-white rounded-google shadow-2xl border border-gray-100 overflow-hidden z-20 group"
+                    >
+                        <div className="h-10 bg-gray-50 border-b border-gray-100 flex items-center px-4 gap-2">
+                            <div className="flex gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-google-red"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-google-yellow"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-google-green"></div>
+                            </div>
+                            <div className="mx-auto bg-white border border-gray-100 rounded-pill w-1/2 h-5 flex items-center px-3">
+                                <span className="text-[8px] text-gray-400 font-mono">social.hub/dashboard</span>
+                            </div>
+                        </div>
+                        <div className="p-8 bg-white">
+                            <div className="flex items-center justify-between mb-8">
+                                <div className="h-4 w-32 bg-gray-100 rounded-full"></div>
+                                <div className="flex -space-x-2">
+                                    <div className="w-10 h-10 rounded-full bg-google-blue/10 border-2 border-white flex items-center justify-center text-google-blue">
+                                        <span className="material-symbols-outlined text-sm">person</span>
+                                    </div>
+                                    <div className="w-10 h-10 rounded-full bg-google-red/10 border-2 border-white flex items-center justify-center text-google-red">
+                                        <span className="material-symbols-outlined text-sm">favorite</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="p-6 rounded-2xl bg-google-red/5 border border-google-red/10">
+                                    <div className="text-google-red font-bold text-2xl">84%</div>
+                                    <div className="text-[10px] text-navy-muted uppercase tracking-widest font-bold">Engagement</div>
+                                </div>
+                                <div className="p-6 rounded-2xl bg-google-blue/5 border border-google-blue/10">
+                                    <div className="text-google-blue font-bold text-2xl">12k</div>
+                                    <div className="text-[10px] text-navy-muted uppercase tracking-widest font-bold">Followers</div>
+                                </div>
+                                <div className="col-span-2 h-32 bg-gray-50 rounded-2xl flex items-center justify-center relative overflow-hidden group-hover:bg-google-blue/5 transition-colors">
+                                    <span className="material-symbols-outlined text-google-blue text-5xl opacity-40">share</span>
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/50 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Card 2: Right - Campaign Manager */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 100, rotate: 15 }}
+                        animate={{ opacity: 1, x: 0, rotate: 6 }}
+                        transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        className="hero-card absolute top-24 right-[2%] w-full max-w-sm lg:max-w-md bg-white rounded-google shadow-2xl border border-gray-100 overflow-hidden z-10 group"
+                    >
+                        <div className="h-10 bg-gray-50 border-b border-gray-100 flex items-center px-4 gap-2">
+                            <div className="flex gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gray-300"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-gray-300"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-gray-300"></div>
+                            </div>
+                            <div className="mx-auto bg-white border border-gray-100 rounded-pill w-1/2 h-5 flex items-center px-3">
+                                <span className="text-[8px] text-gray-400 font-mono">campaigns.manager/ads</span>
+                            </div>
+                        </div>
+                        <div className="p-8 bg-white">
+                            <div className="h-4 w-40 bg-gray-100 rounded-full mb-10"></div>
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-4 p-5 rounded-2xl bg-google-blue/5 border border-google-blue/10 hover:bg-google-blue/10 transition-colors cursor-pointer">
+                                    <div className="w-12 h-12 rounded-xl bg-google-blue/20 flex items-center justify-center text-google-blue">
+                                        <span className="material-symbols-outlined">ads_click</span>
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="h-2 w-full bg-gray-100 rounded">
+                                            <div className="h-full bg-google-blue w-3/4 rounded"></div>
+                                        </div>
+                                    </div>
+                                    <div className="text-google-blue font-bold text-xl">4.2x</div>
+                                </div>
+                                <div className="flex items-center gap-4 p-5 rounded-2xl border border-gray-100 hover:border-google-yellow/30 transition-colors cursor-pointer">
+                                    <div className="w-12 h-12 rounded-xl bg-google-yellow/20 flex items-center justify-center text-google-yellow">
+                                        <span className="material-symbols-outlined font-variation-fill">bolt</span>
+                                    </div>
+                                    <div className="flex-1">
+                                        <div className="h-2 w-full bg-gray-100 rounded">
+                                            <div className="h-full bg-google-yellow w-1/2 rounded"></div>
+                                        </div>
+                                    </div>
+                                    <div className="text-navy-deep font-bold text-xl">$1.2k</div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Card 3: Center - Analytics Dashboard (The Core Product) */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 100, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                        className="hero-card absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl bg-white rounded-google shadow-[0_40px_100px_rgba(0,0,0,0.18)] border border-gray-100 overflow-hidden z-30 group"
+                    >
+                        <div className="h-12 bg-gray-50 border-b border-gray-100 flex items-center px-8 gap-3">
+                            <div className="flex gap-2">
+                                <div className="w-3 h-3 rounded-full bg-google-red"></div>
+                                <div className="w-3 h-3 rounded-full bg-google-yellow"></div>
+                                <div className="w-3 h-3 rounded-full bg-google-green"></div>
+                            </div>
+                            <div className="mx-auto bg-white border border-gray-200 rounded-pill w-1/2 h-7 flex items-center px-4 shadow-sm">
+                                <div className="w-2 h-2 rounded-full bg-google-green mr-3 animate-pulse"></div>
+                                <span className="text-[10px] text-navy-muted font-mono tracking-tight">analytics.online/dashboard</span>
+                            </div>
+                        </div>
+                        <div className="p-12 bg-white">
+                            <div className="flex items-end justify-between mb-12">
+                                <div>
+                                    <p className="text-[11px] font-bold text-navy-muted tracking-widest uppercase mb-2">Omnichannel Scaling</p>
+                                    <h3 className="text-5xl font-display font-bold text-navy-deep">+32.4%</h3>
+                                    <p className="text-sm text-google-green font-bold flex items-center gap-1 mt-1">
+                                        <span className="material-symbols-outlined text-sm">trending_up</span>
+                                        Week over Week
+                                    </p>
+                                </div>
+                                <div className="flex gap-3">
+                                    <div className="size-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 hover:text-google-blue transition-colors cursor-pointer">
+                                        <span className="material-symbols-outlined">calendar_today</span>
+                                    </div>
+                                    <div className="size-12 rounded-xl bg-google-blue shadow-lg shadow-google-blue/20 flex items-center justify-center text-white cursor-pointer hover:scale-105 transition-transform">
+                                        <span className="material-symbols-outlined">insights</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Growth Chart Simulation */}
+                            <div className="relative h-64 w-full flex items-end gap-3 px-4">
+                                {[35, 55, 45, 75, 65, 95, 85].map((height, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ height: 0 }}
+                                        animate={{ height: `${height}%` }}
+                                        transition={{ delay: 1 + (i * 0.1), duration: 1, ease: "circOut" }}
+                                        className={`flex-1 rounded-t-2xl transition-all duration-500 ${i === 5 ? 'bg-google-blue shadow-[0_-10px_20px_rgba(26,115,232,0.2)]' : 'bg-google-blue/10 group-hover:bg-google-blue/20'}`}
+                                    />
+                                ))}
+                                {/* Indicator Point */}
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 2 }}
+                                    className="absolute right-3 top-0 bg-white border-2 border-google-blue p-3 rounded-2xl shadow-xl -translate-y-12"
+                                >
+                                    <p className="text-[10px] font-bold text-google-blue whitespace-nowrap">PEAK PERFORMANCE REACHED</p>
+                                </motion.div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            </section>
 
             {/* Packages Section */}
             < section className="py-24 bg-surface" id="packages" >

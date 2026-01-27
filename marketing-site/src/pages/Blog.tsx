@@ -77,14 +77,16 @@ const Blog: React.FC = () => {
             </section>
 
             <div className="max-w-7xl mx-auto px-6 py-24">
-                <div className="mb-16 flex items-end justify-between border-b border-gray-100 pb-8">
+                <div className="mb-16 flex items-end justify-between border-b border-gray-100 pb-8 relative group">
                     <div>
                         <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-2">Knowledge Base</h2>
-                        <h3 className="text-3xl font-display font-bold text-gray-900">Strategic Intelligence</h3>
+                        <h3 className="text-4xl font-display font-bold text-navy-deep tracking-tight">Strategic Intelligence</h3>
                     </div>
+                    {/* Spicy Color Divider */}
+                    <div className="absolute bottom-0 left-0 w-32 h-1 bg-gradient-to-r from-google-blue via-google-red to-google-green group-hover:w-full transition-all duration-1000"></div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12">
                     {posts.map((post, i) => (
                         <motion.div
                             key={post.id}
@@ -92,29 +94,35 @@ const Blog: React.FC = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{ delay: i * 0.1 }}
                             viewport={{ once: true }}
-                            className="bg-surface p-10 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-m3 transition-all group cursor-pointer"
+                            className="bg-white p-12 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:translate-y-[-8px] transition-all group lg:min-h-[480px] flex flex-col justify-between"
                         >
-                            <div className="flex justify-between items-start mb-8">
-                                <div className={`size-14 rounded-2xl bg-${post.color}/10 flex items-center justify-center text-${post.color}`}>
-                                    <span className="material-symbols-outlined text-3xl">{post.icon}</span>
+                            <div>
+                                <div className="flex justify-between items-start mb-10">
+                                    <div className="size-16 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:text-google-blue group-hover:bg-google-blue/10 transition-all duration-500">
+                                        <span className="material-symbols-outlined text-4xl">{post.icon}</span>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{post.date}</p>
+                                        <span className="inline-block px-3 py-1 rounded-full bg-navy-deep text-white text-[10px] font-bold uppercase tracking-widest">
+                                            {post.category}
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">{post.date}</span>
+
+                                <h2 className="text-4xl font-display font-bold text-navy-deep mb-6 group-hover:text-google-blue transition-colors leading-tight">
+                                    {post.title}
+                                </h2>
+                                <p className="text-gray-500 text-lg leading-relaxed mb-10 line-clamp-3">
+                                    {post.excerpt}
+                                </p>
                             </div>
 
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-500 text-[10px] font-bold uppercase tracking-widest mb-4">
-                                {post.category}
-                            </div>
-
-                            <h2 className="text-3xl font-display font-bold text-gray-900 mb-4 group-hover:text-google-blue transition-colors leading-tight">
-                                {post.title}
-                            </h2>
-                            <p className="text-gray-500 mb-8 leading-relaxed">
-                                {post.excerpt}
-                            </p>
-
-                            <div className="flex items-center justify-end text-google-blue font-bold text-sm group-hover:translate-x-2 transition-transform">
-                                <span>Read Insight</span>
-                                <span className="material-symbols-outlined ml-2">chevron_right</span>
+                            <div className="flex items-center justify-between pt-8 border-t border-gray-50">
+                                <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">By Devon Clarke</span>
+                                <div className="flex items-center gap-2 text-google-blue font-bold group-hover:gap-4 transition-all uppercase text-xs tracking-widest">
+                                    Explore Insight
+                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                                </div>
                             </div>
                         </motion.div>
                     ))}

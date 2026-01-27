@@ -3,6 +3,15 @@ import { Link, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
 
+const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" }) => (
+    <div className={`flex h-1.5 w-full ${className}`}>
+        <div className="flex-1 bg-google-blue"></div>
+        <div className="flex-1 bg-google-red"></div>
+        <div className="flex-1 bg-google-yellow"></div>
+        <div className="flex-1 bg-google-green"></div>
+    </div>
+);
+
 const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { isOpen: boolean, onClose: () => void, initialType?: 'early-access' | 'audit' }) => {
     if (!isOpen) return null;
 
@@ -119,33 +128,48 @@ const Layout: React.FC = () => {
             <aside className={`fixed top-0 left-0 h-full bg-white border-r border-gray-100 z-40 transition-all duration-300 ${desktopSidebarCollapsed ? 'w-20' : 'w-64'} ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
                 <div className="flex flex-col h-full">
                     {/* Logo & Toggle */}
-                    <div className={`p-6 border-b border-gray-100 flex items-center ${desktopSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
-                        <Link to="/" className={`flex items-center gap-3 group ${desktopSidebarCollapsed ? 'hidden' : 'flex'}`} onClick={() => setMobileMenuOpen(false)}>
-                            <div className="flex gap-1 group-hover:gap-1.5 transition-all">
-                                <div className="w-1.5 h-10 bg-google-blue rounded-full"></div>
-                                <div className="w-1.5 h-10 bg-google-red rounded-full"></div>
-                                <div className="w-1.5 h-10 bg-google-yellow rounded-full"></div>
-                                <div className="w-1.5 h-10 bg-google-green rounded-full"></div>
-                            </div>
-                            <div>
-                                <h1 className="text-xl font-display font-bold text-[#5f6368] leading-none">OnLine<span className="text-google-blue">Everywhere</span></h1>
-                                <p className="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Digital Growth</p>
-                            </div>
-                        </Link>
-                        {desktopSidebarCollapsed && (
-                            <Link to="/" className="flex flex-col gap-0.5 items-center group mb-4">
-                                <div className="w-1.5 h-4 bg-google-blue rounded-full group-hover:h-6 transition-all"></div>
-                                <div className="w-1.5 h-4 bg-google-red rounded-full group-hover:h-6 transition-all"></div>
-                                <div className="w-1.5 h-4 bg-google-yellow rounded-full group-hover:h-6 transition-all"></div>
-                                <div className="w-1.5 h-4 bg-google-green rounded-full group-hover:h-6 transition-all"></div>
-                            </Link>
-                        )}
-                        <button
-                            onClick={() => setDesktopSidebarCollapsed(!desktopSidebarCollapsed)}
-                            className={`hidden lg:flex size-8 rounded-full bg-gray-50 items-center justify-center text-gray-400 hover:text-google-blue hover:bg-blue-50 transition-all ${desktopSidebarCollapsed ? 'rotate-180' : ''}`}
-                        >
-                            <span className="material-symbols-outlined text-lg">chevron_left</span>
-                        </button>
+                    <div className="border-b border-gray-100 flex flex-col">
+                        <ColorStripDivider />
+                        <div className={`p-6 flex items-center ${desktopSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
+                            {!desktopSidebarCollapsed ? (
+                                <Link to="/" className="flex items-center gap-3 group" onClick={() => setMobileMenuOpen(false)}>
+                                    <div className="relative size-12 flex items-center justify-center">
+                                        <motion.div
+                                            animate={{ scale: [1, 1.1, 1] }}
+                                            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                            className="size-full rounded-full border-2 border-google-blue/20 flex items-center justify-center p-1"
+                                        >
+                                            <div className="size-full rounded-full border-4 border-google-blue flex items-center justify-center">
+                                                <span className="material-symbols-outlined text-google-blue text-2xl font-variation-fill">ads_click</span>
+                                            </div>
+                                        </motion.div>
+                                    </div>
+                                    <div>
+                                        <h1 className="text-xl font-display font-bold text-gray-700 leading-none">
+                                            Online<span className="text-google-blue">Everywhere</span>
+                                        </h1>
+                                        <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-0.5 font-bold">Strategic Partners</p>
+                                    </div>
+                                </Link>
+                            ) : (
+                                <Link to="/" className="flex flex-col items-center group mb-4">
+                                    <motion.div
+                                        animate={{ rotate: 360 }}
+                                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                        className="size-10 rounded-full border-2 border-google-blue/30 flex items-center justify-center"
+                                    >
+                                        <span className="material-symbols-outlined text-google-blue text-lg">ads_click</span>
+                                    </motion.div>
+                                </Link>
+                            )}
+
+                            <button
+                                onClick={() => setDesktopSidebarCollapsed(!desktopSidebarCollapsed)}
+                                className={`hidden lg:flex size-8 rounded-full bg-gray-50 items-center justify-center text-gray-400 hover:text-google-blue hover:bg-blue-50 transition-all ${desktopSidebarCollapsed ? 'rotate-180' : ''}`}
+                            >
+                                <span className="material-symbols-outlined text-lg">chevron_left</span>
+                            </button>
+                        </div>
                     </div>
 
                     {/* Navigation */}
@@ -189,12 +213,14 @@ const Layout: React.FC = () => {
             </aside>
 
             {/* Mobile Overlay */}
-            {mobileMenuOpen && (
-                <div
-                    className="lg:hidden fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-30"
-                    onClick={() => setMobileMenuOpen(false)}
-                />
-            )}
+            {
+                mobileMenuOpen && (
+                    <div
+                        className="lg:hidden fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-30"
+                        onClick={() => setMobileMenuOpen(false)}
+                    />
+                )
+            }
 
             {/* Main Content */}
             <main className={`relative z-10 transition-all duration-300 ${desktopSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
