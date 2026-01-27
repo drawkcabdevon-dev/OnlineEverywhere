@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
+import ScrollToTop from '../components/ScrollToTop';
 
 const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" }) => (
     <div className={`flex h-1.5 w-full ${className}`}>
@@ -125,6 +126,7 @@ const Layout: React.FC = () => {
 
     return (
         <div className="bg-background text-gray-700 antialiased font-sans min-h-screen relative">
+            <ScrollToTop />
             <EarlyAccessModal
                 isOpen={modalConfig.open}
                 onClose={() => setModalConfig({ ...modalConfig, open: false })}
