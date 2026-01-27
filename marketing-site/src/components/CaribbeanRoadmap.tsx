@@ -3,31 +3,31 @@ import { motion } from 'framer-motion';
 
 const solutions = [
     {
-        title: "Tourism & Hospitality Engine",
-        icon: "hotel",
-        desc: "Precision targeting for international luxury and boutique hospitality sectors.",
-        tags: ["OTAs", "PPC", "Yield Mgmt"],
+        title: "Stage 01: Global Intent",
+        icon: "public",
+        desc: "80% of regional tourism and export queries originate in international markets. We identify where your global audience is already searching.",
+        tags: ["Global Search", "Intent Analysis", "Traffic Hubs"],
         color: "google-blue"
     },
     {
-        title: "Digital Export Architecture",
-        icon: "shopping_basket",
-        desc: "Connecting regional manufacturers to global e-commerce and logistics networks.",
-        tags: ["Payments", "Logistics", "Scale"],
+        title: "Stage 02: The Invisible Gap",
+        icon: "visibility_off",
+        desc: "Without high-fidelity projection, Caribbean excellence remains invisible to the Digital Universe. We map the gap between your potential and your current reach.",
+        tags: ["Digital Void", "Audit", "Market Gap"],
         color: "google-red"
     },
     {
-        title: "Institutional SEO Hub",
-        icon: "map",
-        desc: "Dominating search intent for both local residents and global researchers.",
-        tags: ["SEO", "Maps", "Local"],
+        title: "Stage 03: Strategic Projection",
+        icon: "shortcut",
+        desc: "Bridging the gap via institutional-grade infrastructure. We project your local business into the streams where international high-value clients live.",
+        tags: ["SEO Hub", "AI Strategy", "Infrastructure"],
         color: "google-green"
     },
     {
-        title: "AI Growth Intelligence",
-        icon: "query_stats",
-        desc: "Strategic roadmaps powered by AI-native data orchestration and analysis.",
-        tags: ["Data", "AI", "Strategic"],
+        title: "Stage 04: Institutional Growth",
+        icon: "trending_up",
+        desc: "Turning global intent into local sovereignty. We automate the conversion of international interest into domestic economic scaling.",
+        tags: ["Conversion", "Scale", "Sovereignty"],
         color: "google-yellow"
     }
 ];

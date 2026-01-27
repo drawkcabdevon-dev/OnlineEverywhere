@@ -270,12 +270,13 @@ const Layout: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
                         <div className="col-span-1 space-y-6">
-                            <div className="flex items-center gap-2">
-                                <div className="flex gap-0.5">
-                                    <div className="w-1 h-10 bg-google-blue rounded-full"></div>
-                                    <div className="w-1 h-10 bg-google-red rounded-full"></div>
-                                    <div className="w-1 h-10 bg-google-yellow rounded-full"></div>
-                                    <div className="w-1 h-10 bg-google-green rounded-full"></div>
+                            <div className="flex items-center gap-3">
+                                <div className="relative size-10 flex items-center justify-center">
+                                    <div className="size-full rounded-full border-2 border-google-blue/20 flex items-center justify-center p-0.5">
+                                        <div className="size-full rounded-full border-[3px] border-google-blue flex items-center justify-center">
+                                            <span className="material-symbols-outlined text-google-blue text-xl font-variation-fill">ads_click</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="flex flex-col">
                                     <h2 className="text-xl font-display font-bold text-gray-800 leading-none">Online Everywhere</h2>

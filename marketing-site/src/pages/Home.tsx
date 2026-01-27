@@ -13,6 +13,115 @@ const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" })
 
 
 
+interface PackageCardProps {
+    pkg: {
+        id: string;
+        title: string;
+        icon: string;
+        color: string;
+        description: string;
+        deliverables: string[];
+        trajectory: string;
+        metric: string;
+        subtext: string;
+        heights?: number[];
+        circle?: boolean;
+        path?: boolean;
+        reach?: boolean;
+        premium?: boolean;
+    };
+}
+
+const PackageCard: React.FC<PackageCardProps> = ({ pkg }) => {
+    const [flipped, setFlipped] = useState(false);
+    return (
+        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+            <div
+                className="w-full xl:w-1/2 group h-[380px] perspective-1000 cursor-pointer"
+                onClick={() => setFlipped(!flipped)}
+            >
+                <div className={`relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner ${flipped ? 'is-flipped' : ''}`}>
+                    <div className={`absolute inset-0 backface-hidden rounded-2xl border-t-4 border-t-${pkg.color} bg-white p-8 flex flex-col shadow-sm border border-gray-100`}>
+                        {pkg.premium && <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-google-yellow text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest">Premium</div>}
+                        <span className={`material-symbols-outlined text-${pkg.color} text-4xl mb-6`}>{pkg.icon}</span>
+                        <h4 className="text-xl font-display font-bold text-gray-900 mb-4">{pkg.title}</h4>
+                        <p className="text-gray-600 text-sm leading-relaxed flex-grow">{pkg.description}</p>
+                        <div className={`mt-8 flex items-center justify-between text-${pkg.color}/50 font-medium text-sm`}>
+                            <span>{flipped ? 'Tap to close' : 'Tap to see deliverables'}</span>
+                            <span className="material-symbols-outlined">sync_alt</span>
+                        </div>
+                    </div>
+                    <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-${pkg.color} bg-white p-8 flex flex-col shadow-m3`}>
+                        <h5 className={`text-lg font-bold text-${pkg.color} mb-4`}>Deliverables</h5>
+                        <ul className="space-y-3 flex-grow text-[13px] text-gray-600 leading-tight">
+                            {pkg.deliverables.map((item, idx) => (
+                                <li key={idx} className="flex gap-2">
+                                    <span className={`material-symbols-outlined text-${pkg.color} text-sm`}>check</span>
+                                    <span>{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                        <Link to={`/services/${pkg.id}`} className={`mt-4 flex items-center justify-between text-${pkg.color} font-bold text-sm hover:underline`} onClick={e => e.stopPropagation()}>
+                            <span>Full Case Study</span>
+                            <span className="material-symbols-outlined">arrow_forward</span>
+                        </Link>
+                    </div>
+                </div>
+            </div>
+            <div className="w-full xl:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">{pkg.trajectory}</p>
+
+                {pkg.heights && (
+                    <div className="h-24 flex items-end gap-1 px-2 mb-4">
+                        {pkg.heights.map((h, i) => (
+                            <div key={i} className={`flex-1 bg-google-blue/${20 + i * 20} rounded-t-sm`} style={{ height: `${h}%` }}></div>
+                        ))}
+                    </div>
+                )}
+
+                {pkg.circle && (
+                    <div className="relative size-24 mx-auto mb-4">
+                        <svg className="size-full" viewBox="0 0 36 36">
+                            <path className="text-gray-200" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3"></path>
+                            <path className="text-google-red" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeDasharray="58, 100" strokeWidth="3"></path>
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="text-lg font-bold text-google-red">58%</span>
+                        </div>
+                    </div>
+                )}
+
+                {pkg.path && (
+                    <div className="h-20 relative mb-4">
+                        <svg className="w-full h-full" viewBox="0 0 100 40">
+                            <path d="M0 35 Q 25 35, 50 20 T 100 5" fill="none" stroke="#34A853" strokeWidth="3"></path>
+                            <circle cx="100" cy="5" fill="#34A853" r="3"></circle>
+                        </svg>
+                    </div>
+                )}
+
+                {pkg.reach && (
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                        <div className="bg-white p-3 rounded-xl border border-gray-100">
+                            <p className="text-[10px] font-bold text-google-yellow uppercase">ROAS</p>
+                            <p className="text-lg font-bold">4.8x</p>
+                        </div>
+                        <div className="bg-white p-3 rounded-xl border border-gray-100">
+                            <p className="text-[10px] font-bold text-google-yellow uppercase">Reach</p>
+                            <p className="text-lg font-bold">1.2M</p>
+                        </div>
+                    </div>
+                )}
+
+                <div className="pt-4 border-t border-gray-200">
+                    <p className={`text-2xl font-bold text-${pkg.color}`}>{pkg.metric}</p>
+                    <p className="text-xs text-gray-500 italic">{pkg.subtext}</p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Home: React.FC = () => {
     const { setModalOpen }: any = useOutletContext();
 
@@ -28,10 +137,10 @@ const Home: React.FC = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-5xl lg:text-8xl font-display font-bold text-navy-deep leading-tight tracking-tight">
+                        <h1 className="text-4xl lg:text-8xl font-display font-bold text-navy-deep leading-tight tracking-tight">
                             Partners in<br />
-                            <div className="typewriter-container h-24 lg:h-32 mt-4">
-                                <span className="typewriter-text typewriter-content text-5xl lg:text-8xl"></span>
+                            <div className="typewriter-container h-20 lg:h-32 mt-4 overflow-visible">
+                                <span className="typewriter-text typewriter-content text-4xl lg:text-8xl"></span>
                             </div>
                         </h1>
                         <h2 className="text-2xl lg:text-3xl font-display font-medium text-navy-muted mt-8">
@@ -59,7 +168,7 @@ const Home: React.FC = () => {
                 </div>
 
                 {/* Floating Cards Visual Area */}
-                <div className="relative w-full max-w-7xl mx-auto h-[700px] perspective-[2000px] mt-12">
+                <div className="relative w-full max-w-7xl mx-auto h-[500px] lg:h-[700px] perspective-[2000px] mt-12 mb-12 lg:mb-0">
                     {/* Background Blur Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-google-blue/5 rounded-full blur-[150px] -z-10 pointer-events-none animate-pulse"></div>
 
@@ -229,176 +338,83 @@ const Home: React.FC = () => {
                         <h3 className="text-4xl lg:text-5xl font-display font-bold text-gray-900 tracking-tight">Tailored solutions for every stage of growth.</h3>
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-                        {/* Card 1 */}
-                        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="w-full xl:w-1/2 group h-[380px] perspective-1000">
-                                <div className="relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner">
-                                    <div className="absolute inset-0 backface-hidden rounded-2xl border-t-4 border-t-google-blue bg-white p-8 flex flex-col shadow-sm border border-gray-100">
-                                        <span className="material-symbols-outlined text-google-blue text-4xl mb-6">rocket_launch</span>
-                                        <h4 className="text-xl font-display font-bold text-gray-900 mb-4">The Digital Launchpad</h4>
-                                        <p className="text-gray-600 text-sm leading-relaxed flex-grow">Establish a strong foundation with cohesive branding and professional digital assets.</p>
-                                        <div className="mt-8 flex items-center justify-between text-google-blue/50 font-medium text-sm">
-                                            <span>Hover to flip</span>
-                                            <span className="material-symbols-outlined">sync_alt</span>
-                                        </div>
-                                    </div>
-                                    <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-google-blue bg-white p-8 flex flex-col shadow-m3">
-                                        <h5 className="text-lg font-bold text-google-blue mb-4">Deliverables</h5>
-                                        <ul className="space-y-3 flex-grow text-sm text-gray-600">
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-blue text-sm">check</span> Brand Identity System</li>
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-blue text-sm">check</span> Responsive UI/UX Design</li>
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-blue text-sm">check</span> CMS & CRM Integration</li>
-                                        </ul>
-                                        <Link to="/services/digital-launchpad" className="mt-4 flex items-center justify-between text-google-blue font-bold text-sm hover:underline">
-                                            <span>View Details</span>
-                                            <span className="material-symbols-outlined">arrow_forward</span>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="w-full xl:w-1/2 flex flex-col justify-center space-y-4 bg-gray-50 rounded-2xl p-6 border border-gray-100">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Growth Visualization</p>
-                                <div className="h-32 flex items-end gap-1 px-2">
-                                    <div className="w-full bg-google-blue/20 h-[30%] rounded-t-sm"></div>
-                                    <div className="w-full bg-google-blue/30 h-[45%] rounded-t-sm"></div>
-                                    <div className="w-full bg-google-blue/40 h-[60%] rounded-t-sm"></div>
-                                    <div className="w-full bg-google-blue/60 h-[75%] rounded-t-sm"></div>
-                                    <div className="w-full bg-google-blue h-[100%] rounded-t-sm"></div>
-                                </div>
-                                <div className="pt-4 border-t border-gray-200">
-                                    <p className="text-2xl font-bold text-google-blue">+240%</p>
-                                    <p className="text-xs text-gray-500 italic">Lead quality increase in first 3 months.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Card 2 */}
-                        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="w-full xl:w-1/2 group h-[380px] perspective-1000">
-                                <div className="relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner">
-                                    <div className="absolute inset-0 backface-hidden rounded-2xl border-t-4 border-t-google-red bg-white p-8 flex flex-col shadow-sm border border-gray-100">
-                                        <span className="material-symbols-outlined text-google-red text-4xl mb-6">bolt</span>
-                                        <h4 className="text-xl font-display font-bold text-gray-900 mb-4">The Conversion Catalyst</h4>
-                                        <p className="text-gray-600 text-sm leading-relaxed flex-grow">Optimize your existing traffic to maximize ROI and customer engagement.</p>
-                                        <div className="mt-8 flex items-center justify-between text-google-red/50 font-medium text-sm">
-                                            <span>Hover to flip</span>
-                                            <span className="material-symbols-outlined">sync_alt</span>
-                                        </div>
-                                    </div>
-                                    <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-google-red bg-white p-8 flex flex-col shadow-m3">
-                                        <h5 className="text-lg font-bold text-google-red mb-4">Focus Areas</h5>
-                                        <ul className="space-y-3 flex-grow text-sm text-gray-600">
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-red text-sm">check</span> CRO Strategy & Audits</li>
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-red text-sm">check</span> Behavioral Analytics</li>
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-red text-sm">check</span> Performance Tuning</li>
-                                        </ul>
-                                        <Link to="/services/conversion-catalyst" className="mt-4 flex items-center justify-between text-google-red font-bold text-sm hover:underline">
-                                            <span>View Details</span>
-                                            <span className="material-symbols-outlined">arrow_forward</span>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="w-full xl:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Efficiency KPI</p>
-                                <div className="relative size-32 mx-auto">
-                                    <svg className="size-full" viewBox="0 0 36 36">
-                                        <path className="text-gray-200" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="3"></path>
-                                        <path className="text-google-red" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeDasharray="58, 100" strokeWidth="3"></path>
-                                    </svg>
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="text-xl font-bold text-google-red">58%</span>
-                                    </div>
-                                </div>
-                                <div className="pt-4 border-t border-gray-200">
-                                    <p className="text-xs text-center text-gray-500 italic">Improved checkout completion rates.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Card 3 */}
-                        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="w-full xl:w-1/2 group h-[380px] perspective-1000">
-                                <div className="relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner">
-                                    <div className="absolute inset-0 backface-hidden rounded-2xl border-t-4 border-t-google-green bg-white p-8 flex flex-col shadow-sm border border-gray-100">
-                                        <span className="material-symbols-outlined text-google-green text-4xl mb-6">handshake</span>
-                                        <h4 className="text-xl font-display font-bold text-gray-900 mb-4">The Proactive Partnership</h4>
-                                        <p className="text-gray-600 text-sm leading-relaxed flex-grow">Long-term strategic alignment to scale multi-channel growth operations.</p>
-                                        <div className="mt-8 flex items-center justify-between text-google-green/50 font-medium text-sm">
-                                            <span>Hover to flip</span>
-                                            <span className="material-symbols-outlined">sync_alt</span>
-                                        </div>
-                                    </div>
-                                    <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-google-green bg-white p-8 flex flex-col shadow-m3">
-                                        <h5 className="text-lg font-bold text-google-green mb-4">Ongoing Benefits</h5>
-                                        <ul className="space-y-3 flex-grow text-sm text-gray-600">
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-green text-sm">check</span> Monthly Strategy Roadmaps</li>
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-green text-sm">check</span> Tech Health Management</li>
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-green text-sm">check</span> Full-funnel Optimization</li>
-                                        </ul>
-                                        <Link to="/services/proactive-partnership" className="mt-4 flex items-center justify-between text-google-green font-bold text-sm hover:underline">
-                                            <span>View Details</span>
-                                            <span className="material-symbols-outlined">arrow_forward</span>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="w-full xl:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Scale Trajectory</p>
-                                <div className="h-24 relative">
-                                    <svg className="w-full h-full" viewBox="0 0 100 40">
-                                        <path d="M0 35 Q 25 35, 50 20 T 100 5" fill="none" stroke="#34A853" strokeWidth="3"></path>
-                                        <circle cx="100" cy="5" fill="#34A853" r="3"></circle>
-                                    </svg>
-                                </div>
-                                <div className="pt-6 border-t border-gray-200">
-                                    <p className="text-2xl font-bold text-google-green">$2M ARR</p>
-                                    <p className="text-xs text-gray-500 italic">Growth achieved in 12 months.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Card 4 */}
-                        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
-                            <div className="w-full xl:w-1/2 group h-[380px] perspective-1000">
-                                <div className="relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner">
-                                    <div className="absolute inset-0 backface-hidden rounded-2xl border-4 border-google-yellow bg-white p-8 flex flex-col shadow-sm border border-gray-100">
-                                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-google-yellow text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest">Premium</div>
-                                        <span className="material-symbols-outlined text-google-yellow text-4xl mb-6">local_fire_department</span>
-                                        <h4 className="text-xl font-display font-bold text-gray-900 mb-4">Paid Media Ignition</h4>
-                                        <p className="text-gray-600 text-sm leading-relaxed flex-grow">Hyper-focused advertising campaigns designed for rapid market penetration.</p>
-                                        <div className="mt-8 flex items-center justify-between text-google-yellow font-bold text-sm">
-                                            <span>Learn more</span>
-                                            <span className="material-symbols-outlined">chevron_right</span>
-                                        </div>
-                                    </div>
-                                    <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-google-yellow bg-white p-8 flex flex-col shadow-m3">
-                                        <h5 className="text-lg font-bold text-google-yellow mb-4">Highlights</h5>
-                                        <ul className="space-y-3 flex-grow text-sm text-gray-600">
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-yellow text-sm">check</span> Multi-platform Ad Management</li>
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-yellow text-sm">check</span> Custom Audience Modeling</li>
-                                            <li className="flex gap-2"><span className="material-symbols-outlined text-google-yellow text-sm">check</span> Real-time Performance Dash</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="w-full xl:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Reach Index</p>
-                                <div className="grid grid-cols-2 gap-2">
-                                    <div className="bg-white p-3 rounded-lg border border-gray-200">
-                                        <p className="text-xs font-bold text-google-yellow">ROAS</p>
-                                        <p className="text-lg font-bold">4.8x</p>
-                                    </div>
-                                    <div className="bg-white p-3 rounded-lg border border-gray-200">
-                                        <p className="text-xs font-bold text-google-yellow">Reach</p>
-                                        <p className="text-lg font-bold">1.2M</p>
-                                    </div>
-                                </div>
-                                <div className="pt-6 mt-4 border-t border-gray-200">
-                                    <p className="text-xs text-gray-500 italic">Across search and social engines.</p>
-                                </div>
-                            </div>
-                        </div>
+                        {[
+                            {
+                                id: 'launchpad',
+                                title: 'The Digital Launchpad',
+                                icon: 'rocket_launch',
+                                color: 'google-blue',
+                                description: 'Establish a strong foundation with cohesive branding and professional digital assets.',
+                                deliverables: [
+                                    'Full Brand identity System (Logo, Fonts, Palette)',
+                                    'Responsive Enterprise Grade UI/UX Design',
+                                    'Unified CMS & Lead Management Implementation',
+                                    'Search Engine Optimized Content Architecture',
+                                    'Social Proof & Authority Building Integration'
+                                ],
+                                trajectory: 'Growth Visualization',
+                                metric: '+240%',
+                                subtext: 'Lead quality increase in first 3 months.',
+                                heights: [30, 45, 60, 75, 100]
+                            },
+                            {
+                                id: 'catalyst',
+                                title: 'The Conversion Catalyst',
+                                icon: 'bolt',
+                                color: 'google-red',
+                                description: 'Optimize your existing traffic to maximize ROI and customer engagement.',
+                                deliverables: [
+                                    'Advanced Conversion Rate Optimization Strategy',
+                                    'Multi-variate Behavioral Analytics Setup',
+                                    'Dynamic Retargeting & Landing Page Systems',
+                                    'Automated Nurture Sequence Development',
+                                    'Performance Friction Audit & Technical Tuning'
+                                ],
+                                trajectory: 'Efficiency KPI',
+                                metric: '58%',
+                                subtext: 'Improved checkout completion rates.',
+                                circle: true
+                            },
+                            {
+                                id: 'partnership',
+                                title: 'The Proactive Partnership',
+                                icon: 'handshake',
+                                color: 'google-green',
+                                description: 'Long-term strategic alignment to scale multi-channel growth operations.',
+                                deliverables: [
+                                    'Monthly Technical & Strategic Roadmap Sessions',
+                                    'Omnichannel Data Infrastructure Management',
+                                    'End-to-End Funnel Optimization & Monitoring',
+                                    'Emerging Tech & AI Integration Consulting',
+                                    'Preferred Partner Resource Allocation'
+                                ],
+                                trajectory: 'Scale Trajectory',
+                                metric: '$2M ARR',
+                                subtext: 'Growth achieved in 12 months.',
+                                path: true
+                            },
+                            {
+                                id: 'ignition',
+                                title: 'Paid Media Ignition',
+                                icon: 'local_fire_department',
+                                color: 'google-yellow',
+                                description: 'Hyper-focused advertising campaigns designed for rapid market penetration.',
+                                deliverables: [
+                                    'High-Intent Search & Social Ad Management',
+                                    'Custom AI-Driven Audience Modeling',
+                                    'Real-time Performance Reporting Dashboard',
+                                    'Dynamic Creative Optimization (DCO)',
+                                    'Scalable ROAS-Centric Budget Allocation'
+                                ],
+                                premium: true,
+                                trajectory: 'Reach Index',
+                                metric: '4.8x',
+                                subtext: 'Across search and social engines.',
+                                reach: true
+                            }
+                        ].map((pkg) => (
+                            <PackageCard key={pkg.id} pkg={pkg} />
+                        ))}
                     </div>
                 </div>
             </section>
@@ -477,7 +493,6 @@ const Home: React.FC = () => {
             </section>
 
             {/* Featured Insights Section */}
-
             <section className="py-24 bg-background overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 border-l-4 border-google-blue pl-6">
@@ -573,7 +588,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section >
+            </section>
         </>
     );
 };
