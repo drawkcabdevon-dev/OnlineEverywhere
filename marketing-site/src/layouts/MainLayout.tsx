@@ -195,6 +195,7 @@ const Layout: React.FC = () => {
                     <nav className="flex-1 p-3 space-y-2 overflow-y-auto">
                         {[
                             { to: '/', label: 'Overview', icon: 'home' },
+                            { to: '/ollie', label: 'Ollie Co-Pilot', icon: 'smart_toy' },
                             { to: '/services', label: 'Solutions', icon: 'business_center' },
                             { to: '/portfolio', label: 'Portfolio', icon: 'work' },
                             { to: '/blog', label: 'Blog', icon: 'article' },

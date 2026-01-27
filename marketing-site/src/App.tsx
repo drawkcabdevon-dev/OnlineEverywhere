@@ -10,14 +10,17 @@ import ContactUs from './pages/ContactUs';
 import BarbadosMarketing from './pages/BarbadosMarketing';
 import BarbadosStitch from './pages/BarbadosStitch';
 import Launchpad from './pages/services/Launchpad';
+import ScrollToTop from './components/ScrollToTop';
 import Catalyst from './pages/services/Catalyst';
 import Partnership from './pages/services/Partnership';
 import MediaIgnition from './pages/services/MediaIgnition';
+import Ollie from './pages/Ollie';
 import TourismLanding from './TourismLanding';
 
 const App: React.FC = () => {
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <Routes>
                 {/* Legacy / Direct Access for Tourism */}
                 <Route path="/tourism" element={<TourismLanding onBack={() => window.location.href = '/'} />} />
@@ -25,6 +28,7 @@ const App: React.FC = () => {
                 {/* Main Website Structure */}
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Home />} />
+                    <Route path="ollie" element={<Ollie />} />
                     <Route path="services" element={<Services />} />
                     <Route path="services/digital-launchpad" element={<Launchpad />} />
                     <Route path="services/conversion-catalyst" element={<Catalyst />} />
