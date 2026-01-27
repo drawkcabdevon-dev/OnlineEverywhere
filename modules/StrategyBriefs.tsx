@@ -12,76 +12,7 @@ import Drawer from '../components/Drawer';
 import Modal from '../components/Modal';
 import CodeBlock from '../components/CodeBlock';
 
-const GanttChart: React.FC<{ tasks: CampaignTask[] }> = ({ tasks }) => {
-    if (!tasks || tasks.length === 0) return <p className="text-gray-500">No timeline data available.</p>;
-
-    // 1. Find range
-    const dates = tasks.flatMap(t => [new Date(t.start).getTime(), new Date(t.end).getTime()]);
-    const minDate = Math.min(...dates);
-    const maxDate = Math.max(...dates);
-    const totalDuration = maxDate - minDate || 1; // Avoid division by zero
-
-    // 2. Generate Grid Lines (Simple approach: start, mid, end)
-    const formatDate = (ts: number) => new Date(ts).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-
-    return (
-        <div className="mt-4 overflow-x-auto">
-            <div className="min-w-[600px] relative">
-                {/* Header Dates */}
-                <div className="flex justify-between text-xs text-gray-400 border-b border-gray-200 pb-2 mb-2 font-mono">
-                    <span>{formatDate(minDate)}</span>
-                    <span>{formatDate(minDate + totalDuration * 0.25)}</span>
-                    <span>{formatDate(minDate + totalDuration * 0.5)}</span>
-                    <span>{formatDate(minDate + totalDuration * 0.75)}</span>
-                    <span>{formatDate(maxDate)}</span>
-                </div>
-
-                {/* Grid Background */}
-                <div className="absolute top-8 bottom-0 left-0 right-0 flex justify-between pointer-events-none z-0">
-                    <div className="border-r border-dashed border-gray-200 h-full w-px"></div>
-                    <div className="border-r border-dashed border-gray-200 h-full w-px"></div>
-                    <div className="border-r border-dashed border-gray-200 h-full w-px"></div>
-                    <div className="border-r border-dashed border-gray-200 h-full w-px"></div>
-                    <div className="border-r border-dashed border-gray-200 h-full w-px"></div>
-                </div>
-
-                {/* Tasks */}
-                <div className="space-y-3 relative z-10">
-                    {tasks.map((task, i) => {
-                        const start = new Date(task.start).getTime();
-                        const end = new Date(task.end).getTime();
-                        const offset = ((start - minDate) / totalDuration) * 100;
-                        const width = ((end - start) / totalDuration) * 100;
-                        // Ensure width is at least visible
-                        const displayWidth = Math.max(width, 2); 
-
-                        return (
-                            <div key={task.id} className="group relative">
-                                <div 
-                                    className="h-8 rounded bg-indigo-100 border border-indigo-300 flex items-center px-2 hover:bg-indigo-200 transition-colors cursor-pointer"
-                                    style={{ 
-                                        marginLeft: `${offset}%`, 
-                                        width: `${displayWidth}%` 
-                                    }}
-                                    title={`${task.name} (${task.start} - ${task.end})`}
-                                >
-                                    <span className="text-xs font-semibold text-indigo-900 whitespace-nowrap overflow-hidden text-ellipsis">
-                                        {task.name}
-                                    </span>
-                                </div>
-                                {/* Tooltip on Hover */}
-                                <div className="absolute left-0 bottom-full mb-1 hidden group-hover:block bg-gray-800 text-white text-xs p-2 rounded shadow-lg z-20 whitespace-nowrap">
-                                    {task.name}<br/>
-                                    <span className="text-gray-400">{task.start} to {task.end}</span>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        </div>
-    );
-};
+import GanttChart from '../components/GanttChart';
 
 const StrategyBriefs: React.FC = () => {
     const { activeProject, updateActiveProject, logActivity, navigateToModule, navigationPayload, clearNavigationPayload } = useProject();
@@ -93,7 +24,7 @@ const StrategyBriefs: React.FC = () => {
 
     const briefs = activeProject?.strategyBriefs || [];
     const personas = activeProject?.personas || [];
-    
+
     useEffect(() => {
         if (navigationPayload?.briefId) {
             setSelectedBriefId(navigationPayload.briefId);
@@ -132,15 +63,15 @@ const StrategyBriefs: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-1 space-y-6">
                     <Section title="Create New Brief" description="Define a high-level goal and let AI create a comprehensive campaign plan.">
-                         <Button onClick={() => setIsModalOpen(true)} className="w-full">Generate New Brief</Button>
+                        <Button onClick={() => setIsModalOpen(true)} className="w-full">Generate New Brief</Button>
                     </Section>
 
                     <Section title="Brief Library" description="Your saved strategies.">
                         {briefs.length > 0 ? (
                             <div className="space-y-2">
                                 {briefs.map(brief => (
-                                    <button 
-                                        key={brief.id} 
+                                    <button
+                                        key={brief.id}
                                         onClick={() => { setSelectedBriefId(brief.id); setIsDetailOpen(true); }}
                                         className="w-full text-left p-3 bg-white rounded-md border border-gray-200 hover:bg-gray-50 transition-colors shadow-sm"
                                     >
@@ -159,25 +90,25 @@ const StrategyBriefs: React.FC = () => {
 
                 <div className="lg:col-span-2">
                     <div className="h-full flex items-center justify-center text-gray-400 bg-white/50 rounded-lg border border-dashed border-gray-300 min-h-[400px]">
-                         <p>Generate a brief or select one to view details.</p>
+                        <p>Generate a brief or select one to view details.</p>
                     </div>
                 </div>
             </div>
 
-             {/* Creation Modal */}
-             <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Generate New Strategy Brief">
-                 <div className="space-y-4">
+            {/* Creation Modal */}
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Generate New Strategy Brief">
+                <div className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Campaign Goal</label>
-                        <textarea 
-                            value={campaignGoal} 
-                            onChange={e => setCampaignGoal(e.target.value)} 
+                        <textarea
+                            value={campaignGoal}
+                            onChange={e => setCampaignGoal(e.target.value)}
                             rows={3}
                             className="w-full bg-white border border-gray-300 rounded-md text-gray-900 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2"
                             placeholder="e.g., Increase brand awareness among small business owners in Q4."
                         />
                     </div>
-                    <SuggestionGenerator 
+                    <SuggestionGenerator
                         preloadedSuggestions={activeProject?.suggestions?.campaignGoals || []}
                         generationFn={() => geminiService.suggestCampaignObjectives(activeProject!)}
                         onSelect={(val) => setCampaignGoal(val)}
@@ -186,13 +117,13 @@ const StrategyBriefs: React.FC = () => {
                     <div className="flex justify-end pt-4 border-t border-gray-100">
                         <Button onClick={handleGenerate} isLoading={isLoading} disabled={!campaignGoal}>Generate Brief</Button>
                     </div>
-                 </div>
-             </Modal>
+                </div>
+            </Modal>
 
             {/* Drawer for Brief Details */}
-            <Drawer 
-                isOpen={isDetailOpen} 
-                onClose={() => setIsDetailOpen(false)} 
+            <Drawer
+                isOpen={isDetailOpen}
+                onClose={() => setIsDetailOpen(false)}
                 title="Strategy Brief"
                 subtitle={selectedBrief?.campaignGoal}
                 width="2xl"
@@ -217,7 +148,7 @@ const StrategyBriefs: React.FC = () => {
                             ) : <p className="text-sm text-gray-500">Persona data not found.</p>}
                         </div>
 
-                         <div>
+                        <div>
                             <h3 className="text-lg font-bold text-gray-900 mb-4">Key Messaging</h3>
                             <div className="grid gap-4">
                                 {selectedBrief.keyMessaging.map((msg, i) => {
@@ -232,7 +163,7 @@ const StrategyBriefs: React.FC = () => {
                                 })}
                             </div>
                         </div>
-                        
+
                         <div>
                             <h3 className="text-lg font-bold text-gray-900 mb-4">Competitor Angle</h3>
                             <Card className="p-4 bg-gray-50 border-l-4 border-teal-500">
@@ -248,13 +179,13 @@ const StrategyBriefs: React.FC = () => {
                                         <div className="flex justify-between items-start">
                                             <h4 className="font-bold text-gray-800">{action.title}</h4>
                                             {action.callToAction && (
-                                                 <Button 
-                                                    size="sm" 
-                                                    variant="ghost" 
+                                                <Button
+                                                    size="sm"
+                                                    variant="ghost"
                                                     className="text-indigo-600 hover:bg-indigo-50"
                                                     onClick={() => {
                                                         let payload = action.callToAction!.payload;
-                                                        try { payload = JSON.parse(payload); } catch {}
+                                                        try { payload = JSON.parse(payload); } catch { }
                                                         navigateToModule(action.callToAction!.moduleId, payload);
                                                     }}
                                                 >
@@ -274,9 +205,9 @@ const StrategyBriefs: React.FC = () => {
                                 <GanttChart tasks={selectedBrief.campaignTimeline} />
                             </div>
                         </div>
-                        
+
                         {selectedBrief.kpiAndMeasurement && (
-                             <div className="bg-gray-800 text-white p-6 rounded-lg">
+                            <div className="bg-gray-800 text-white p-6 rounded-lg">
                                 <h3 className="text-lg font-bold text-white mb-4">Success Measurement</h3>
                                 <div className="mb-4">
                                     <p className="text-xs text-gray-400 uppercase tracking-wide font-bold">Primary KPIs</p>

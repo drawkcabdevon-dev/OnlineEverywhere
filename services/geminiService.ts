@@ -9,6 +9,8 @@ import {
     ZeroClickResult, VisualAsset, GeneratedImage, EditedImage, GeneratedVideo,
     FoundationSuggestions
 } from '../types';
+import { checkQuota } from './quotaService';
+import { sanitizePromptInput } from './securityService';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
@@ -432,6 +434,13 @@ export const generateKeywordStrategyForPersona = async (project: Project, person
 // --- StrategyBriefs ---
 
 export const generateStrategyBrief = async (project: Project, campaignGoal: string, personaId?: string): Promise<Omit<StrategyBrief, 'id'>> => {
+    const quota = checkQuota(project, 'pro_call', 1);
+    if (!quota.allowed) throw new Error(quota.reason);
+
+    // Also check strategy brief specific cap if it exists (for Agency hard cap)
+    const briefQuota = checkQuota(project, 'strategy_brief', 1);
+    if (!briefQuota.allowed) throw new Error(briefQuota.reason);
+
     const today = new Date().toLocaleDateString();
     const prompt = `${getBusinessContextPrompt(project)} 
     Current Date: ${today}.
@@ -668,7 +677,10 @@ export const generateEmailCampaign = async (project: Project, goal: string, pers
 
 // --- VisualStudio ---
 
-export const generateImage = async (prompt: string): Promise<string> => {
+export const generateImage = async (project: Project, prompt: string): Promise<string> => {
+    const quota = checkQuota(project, 'media_credit', 10); // 10 credits per image?
+    if (!quota.allowed) throw new Error(quota.reason);
+
     const response = await ai.models.generateImages({
         model: 'imagen-4.0-generate-001',
         prompt: prompt,
@@ -692,7 +704,10 @@ export const editImage = async (base64Image: string, mimeType: string, prompt: s
     return part?.inlineData?.data || '';
 };
 
-export const generateVideo = async (prompt: string, imageBase64: string, mimeType: string, aspectRatio: '16:9' | '9:16'): Promise<string> => {
+export const generateVideo = async (project: Project, prompt: string, imageBase64: string, mimeType: string, aspectRatio: '16:9' | '9:16'): Promise<string> => {
+    const quota = checkQuota(project, 'media_credit', 50); // 50 credits per video?
+    if (!quota.allowed) throw new Error(quota.reason);
+
     let operation = await ai.models.generateVideos({
         model: 'veo-3.1-fast-generate-preview',
         prompt: prompt,
@@ -708,4 +723,76 @@ export const generateVideo = async (prompt: string, imageBase64: string, mimeTyp
     const uri = operation.response?.generatedVideos?.[0]?.video?.uri;
     if (!uri) throw new Error("Video generation failed.");
     return `${uri}&key=${process.env.API_KEY}`;
+};
+
+// --- Advanced Content Creator ---
+
+export const generateEmailContent = async (project: Project, topic: string, persona?: Persona): Promise<EmailContentResult> => {
+    const prompt = `${getBusinessContextPrompt(project)} Generate a high-converting email focused on: "${topic}".
+    Target Audience: ${persona ? `${persona.name} (${persona.role}) - Motivators: ${persona.psychologicalProfile?.motivators.join(', ')}` : 'General Audience'}.
+    Structure: catchy subject lines, preview text, body copy, and a strong CTA.`;
+
+    const schema = {
+        type: Type.OBJECT,
+        properties: {
+            subjectLines: { type: Type.ARRAY, items: { type: Type.STRING } },
+            previewText: { type: Type.STRING },
+            body: { type: Type.STRING },
+            ctaButton: { type: Type.STRING }
+        }
+    };
+
+    const response = await ai.models.generateContent({
+        model: 'gemini-1.5-flash',
+        contents: prompt,
+        config: { responseMimeType: 'application/json', responseSchema: schema }
+    });
+    return JSON.parse(response.text || '{}');
+};
+
+export const generateAdCopy = async (project: Project, productInfo: string, platform: 'Facebook' | 'Google' | 'LinkedIn'): Promise<AdCopyResult> => {
+    const prompt = `${getBusinessContextPrompt(project)} Generate ad copy for ${platform}. Product/Service Focus: "${productInfo}".
+    Platform Best Practices: 
+    - Facebook: engaging, story-driven, strong visual hook.
+    - Google: keyword-rich, concise, benefit-driven.
+    - LinkedIn: professional, value-props, B2B focus.`;
+
+    const schema = {
+        type: Type.OBJECT,
+        properties: {
+            headlines: { type: Type.ARRAY, items: { type: Type.STRING } },
+            primaryText: { type: Type.ARRAY, items: { type: Type.STRING } },
+            descriptions: { type: Type.ARRAY, items: { type: Type.STRING } },
+            platform: { type: Type.STRING, enum: ['Facebook', 'Google', 'LinkedIn'] }
+        }
+    };
+
+    const response = await ai.models.generateContent({
+        model: 'gemini-1.5-flash',
+        contents: prompt,
+        config: { responseMimeType: 'application/json', responseSchema: schema }
+    });
+    return { ...JSON.parse(response.text || '{}'), platform };
+};
+
+export const generateVideoScript = async (project: Project, topic: string): Promise<VideoScriptResult> => {
+    const prompt = `${getBusinessContextPrompt(project)} Write a viral short-form video script (TikTok/Reels/Shorts) about: "${topic}".
+    Structure: Hook (0-3s), Value Prop (3-30s), Call to Action (30-60s).`;
+
+    const schema = {
+        type: Type.OBJECT,
+        properties: {
+            title: { type: Type.STRING },
+            hook: { type: Type.STRING },
+            script: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { scene: { type: Type.STRING }, audio: { type: Type.STRING }, visual: { type: Type.STRING } } } },
+            cta: { type: Type.STRING }
+        }
+    };
+
+    const response = await ai.models.generateContent({
+        model: 'gemini-1.5-flash',
+        contents: prompt,
+        config: { responseMimeType: 'application/json', responseSchema: schema }
+    });
+    return JSON.parse(response.text || '{}');
 };

@@ -28,6 +28,24 @@ export interface ProjectFoundation {
     competitorUrls?: string[];
     brandValues?: string[];
     geographicFocus?: 'Local' | 'Regional' | 'National' | 'Global';
+    subscriptionTier?: 'freelancer' | 'force_multiplier' | 'agency';
+    usageStats?: {
+        projectsCreated: number;
+        proCallsUsed: number;
+        mediaCreditsUsed: number;
+        totalStrategyBriefs: number;
+    };
+}
+
+export type PricingTier = 'freelancer' | 'force_multiplier' | 'agency';
+
+export interface TierLimits {
+    maxProjects: number;
+    maxProCalls: number | 'unlimited';
+    maxMediaCredits: number;
+    maxStrategyBriefs: number | 'unlimited';
+    canUseProModel: boolean;
+    hasEnterprisePrivacy: boolean;
 }
 
 export interface FoundationSuggestions {
@@ -360,7 +378,7 @@ export interface ZeroClickResult {
 
 export type GeneratedContentResult = PostGenerationResult | string[] | ZeroClickResult | HtmlComponent;
 
-export type ContentMode = 'post' | 'comment' | 'qa' | 'article';
+export type ContentMode = 'post' | 'comment' | 'qa' | 'article' | 'email' | 'ad_copy' | 'video_script';
 export interface ContentOpportunity {
     title: string;
     description: string;
@@ -388,6 +406,13 @@ export interface EmailCampaign {
     goal: string;
     personaId: string;
     emails: Email[];
+    status?: 'draft' | 'sending' | 'sent';
+    stats?: {
+        sent: number;
+        opened: number;
+        clicked: number;
+    };
+    template?: 'plain' | 'modern' | 'urgent';
 }
 
 export interface CampaignTask {

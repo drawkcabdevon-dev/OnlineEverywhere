@@ -237,9 +237,9 @@ const Home: React.FC = () => {
                                         <span className="material-symbols-outlined text-google-blue text-4xl mb-6">rocket_launch</span>
                                         <h4 className="text-xl font-display font-bold text-gray-900 mb-4">The Digital Launchpad</h4>
                                         <p className="text-gray-600 text-sm leading-relaxed flex-grow">Establish a strong foundation with cohesive branding and professional digital assets.</p>
-                                        <div className="mt-8 flex items-center justify-between text-google-blue font-medium text-sm">
-                                            <span>Learn more</span>
-                                            <span className="material-symbols-outlined">chevron_right</span>
+                                        <div className="mt-8 flex items-center justify-between text-google-blue/50 font-medium text-sm">
+                                            <span>Hover to flip</span>
+                                            <span className="material-symbols-outlined">sync_alt</span>
                                         </div>
                                     </div>
                                     <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-google-blue bg-white p-8 flex flex-col shadow-m3">
@@ -249,6 +249,10 @@ const Home: React.FC = () => {
                                             <li className="flex gap-2"><span className="material-symbols-outlined text-google-blue text-sm">check</span> Responsive UI/UX Design</li>
                                             <li className="flex gap-2"><span className="material-symbols-outlined text-google-blue text-sm">check</span> CMS & CRM Integration</li>
                                         </ul>
+                                        <Link to="/services/digital-launchpad" className="mt-4 flex items-center justify-between text-google-blue font-bold text-sm hover:underline">
+                                            <span>View Details</span>
+                                            <span className="material-symbols-outlined">arrow_forward</span>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -276,9 +280,9 @@ const Home: React.FC = () => {
                                         <span className="material-symbols-outlined text-google-red text-4xl mb-6">bolt</span>
                                         <h4 className="text-xl font-display font-bold text-gray-900 mb-4">The Conversion Catalyst</h4>
                                         <p className="text-gray-600 text-sm leading-relaxed flex-grow">Optimize your existing traffic to maximize ROI and customer engagement.</p>
-                                        <div className="mt-8 flex items-center justify-between text-google-red font-medium text-sm">
-                                            <span>Learn more</span>
-                                            <span className="material-symbols-outlined">chevron_right</span>
+                                        <div className="mt-8 flex items-center justify-between text-google-red/50 font-medium text-sm">
+                                            <span>Hover to flip</span>
+                                            <span className="material-symbols-outlined">sync_alt</span>
                                         </div>
                                     </div>
                                     <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-google-red bg-white p-8 flex flex-col shadow-m3">
@@ -288,6 +292,10 @@ const Home: React.FC = () => {
                                             <li className="flex gap-2"><span className="material-symbols-outlined text-google-red text-sm">check</span> Behavioral Analytics</li>
                                             <li className="flex gap-2"><span className="material-symbols-outlined text-google-red text-sm">check</span> Performance Tuning</li>
                                         </ul>
+                                        <Link to="/services/conversion-catalyst" className="mt-4 flex items-center justify-between text-google-red font-bold text-sm hover:underline">
+                                            <span>View Details</span>
+                                            <span className="material-symbols-outlined">arrow_forward</span>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -316,9 +324,9 @@ const Home: React.FC = () => {
                                         <span className="material-symbols-outlined text-google-green text-4xl mb-6">handshake</span>
                                         <h4 className="text-xl font-display font-bold text-gray-900 mb-4">The Proactive Partnership</h4>
                                         <p className="text-gray-600 text-sm leading-relaxed flex-grow">Long-term strategic alignment to scale multi-channel growth operations.</p>
-                                        <div className="mt-8 flex items-center justify-between text-google-green font-medium text-sm">
-                                            <span>Learn more</span>
-                                            <span className="material-symbols-outlined">chevron_right</span>
+                                        <div className="mt-8 flex items-center justify-between text-google-green/50 font-medium text-sm">
+                                            <span>Hover to flip</span>
+                                            <span className="material-symbols-outlined">sync_alt</span>
                                         </div>
                                     </div>
                                     <div className="absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-google-green bg-white p-8 flex flex-col shadow-m3">
@@ -328,6 +336,10 @@ const Home: React.FC = () => {
                                             <li className="flex gap-2"><span className="material-symbols-outlined text-google-green text-sm">check</span> Tech Health Management</li>
                                             <li className="flex gap-2"><span className="material-symbols-outlined text-google-green text-sm">check</span> Full-funnel Optimization</li>
                                         </ul>
+                                        <Link to="/services/proactive-partnership" className="mt-4 flex items-center justify-between text-google-green font-bold text-sm hover:underline">
+                                            <span>View Details</span>
+                                            <span className="material-symbols-outlined">arrow_forward</span>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

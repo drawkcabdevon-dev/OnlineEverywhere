@@ -1,28 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { useProject } from './contexts/ProjectContext';
 import { useAuth } from './contexts/AuthContext';
+import { MODULES, ModuleId, ToolboxCategory } from './constants';
+import ErrorBanner from './components/ErrorBanner';
+import Drawer from './components/Drawer';
+import ColorStripDivider from './components/ColorStripDivider';
+import Spinner from './components/Spinner';
+
+// Eagerly load core modules for faster initial interactivity
 import Auth from './modules/Auth';
 import ProjectHub from './modules/ProjectHub';
 import Dashboard from './modules/Dashboard';
-import Settings from './modules/Settings';
-import DataIntegrations from './modules/DataIntegrations';
-import ActivityLog from './modules/ActivityLog';
-import PersonaLab from './modules/PersonaLab';
-import MarketRadar from './modules/MarketRadar';
-import BehavioralIntelligenceHub from './modules/BehavioralIntelligenceHub';
-import PagePerformanceLab from './modules/PagePerformanceLab';
-import KeywordStrategist from './modules/KeywordStrategist';
-import StrategyBriefs from './modules/StrategyBriefs';
-import CampaignPlanner from './modules/CampaignPlanner';
-import WebsiteBuilder from './modules/WebsiteBuilder';
-import ContentCreator from './modules/ContentCreator';
-import VisualStudio from './modules/VisualStudio';
-import EmailCampaigner from './modules/EmailCampaigner';
-import { MODULES, ModuleId, ToolboxCategory } from './constants';
-import ErrorBanner from './components/ErrorBanner';
-import { IconSearch, IconSettings } from './constants';
-import Drawer from './components/Drawer';
-import ColorStripDivider from './components/ColorStripDivider';
+
+// Lazy load heavy feature modules
+const Settings = React.lazy(() => import('./modules/Settings'));
+const DataIntegrations = React.lazy(() => import('./modules/DataIntegrations'));
+const ActivityLog = React.lazy(() => import('./modules/ActivityLog'));
+const PersonaLab = React.lazy(() => import('./modules/PersonaLab'));
+const MarketRadar = React.lazy(() => import('./modules/MarketRadar'));
+const BehavioralIntelligenceHub = React.lazy(() => import('./modules/BehavioralIntelligenceHub'));
+const PagePerformanceLab = React.lazy(() => import('./modules/PagePerformanceLab'));
+const KeywordStrategist = React.lazy(() => import('./modules/KeywordStrategist'));
+const StrategyBriefs = React.lazy(() => import('./modules/StrategyBriefs'));
+const CampaignPlanner = React.lazy(() => import('./modules/CampaignPlanner'));
+const WebsiteBuilder = React.lazy(() => import('./modules/WebsiteBuilder'));
+const ContentCreator = React.lazy(() => import('./modules/ContentCreator'));
+const VisualStudio = React.lazy(() => import('./modules/VisualStudio'));
+const EmailCampaigner = React.lazy(() => import('./modules/EmailCampaigner'));
 
 const App: React.FC = () => {
   const {
@@ -73,24 +77,33 @@ const App: React.FC = () => {
   if (!activeProjectId) return <><ErrorBanner /><ProjectHub /></>;
 
   const renderModule = () => {
-    switch (activeModule) {
-      case 'dashboard': return <Dashboard />;
-      case 'settings': return <Settings />;
-      case 'data-integrations': return <DataIntegrations />;
-      case 'activity-log': return <ActivityLog />;
-      case 'audience': return <PersonaLab />;
-      case 'market-radar': return <MarketRadar />;
-      case 'behavioral-hub': return <BehavioralIntelligenceHub />;
-      case 'page-performance-lab': return <PagePerformanceLab />;
-      case 'keyword-strategist': return <KeywordStrategist />;
-      case 'strategy-briefs': return <StrategyBriefs />;
-      case 'campaign-planner': return <CampaignPlanner />;
-      case 'website-dev': return <WebsiteBuilder />;
-      case 'content-creator': return <ContentCreator />;
-      case 'visual-studio': return <VisualStudio />;
-      case 'email-campaigner': return <EmailCampaigner />;
-      default: return <Dashboard />;
-    }
+    // Wrap in Suspense for lazy loading
+    return (
+      <div className="h-full">
+        <Suspense fallback={<div className="flex h-full items-center justify-center"><Spinner size={40} showMessages messages={["Loading module...", "Preparing workspace...", "Initializing AI tools..."]} /></div>}>
+          {(() => {
+            switch (activeModule) {
+              case 'dashboard': return <Dashboard />;
+              case 'settings': return <Settings />;
+              case 'data-integrations': return <DataIntegrations />;
+              case 'activity-log': return <ActivityLog />;
+              case 'audience': return <PersonaLab />;
+              case 'market-radar': return <MarketRadar />;
+              case 'behavioral-hub': return <BehavioralIntelligenceHub />;
+              case 'page-performance-lab': return <PagePerformanceLab />;
+              case 'keyword-strategist': return <KeywordStrategist />;
+              case 'strategy-briefs': return <StrategyBriefs />;
+              case 'campaign-planner': return <CampaignPlanner />;
+              case 'website-dev': return <WebsiteBuilder />;
+              case 'content-creator': return <ContentCreator />;
+              case 'visual-studio': return <VisualStudio />;
+              case 'email-campaigner': return <EmailCampaigner />;
+              default: return <Dashboard />;
+            }
+          })()}
+        </Suspense>
+      </div>
+    );
   };
 
   const categories: ToolboxCategory[] = ['Foundation', 'Research', 'Strategy', 'Execution'];
@@ -245,15 +258,17 @@ const App: React.FC = () => {
       </div>
 
       {/* Global Settings Drawer (The Brain) */}
-      <Drawer
-        isOpen={isSettingsOpen}
-        onClose={closeSettings}
-        title="Project Brain"
-        subtitle="Orchestrate your business intelligence and AI foundation."
-        width="xl"
-      >
-        <Settings />
-      </Drawer>
+      <Suspense fallback={null}>
+        <Drawer
+          isOpen={isSettingsOpen}
+          onClose={closeSettings}
+          title="Project Brain"
+          subtitle="Orchestrate your business intelligence and AI foundation."
+          width="xl"
+        >
+          <Settings />
+        </Drawer>
+      </Suspense>
     </div>
   );
 };

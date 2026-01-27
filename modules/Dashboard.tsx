@@ -4,6 +4,7 @@ import { useError } from '../contexts/ErrorContext';
 import * as geminiService from '../services/geminiService';
 import { Insight } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+import UsageTracker from '../components/UsageTracker';
 
 const Dashboard: React.FC = () => {
     const { activeProject, updateActiveProject, logActivity, navigateToModule, openSettings } = useProject();
@@ -267,6 +268,7 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 <div className="space-y-8">
+                    {activeProject && <UsageTracker project={activeProject} />}
                     <h2 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.25em] px-4">Quick Orbits</h2>
                     <div className="grid grid-cols-1 gap-4">
                         {[
