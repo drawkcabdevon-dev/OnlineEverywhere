@@ -76,7 +76,8 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
 
 const Layout: React.FC = () => {
     const [modalConfig, setModalConfig] = useState<{ open: boolean, type: 'early-access' | 'audit' }>({ open: false, type: 'early-access' });
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [desktopSidebarCollapsed, setDesktopSidebarCollapsed] = useState(false);
 
     return (
         <div className="bg-background text-gray-700 antialiased font-sans min-h-screen relative">
@@ -106,20 +107,20 @@ const Layout: React.FC = () => {
                         <h1 className="text-lg font-display font-bold text-[#5f6368]">OLE</h1>
                     </Link>
                     <button
-                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                         className="size-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition-colors"
                     >
-                        <span className="material-symbols-outlined">{sidebarOpen ? 'close' : 'menu'}</span>
+                        <span className="material-symbols-outlined">{mobileMenuOpen ? 'close' : 'menu'}</span>
                     </button>
                 </div>
             </header>
 
             {/* Sidebar */}
-            <aside className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-100 z-40 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+            <aside className={`fixed top-0 left-0 h-full bg-white border-r border-gray-100 z-40 transition-all duration-300 ${desktopSidebarCollapsed ? 'w-20' : 'w-64'} ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
                 <div className="flex flex-col h-full">
-                    {/* Logo */}
-                    <div className="p-6 border-b border-gray-100">
-                        <Link to="/" className="flex items-center gap-3 group" onClick={() => setSidebarOpen(false)}>
+                    {/* Logo & Toggle */}
+                    <div className={`p-6 border-b border-gray-100 flex items-center ${desktopSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
+                        <Link to="/" className={`flex items-center gap-3 group ${desktopSidebarCollapsed ? 'hidden' : 'flex'}`} onClick={() => setMobileMenuOpen(false)}>
                             <div className="flex gap-1 group-hover:gap-1.5 transition-all">
                                 <div className="w-1.5 h-10 bg-google-blue rounded-full"></div>
                                 <div className="w-1.5 h-10 bg-google-red rounded-full"></div>
@@ -131,10 +132,24 @@ const Layout: React.FC = () => {
                                 <p className="text-[10px] text-gray-400 uppercase tracking-wider mt-0.5">Digital Growth</p>
                             </div>
                         </Link>
+                        {desktopSidebarCollapsed && (
+                            <Link to="/" className="flex flex-col gap-0.5 items-center group mb-4">
+                                <div className="w-1.5 h-4 bg-google-blue rounded-full group-hover:h-6 transition-all"></div>
+                                <div className="w-1.5 h-4 bg-google-red rounded-full group-hover:h-6 transition-all"></div>
+                                <div className="w-1.5 h-4 bg-google-yellow rounded-full group-hover:h-6 transition-all"></div>
+                                <div className="w-1.5 h-4 bg-google-green rounded-full group-hover:h-6 transition-all"></div>
+                            </Link>
+                        )}
+                        <button
+                            onClick={() => setDesktopSidebarCollapsed(!desktopSidebarCollapsed)}
+                            className={`hidden lg:flex size-8 rounded-full bg-gray-50 items-center justify-center text-gray-400 hover:text-google-blue hover:bg-blue-50 transition-all ${desktopSidebarCollapsed ? 'rotate-180' : ''}`}
+                        >
+                            <span className="material-symbols-outlined text-lg">chevron_left</span>
+                        </button>
                     </div>
 
                     {/* Navigation */}
-                    <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+                    <nav className="flex-1 p-3 space-y-2 overflow-y-auto">
                         {[
                             { to: '/', label: 'Overview', icon: 'home' },
                             { to: '/services', label: 'Solutions', icon: 'business_center' },
@@ -147,11 +162,12 @@ const Layout: React.FC = () => {
                             <Link
                                 key={link.to}
                                 to={link.to}
-                                onClick={() => setSidebarOpen(false)}
-                                className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-google-blue transition-all group"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className={`flex items-center gap-3 px-3 py-3 rounded-xl text-gray-600 hover:bg-gray-50 hover:text-google-blue transition-all group ${desktopSidebarCollapsed ? 'justify-center' : ''}`}
+                                title={desktopSidebarCollapsed ? link.label : ''}
                             >
-                                <span className="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">{link.icon}</span>
-                                <span className="font-medium text-sm">{link.label}</span>
+                                <span className={`material-symbols-outlined ${desktopSidebarCollapsed ? 'text-2xl' : 'text-xl'} group-hover:scale-110 transition-transform`}>{link.icon}</span>
+                                {!desktopSidebarCollapsed && <span className="font-medium text-sm">{link.label}</span>}
                             </Link>
                         ))}
                     </nav>
@@ -161,30 +177,31 @@ const Layout: React.FC = () => {
                         <button
                             onClick={() => {
                                 setModalConfig({ open: true, type: 'early-access' });
-                                setSidebarOpen(false);
+                                setMobileMenuOpen(false);
                             }}
-                            className="w-full bg-google-blue hover:bg-blue-600 text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg"
+                            className={`w-full bg-google-blue hover:bg-blue-600 text-white rounded-xl font-bold transition-all shadow-md hover:shadow-lg flex items-center justify-center ${desktopSidebarCollapsed ? 'size-12 p-0' : 'px-6 py-3 text-sm'}`}
+                            title="Get Started"
                         >
-                            Get Started
+                            {desktopSidebarCollapsed ? <span className="material-symbols-outlined">rocket_launch</span> : 'Get Started'}
                         </button>
                     </div>
                 </div>
             </aside>
 
             {/* Mobile Overlay */}
-            {sidebarOpen && (
+            {mobileMenuOpen && (
                 <div
                     className="lg:hidden fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-30"
-                    onClick={() => setSidebarOpen(false)}
+                    onClick={() => setMobileMenuOpen(false)}
                 />
             )}
 
             {/* Main Content */}
-            <main className="lg:ml-64 relative z-10 transition-opacity duration-500">
+            <main className={`relative z-10 transition-all duration-300 ${desktopSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
                 <Outlet context={{ setModalOpen: (open: boolean, type: any) => setModalConfig({ open, type }) }} />
             </main>
 
-            <footer className="lg:ml-64 bg-white border-t border-gray-100 py-16">
+            <footer className={`bg-white border-t border-gray-100 py-16 transition-all duration-300 ${desktopSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'}`}>
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
                         <div className="col-span-1 space-y-6">

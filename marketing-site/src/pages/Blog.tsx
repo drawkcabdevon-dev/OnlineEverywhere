@@ -43,16 +43,45 @@ const Blog: React.FC = () => {
     ];
 
     return (
-        <div className="py-24 bg-background">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="mb-20">
-                    <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Strategic Insights</h2>
-                    <h1 className="text-5xl lg:text-7xl font-display font-bold text-gray-900 tracking-tight mb-8">
-                        The Endeavor <span className="text-gray-400">Blog.</span>
+        <div className="bg-background min-h-screen">
+            {/* Blog Hero */}
+            <section className="relative h-[60vh] min-h-[500px] flex items-center overflow-hidden bg-gray-900 border-b border-gray-800">
+                <div className="absolute inset-0 z-0">
+                    <img alt="Strategic digital insights" className="w-full h-full object-cover opacity-30 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
+                </div>
+                <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-12">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-google-blue/20 backdrop-blur-md border border-google-blue/30 text-blue-300 text-xs font-bold uppercase tracking-widest mb-6">
+                        <span className="material-symbols-outlined text-sm">auto_awesome</span>
+                        Latest Insight
+                    </div>
+                    <h1 className="text-4xl lg:text-7xl font-display font-bold text-white max-w-4xl tracking-tight leading-tight mb-8">
+                        The Psychology of <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue to-google-red">High-Conversion Funnels</span>
                     </h1>
-                    <p className="text-xl text-gray-500 max-w-3xl leading-relaxed">
-                        Technical deep-dives, strategic frameworks, and institutional wisdom on mastering the global digital economy.
+                    <p className="text-xl text-gray-400 max-w-2xl leading-relaxed mb-10">
+                        Analyzing the subconscious friction points that prevent users from converting on enterprise platforms, and how to fix them with data-backed empathy.
                     </p>
+                    <div className="flex items-center gap-6">
+                        <button className="bg-white text-gray-900 hover:bg-google-blue hover:text-white px-8 py-4 rounded-full font-bold transition-all flex items-center gap-2 group">
+                            Read Article
+                            <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </button>
+                        <div className="flex items-center gap-3 text-sm text-gray-500 font-medium">
+                            <span className="size-8 rounded-full bg-gray-800 flex items-center justify-center text-xs font-bold text-white border border-gray-700">DC</span>
+                            <span>By Devon Clarke</span>
+                            <span className="w-1 h-1 bg-gray-600 rounded-full"></span>
+                            <span>Jan 24, 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div className="max-w-7xl mx-auto px-6 py-24">
+                <div className="mb-16 flex items-end justify-between border-b border-gray-100 pb-8">
+                    <div>
+                        <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-2">Knowledge Base</h2>
+                        <h3 className="text-3xl font-display font-bold text-gray-900">Strategic Intelligence</h3>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

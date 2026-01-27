@@ -40,28 +40,37 @@ const Home: React.FC = () => {
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center overflow-hidden bg-gray-900">
                 <div className="absolute inset-0 z-0">
-                    <img alt="Dynamic data visualization background" className="w-full h-full object-cover opacity-40 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU" />
+                    <img alt="Dynamic data visualization background" className="w-full h-full object-cover opacity-40 mix-blend-overlay" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU" />
                     <div className="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/40 to-gray-900/80"></div>
                 </div>
                 <div className="relative z-10 max-w-7xl mx-auto px-6 w-full text-center py-20 lg:py-0">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-blue-300 text-xs font-medium tracking-wide mb-8">
-                        <span className="material-symbols-outlined text-sm">analytics</span>
-                        Strategic Digital Ecosystems
-                    </div>
-                    <div className="space-y-6">
-                        <h1 className="text-4xl sm:text-5xl lg:text-8xl font-display font-bold leading-tight text-white px-4 md:px-0">
-                            Partners in<br />
-                            <div className="h-16 sm:h-20 md:h-24 mt-4 flex justify-center items-center">
-                                <Typewriter />
-                            </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h1 className="text-4xl lg:text-8xl font-display font-bold text-white mb-6 lg:mb-8 leading-tight tracking-tight">
+                            Your Brand, <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue via-google-red to-google-yellow mt-2 block pb-4 lg:pb-6 relative z-20">
+                                <Typewriter
+                                    options={{
+                                        strings: ['Everywhere.', 'Optimized.', 'Global.', 'Future-Proof.'],
+                                        autoStart: true,
+                                        loop: true,
+                                        cursor: '|',
+                                        delay: 50, // Typing speeed
+                                        deleteSpeed: 30, // Deleting speed
+                                    }}
+                                />
+                            </span>
                         </h1>
                         <h2 className="text-2xl sm:text-3xl lg:text-5xl font-display font-medium text-gray-300">
                             From Click to Client.
                         </h2>
-                    </div>
-                    <p className="mt-8 text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                        Online Everywhere (OLE) designs, builds, and manages unified digital marketing infrastructure that turns interest into sustained growth.
-                    </p>
+                        <p className="mt-8 text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                            Online Everywhere (OLE) designs, builds, and manages unified digital marketing infrastructure that turns interest into sustained growth.
+                        </p>
+                    </motion.div>
                     <div className="flex flex-wrap justify-center gap-4 mt-12">
                         <button
                             onClick={() => setModalOpen(true, 'early-access')}
@@ -73,11 +82,11 @@ const Home: React.FC = () => {
                             View Case Studies
                         </button>
                     </div>
-                </div>
-            </section>
+                </div >
+            </section >
 
             {/* Packages Section */}
-            <section className="py-24 bg-surface" id="packages">
+            < section className="py-24 bg-surface" id="packages" >
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
                         <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Strategic Frameworks</h2>
@@ -244,10 +253,10 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Trusted By Section */}
-            <section className="py-16 bg-white border-y border-gray-100">
+            < section className="py-16 bg-white border-y border-gray-100" >
                 <div className="max-w-7xl mx-auto px-6">
                     <p className="text-center text-sm font-bold text-gray-400 uppercase tracking-widest mb-12">Trusted By Leading Barbadian & International Brands</p>
                     <div className="flex flex-wrap justify-center items-center gap-12 opacity-60">
@@ -265,10 +274,10 @@ const Home: React.FC = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Selected Work Section */}
-            <section className="py-24 bg-surface" id="work">
+            < section className="py-24 bg-surface" id="work" >
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-16 px-4">
                         <div>
@@ -317,11 +326,11 @@ const Home: React.FC = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Featured Insights Section */}
 
-            <section className="py-24 bg-background overflow-hidden">
+            < section className="py-24 bg-background overflow-hidden" >
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 border-l-4 border-google-blue pl-6">
                         <div>
@@ -386,10 +395,10 @@ const Home: React.FC = () => {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* CTA Section */}
-            <section className="py-24 bg-white overflow-hidden">
+            < section className="py-24 bg-white overflow-hidden" >
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="relative rounded-[2rem] bg-gray-900 p-12 lg:p-24 text-center overflow-hidden shadow-2xl">
                         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 size-96 bg-google-blue rounded-full blur-[100px] opacity-20 animate-pulse"></div>
@@ -416,7 +425,7 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
         </>
     );
 };
