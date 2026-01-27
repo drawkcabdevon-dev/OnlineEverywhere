@@ -8,6 +8,7 @@ import Blog from './pages/Blog';
 import Portfolio from './pages/Portfolio';
 import ContactUs from './pages/ContactUs';
 import BarbadosMarketing from './pages/BarbadosMarketing';
+import BarbadosStitch from './pages/BarbadosStitch';
 import Launchpad from './pages/services/Launchpad';
 import Catalyst from './pages/services/Catalyst';
 import Partnership from './pages/services/Partnership';
@@ -33,6 +34,7 @@ const App: React.FC = () => {
                     <Route path="portfolio" element={<Portfolio />} />
                     <Route path="blog" element={<Blog />} />
                     <Route path="barbados" element={<BarbadosMarketing />} />
+                    <Route path="barbados-stitch" element={<BarbadosStitch />} />
                     <Route path="contact" element={<ContactUs />} />
 
                     {/* Utility Routes */}

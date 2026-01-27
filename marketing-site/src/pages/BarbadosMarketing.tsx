@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useOutletContext, Link } from 'react-router-dom';
+import CaribbeanRoadmap from '../components/CaribbeanRoadmap';
 
 const BarbadosMarketing: React.FC = () => {
     const { setModalOpen }: any = useOutletContext();
@@ -101,7 +102,7 @@ const BarbadosMarketing: React.FC = () => {
                                 Why Barbadian Businesses Choose OLE.
                             </h3>
                             <p className="text-xl text-gray-500 leading-relaxed mb-12">
-                                We combine a deep understanding of the Caribbean hospitality and tourism market with institutional-grade technical standards inherited from our global Google partnerships.
+                                We combine a deep understanding of the Caribbean hospitality and tourism market with professional technical standards and institutional-grade digital frameworks.
                             </p>
 
                             <div className="space-y-8">
@@ -136,8 +137,8 @@ const BarbadosMarketing: React.FC = () => {
                                 </div>
                                 <div className="space-y-6">
                                     <div className="p-10 rounded-[2.5rem] bg-google-red text-white shadow-2xl">
-                                        <h4 className="text-4xl font-display font-bold text-white mb-2">Google</h4>
-                                        <p className="text-white/60 font-bold text-xs uppercase tracking-widest">Certified Partners</p>
+                                        <h4 className="text-4xl font-display font-bold text-white mb-2">Technical</h4>
+                                        <p className="text-white/60 font-bold text-xs uppercase tracking-widest">Authority & Mastery</p>
                                     </div>
                                     <div className="p-10 rounded-[2.5rem] bg-white border border-gray-100 shadow-xl">
                                         <h4 className="text-4xl font-display font-bold text-navy-deep mb-2">4.8x</h4>
@@ -153,62 +154,16 @@ const BarbadosMarketing: React.FC = () => {
             </section>
 
             {/* Specialized Solutions Grid */}
-            <section className="py-32 bg-surface">
+            <section className="py-32 bg-[#0c131a]">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="max-w-3xl mb-24">
+                    <div className="max-w-3xl mb-12">
                         <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-6">Caribbean Centric Solutions</h2>
-                        <h3 className="text-4xl lg:text-6xl font-display font-bold text-navy-deep tracking-tight">
+                        <h3 className="text-4xl lg:text-6xl font-display font-bold text-white tracking-tight">
                             Engineered for the Island Economy.
                         </h3>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {[
-                            {
-                                title: "Tourism & Hospitality Engine",
-                                icon: "hotel",
-                                desc: "Setup of international booking systems, TripAdvisor management, and global ad targeting for luxury villa rentals and boutique hotels.",
-                                tags: ["OTAs", "PPC", "Yield Mgmt"]
-                            },
-                            {
-                                title: "Local Presence Optimization",
-                                icon: "map",
-                                desc: "Hyper-local SEO and maps optimization ensuring you are the first choice for residents and tourists searching on-island.",
-                                tags: ["Google Maps", "Local SEO", "Reviews"]
-                            },
-                            {
-                                title: "Island-Scale E-Commerce",
-                                icon: "shopping_basket",
-                                desc: "Regional payment gateway integration and international fulfillment logistics for Barbadian retail brands.",
-                                tags: ["Payments", "Logistics", "Shopify"]
-                            },
-                            {
-                                title: "Strategic Growth Intelligence",
-                                icon: "query_stats",
-                                desc: "Consulting focused on multi-channel diversification and long-term tech roadmap planning for large Barbadian enterprises.",
-                                tags: ["C-Suite Data", "Roadmaps", "Digital Health"]
-                            }
-                        ].map((service, i) => (
-                            <div key={i} className="group bg-white p-12 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl hover:translate-y-[-8px] transition-all">
-                                <div className="flex justify-between items-start mb-8">
-                                    <div className="size-16 rounded-2xl bg-gray-50 flex items-center justify-center text-gray-400 group-hover:text-google-blue group-hover:bg-google-blue/5 transition-all">
-                                        <span className="material-symbols-outlined text-4xl">{service.icon}</span>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        {service.tags.map(tag => (
-                                            <span key={tag} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{tag}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                                <h4 className="text-3xl font-display font-bold text-navy-deep mb-4">{service.title}</h4>
-                                <p className="text-gray-500 text-lg leading-relaxed mb-8">{service.desc}</p>
-                                <button className="flex items-center gap-2 text-google-blue font-bold group-hover:gap-4 transition-all">
-                                    Explore Solution
-                                    <span className="material-symbols-outlined text-sm">arrow_forward</span>
-                                </button>
-                            </div>
-                        ))}
-                    </div>
+                    <CaribbeanRoadmap />
                 </div>
             </section>
 

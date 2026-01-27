@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useOutletContext, Link } from 'react-router-dom';
 
+const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" }) => (
+    <div className={`flex h-1.5 w-full ${className}`}>
+        <div className="flex-1 bg-google-blue"></div>
+        <div className="flex-1 bg-google-red"></div>
+        <div className="flex-1 bg-google-yellow"></div>
+        <div className="flex-1 bg-google-green"></div>
+    </div>
+);
+
 
 
 const Home: React.FC = () => {
@@ -210,17 +219,19 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
+            <ColorStripDivider />
+
             {/* Packages Section */}
-            < section className="py-24 bg-surface" id="packages" >
+            <section className="py-24 bg-surface" id="packages">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
                         <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Strategic Frameworks</h2>
                         <h3 className="text-4xl lg:text-5xl font-display font-bold text-gray-900 tracking-tight">Tailored solutions for every stage of growth.</h3>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
                         {/* Card 1 */}
-                        <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="w-full md:w-1/2 group h-[380px] perspective-1000">
+                        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <div className="w-full xl:w-1/2 group h-[380px] perspective-1000">
                                 <div className="relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner">
                                     <div className="absolute inset-0 backface-hidden rounded-2xl border-t-4 border-t-google-blue bg-white p-8 flex flex-col shadow-sm border border-gray-100">
                                         <span className="material-symbols-outlined text-google-blue text-4xl mb-6">rocket_launch</span>
@@ -241,7 +252,7 @@ const Home: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-1/2 flex flex-col justify-center space-y-4 bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                            <div className="w-full xl:w-1/2 flex flex-col justify-center space-y-4 bg-gray-50 rounded-2xl p-6 border border-gray-100">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Growth Visualization</p>
                                 <div className="h-32 flex items-end gap-1 px-2">
                                     <div className="w-full bg-google-blue/20 h-[30%] rounded-t-sm"></div>
@@ -258,8 +269,8 @@ const Home: React.FC = () => {
                         </div>
 
                         {/* Card 2 */}
-                        <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="w-full md:w-1/2 group h-[380px] perspective-1000">
+                        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <div className="w-full xl:w-1/2 group h-[380px] perspective-1000">
                                 <div className="relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner">
                                     <div className="absolute inset-0 backface-hidden rounded-2xl border-t-4 border-t-google-red bg-white p-8 flex flex-col shadow-sm border border-gray-100">
                                         <span className="material-symbols-outlined text-google-red text-4xl mb-6">bolt</span>
@@ -280,7 +291,7 @@ const Home: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-1/2 flex flex-col justify-center space-y-4 bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                            <div className="w-full xl:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Efficiency KPI</p>
                                 <div className="relative size-32 mx-auto">
                                     <svg className="size-full" viewBox="0 0 36 36">
@@ -298,8 +309,8 @@ const Home: React.FC = () => {
                         </div>
 
                         {/* Card 3 */}
-                        <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <div className="w-full md:w-1/2 group h-[380px] perspective-1000">
+                        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <div className="w-full xl:w-1/2 group h-[380px] perspective-1000">
                                 <div className="relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner">
                                     <div className="absolute inset-0 backface-hidden rounded-2xl border-t-4 border-t-google-green bg-white p-8 flex flex-col shadow-sm border border-gray-100">
                                         <span className="material-symbols-outlined text-google-green text-4xl mb-6">handshake</span>
@@ -320,7 +331,7 @@ const Home: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                            <div className="w-full xl:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Scale Trajectory</p>
                                 <div className="h-24 relative">
                                     <svg className="w-full h-full" viewBox="0 0 100 40">
@@ -336,8 +347,8 @@ const Home: React.FC = () => {
                         </div>
 
                         {/* Card 4 */}
-                        <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
-                            <div className="w-full md:w-1/2 group h-[380px] perspective-1000">
+                        <div className="flex flex-col xl:flex-row gap-6 bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
+                            <div className="w-full xl:w-1/2 group h-[380px] perspective-1000">
                                 <div className="relative w-full h-full transition-all duration-700 preserve-3d flip-card-inner">
                                     <div className="absolute inset-0 backface-hidden rounded-2xl border-4 border-google-yellow bg-white p-8 flex flex-col shadow-sm border border-gray-100">
                                         <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-google-yellow text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest">Premium</div>
@@ -359,7 +370,7 @@ const Home: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full md:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                            <div className="w-full xl:w-1/2 flex flex-col justify-center bg-gray-50 rounded-2xl p-6 border border-gray-100">
                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Reach Index</p>
                                 <div className="grid grid-cols-2 gap-2">
                                     <div className="bg-white p-3 rounded-lg border border-gray-200">
@@ -378,10 +389,10 @@ const Home: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* Trusted By Section */}
-            < section className="py-16 bg-white border-y border-gray-100" >
+            <section className="py-16 bg-white border-y border-gray-100">
                 <div className="max-w-7xl mx-auto px-6">
                     <p className="text-center text-sm font-bold text-gray-400 uppercase tracking-widest mb-12">Trusted By Leading Barbadian & International Brands</p>
                     <div className="flex flex-wrap justify-center items-center gap-12 opacity-60">
@@ -399,10 +410,10 @@ const Home: React.FC = () => {
                         ))}
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* Selected Work Section */}
-            < section className="py-24 bg-surface" id="work" >
+            <section className="py-24 bg-surface" id="work">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-baseline gap-4 mb-16 px-4">
                         <div>
@@ -451,11 +462,11 @@ const Home: React.FC = () => {
                         ))}
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* Featured Insights Section */}
 
-            < section className="py-24 bg-background overflow-hidden" >
+            <section className="py-24 bg-background overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 border-l-4 border-google-blue pl-6">
                         <div>
@@ -520,10 +531,10 @@ const Home: React.FC = () => {
                         ))}
                     </div>
                 </div>
-            </section >
+            </section>
 
             {/* CTA Section */}
-            < section className="py-24 bg-white overflow-hidden" >
+            <section className="py-24 bg-white overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="relative rounded-[2rem] bg-gray-900 p-12 lg:p-24 text-center overflow-hidden shadow-2xl">
                         <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 size-96 bg-google-blue rounded-full blur-[100px] opacity-20 animate-pulse"></div>
