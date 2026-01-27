@@ -154,6 +154,67 @@ const Ollie: React.FC = () => {
                 </div>
             </section>
 
+            {/* Pricing Section */}
+            <section className="py-24 bg-gray-50 border-t border-gray-100" id="pricing">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Investment</h2>
+                        <h3 className="text-4xl font-display font-bold text-navy-deep">Choose Your Growth Engine.</h3>
+                        <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
+                            Scalable intelligence for every stage of business. Transparent pricing with no hidden fees.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                        {/* Freelancer */}
+                        <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all relative">
+                            <h4 className="text-xl font-bold text-gray-900 mb-2">Freelancer</h4>
+                            <p className="text-sm text-gray-500 mb-6">Essential tools for solo strategists.</p>
+                            <div className="text-4xl font-bold text-navy-deep mb-6">$49<span className="text-lg text-gray-400 font-normal">/mo</span></div>
+                            <button onClick={() => setModalOpen(true, 'early-access')} className="w-full py-3 rounded-xl border border-gray-200 font-bold text-gray-700 hover:bg-gray-50 transition-all mb-8">Get Started</button>
+                            <ul className="space-y-4 text-sm text-gray-600">
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 1 Active Project</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 5 Pro Model Calls/mo</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 50 AI Media Credits</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 3 Strategy Briefs</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Basic Privacy Shield</li>
+                            </ul>
+                        </div>
+
+                        {/* Force Multiplier (Highlighted) */}
+                        <div className="bg-navy-deep rounded-[2rem] p-8 border border-gray-900 shadow-2xl relative transform md:-translate-y-4">
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-google-blue to-google-green text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest shadow-lg">Most Popular</div>
+                            <h4 className="text-xl font-bold text-white mb-2">Force Multiplier</h4>
+                            <p className="text-sm text-gray-400 mb-6">Complete strategic autonomy.</p>
+                            <div className="text-4xl font-bold text-white mb-6">$199<span className="text-lg text-gray-500 font-normal">/mo</span></div>
+                            <button onClick={() => setModalOpen(true, 'early-access')} className="w-full py-3 rounded-xl bg-google-blue text-white font-bold hover:bg-blue-500 transition-all mb-8 shadow-lg shadow-google-blue/20">Upgrade Now</button>
+                            <ul className="space-y-4 text-sm text-gray-300">
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-google-green text-lg">check_circle</span> 3 Active Projects</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-google-green text-lg">check_circle</span> <strong>Unlimited</strong> Pro Calls</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-google-green text-lg">check_circle</span> 500 AI Media Credits</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-google-green text-lg">check_circle</span> 20 Strategy Briefs</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-google-green text-lg">check_circle</span> Advanced Persona Lab</li>
+                            </ul>
+                        </div>
+
+                        {/* Agency */}
+                        <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all relative">
+                            <h4 className="text-xl font-bold text-gray-900 mb-2">Agency</h4>
+                            <p className="text-sm text-gray-500 mb-6">High-volume production power.</p>
+                            <div className="text-4xl font-bold text-navy-deep mb-6">$499<span className="text-lg text-gray-400 font-normal">/mo</span></div>
+                            <button onClick={() => setModalOpen(true, 'early-access')} className="w-full py-3 rounded-xl border border-gray-200 font-bold text-gray-700 hover:bg-gray-50 transition-all mb-8">Contact Sales</button>
+                            <ul className="space-y-4 text-sm text-gray-600">
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 10 Active Projects</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> <strong>Unlimited</strong> Pro Calls</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 2,000 AI Media Credits</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 500 Strategy Briefs</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> White-label Reports</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* CTA */}
             <section className="py-24 bg-navy-deep text-white text-center overflow-hidden relative">
                 <div className="absolute top-0 left-0 w-full h-full opacity-10">
