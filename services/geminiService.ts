@@ -7,7 +7,7 @@ import {
     PostGenerationResult, ContentOpportunity, EmailCampaign, Email, CampaignTask,
     KeywordCluster, SeoIssue, KeywordInfo, Insight, CompetitorComparisonResult,
     ZeroClickResult, VisualAsset, GeneratedImage, EditedImage, GeneratedVideo,
-    FoundationSuggestions
+    FoundationSuggestions, EmailContentResult, AdCopyResult, VideoScriptResult
 } from '../types';
 import { checkQuota } from './quotaService';
 import { sanitizePromptInput } from './securityService';

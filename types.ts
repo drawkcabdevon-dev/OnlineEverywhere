@@ -483,6 +483,35 @@ export interface GoogleUpdate {
     sourceUri: string;
 }
 
+// --- Content Creator Types ---
+
+export interface EmailContentResult {
+    subjectLines: string[];
+    previewText: string;
+    body: string;
+    ctaButton: string;
+}
+
+export interface AdCopyResult {
+    headlines: string[];
+    primaryText: string[];
+    descriptions: string[];
+    platform: 'Facebook' | 'Google' | 'LinkedIn';
+}
+
+export interface VideoScriptScene {
+    scene: string;
+    audio: string;
+    visual: string;
+}
+
+export interface VideoScriptResult {
+    title: string;
+    hook: string;
+    script: VideoScriptScene[];
+    cta: string;
+}
+
 export interface Project {
     id: string;
     userId: string;
