@@ -1,0 +1,71 @@
+steps:
+  # 1. Build the APP Image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '--build-arg', 'VITE_APP_MODE=APP',
+      '--build-arg', 'VITE_FIREBASE_API_KEY=$_FIREBASE_API_KEY',
+      '--build-arg', 'VITE_FIREBASE_AUTH_DOMAIN=$_FIREBASE_AUTH_DOMAIN',
+      '--build-arg', 'VITE_FIREBASE_PROJECT_ID=$_FIREBASE_PROJECT_ID',
+      '--build-arg', 'VITE_FIREBASE_STORAGE_BUCKET=$_FIREBASE_STORAGE_BUCKET',
+      '--build-arg', 'VITE_FIREBASE_MESSAGING_SENDER_ID=$_FIREBASE_MESSAGING_SENDER_ID',
+      '--build-arg', 'VITE_FIREBASE_APP_ID=$_FIREBASE_APP_ID',
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA',
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:latest',
+      '.'
+    ]
+    id: 'Build App Image'
+
+  # 2. Build the MARKETING SITE
+  - name: 'node:20'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cd marketing-site && \
+        npm install && \
+        npm run build
+    id: 'Build Marketing Site'
+
+  # 3. Push Images (App only)
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA']
+    id: 'Push App Image'
+
+  # 4. Deploy APP to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: [
+      'run', 'deploy', 'app-suite',
+      '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA',
+      '--region', 'us-central1',
+      '--allow-unauthenticated'
+    ]
+    id: 'Deploy App'
+
+  # 5. Deploy MARKETING SITE to GCS
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'rsync', '-r', '-d', 'marketing-site/dist', 'gs://$_MARKETING_BUCKET']
+    id: 'Deploy Marketing Site'
+
+  # 6. Set public-read permissions on all objects in the bucket
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'iam', 'ch', 'allUsers:objectViewer', 'gs://$_MARKETING_BUCKET']
+    id: 'Set Marketing Site Permissions'
+
+  # 7. Set no-cache for index.html so users always get the latest version
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['setmeta', '-h', 'Cache-Control:no-cache, no-store, must-revalidate', 'gs://$_MARKETING_BUCKET/index.html']
+    id: 'Set Cache Control for Index'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+substitutions:
+  _FIREBASE_API_KEY: "AIzaSyCiJybC5hvGdakXPJIIhEhMWYIFOswVTqo"
+  _FIREBASE_AUTH_DOMAIN: "studio-399808008-f36ab.firebaseapp.com"
+  _FIREBASE_PROJECT_ID: "studio-399808008-f36ab"
+  _FIREBASE_STORAGE_BUCKET: "studio-399808008-f36ab.firebasestorage.app"
+  _FIREBASE_MESSAGING_SENDER_ID: "297764705554"
+  _FIREBASE_APP_ID: "1:297764705554:web:57b0dff80a7650d3688fcb"
+  _MARKETING_BUCKET: "ole-dev-web-backend-bucket"

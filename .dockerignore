@@ -1,0 +1,6 @@
+node_modules
+dist
+marketing-site/node_modules
+marketing-site/dist
+.git
+.env*

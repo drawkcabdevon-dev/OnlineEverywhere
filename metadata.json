@@ -1,0 +1,8 @@
+{
+  "name": "OnLineEverywhere: AI Marketing Suite",
+  "description": "A comprehensive suite of AI-powered tools for marketers. Generate on-brand content, map customer journeys, optimize for search, and create personalized web experiences using a centralized knowledge base for your business.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
