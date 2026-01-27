@@ -35,10 +35,10 @@ const Home: React.FC = () => {
                             </div>
                         </h1>
                         <h2 className="text-2xl lg:text-3xl font-display font-medium text-navy-muted mt-8">
-                            From Click to Client.
+                            Meet <span className="text-google-blue font-bold">Ollie</span>: Your AI Co-Pilot.
                         </h2>
                         <p className="mt-8 text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                            Online Everywhere (OLE) designs, builds, and manages unified digital marketing infrastructure that turns interest into sustained growth.
+                            Ollie designs, builds, and manages unified digital marketing infrastructure that turns interest into sustained growth.
                         </p>
                     </motion.div>
 
@@ -430,7 +430,7 @@ const Home: React.FC = () => {
                         {[
                             {
                                 title: "Global Tourism Intelligence Hub",
-                                results: "+140% Conversion Lift",
+                                results: "Automated by Ollie",
                                 image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU"
                             },
                             {
