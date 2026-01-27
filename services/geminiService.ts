@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type, Modality } from "@google/genai";
-import { 
+import {
     Project, StrategyBrief, Suggestion, SwotAnalysis, DashboardInsights, GoogleUpdate,
     Persona, CompetitiveAnalysis, KeywordStrategyResult, HtmlComponent, Customization,
     InferredBehaviorProfile, BehavioralIntelligencePlan, SeoAuditResult, GeneratedContentResult,
@@ -12,9 +12,9 @@ import {
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
-export type StrategicComponentPayload = 
-    | { strategy: 'keyword'; data: KeywordCluster } 
-    | { strategy: 'seo'; data: SeoIssue } 
+export type StrategicComponentPayload =
+    | { strategy: 'keyword'; data: KeywordCluster }
+    | { strategy: 'seo'; data: SeoIssue }
     | { strategy: 'persona'; data: Persona };
 
 const executeWithRetry = async <T>(fn: () => Promise<T>, retries = 3): Promise<T> => {
@@ -36,6 +36,7 @@ const getBusinessContextPrompt = (project: Project) => {
     Name: ${f.businessName}
     Type: ${f.businessType}
     Industry: ${f.industry}
+    Focus: ${f.geographicFocus || 'Not Specified'}
     Description: ${f.businessDescription}
     Target Audience: ${f.targetAudience.join(', ')}
     Brand Voice: ${f.brandVoice}
@@ -71,7 +72,7 @@ export const refreshProjectSuggestions = async (project: Project): Promise<Found
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -84,7 +85,7 @@ const generateSuggestions = async (prompt: string): Promise<Suggestion[]> => {
         items: { type: Type.OBJECT, properties: { name: { type: Type.STRING }, description: { type: Type.STRING } } }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -111,7 +112,7 @@ export const generateSwotAnalysis = async (project: Project): Promise<SwotAnalys
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -134,7 +135,7 @@ export const getDashboardInsights = async (project: Project): Promise<DashboardI
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -155,7 +156,7 @@ export const getGoogleSearchUpdates = async (project: Project): Promise<GoogleUp
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: "List the latest confirmed Google Search algorithm updates from the last 6 months.",
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -165,7 +166,8 @@ export const getGoogleSearchUpdates = async (project: Project): Promise<GoogleUp
 // --- PersonaLab ---
 
 export const generatePersonaBatch = async (project: Project, criteria: any, count: number): Promise<Persona[]> => {
-    const prompt = `${getBusinessContextPrompt(project)} Generate ${count} distinct personas. Criteria: ${JSON.stringify(criteria)}.`;
+    const prompt = `${getBusinessContextPrompt(project)} Generate ${count} distinct personas. Criteria: ${JSON.stringify(criteria)}. 
+    For each persona, include a deep psychological profile (motivators, persuasion tactics, and common cognitive biases) and a "strategicFit" score (0-100) based on how well this persona aligns with the primary business objectives.`;
     const schema = {
         type: Type.ARRAY,
         items: {
@@ -175,12 +177,21 @@ export const generatePersonaBatch = async (project: Project, criteria: any, coun
                 role: { type: Type.STRING },
                 goals: { type: Type.ARRAY, items: { type: Type.STRING } },
                 painPoints: { type: Type.ARRAY, items: { type: Type.STRING } },
+                psychologicalProfile: {
+                    type: Type.OBJECT,
+                    properties: {
+                        motivators: { type: Type.ARRAY, items: { type: Type.STRING } },
+                        persuasionTactics: { type: Type.ARRAY, items: { type: Type.STRING } },
+                        cognitiveBiases: { type: Type.ARRAY, items: { type: Type.STRING } }
+                    }
+                },
+                strategicFit: { type: Type.NUMBER },
                 cxMap: { type: Type.OBJECT, properties: { stages: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { name: { type: Type.STRING }, touchpoints: { type: Type.ARRAY, items: { type: Type.STRING } }, emotions: { type: Type.ARRAY, items: { type: Type.STRING } }, frictionPoints: { type: Type.ARRAY, items: { type: Type.STRING } }, opportunities: { type: Type.ARRAY, items: { type: Type.STRING } }, actionPrompt: { type: Type.STRING } } } } } }
             }
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -196,7 +207,9 @@ export const createPersonaWithCxMap = async (project: Project, criteria: any): P
 // --- MarketRadar ---
 
 export const analyzeCompetitor = async (project: Project, url: string): Promise<CompetitiveAnalysis> => {
-    const prompt = `Analyze this competitor URL: ${url}. Provide SWOT, marketing strategy, SEO metrics, etc.`;
+    const prompt = `${getBusinessContextPrompt(project)} Analyze this competitor URL: ${url}. 
+    Provide a detailed executive summary, SWOT, marketing strategy, and SEO metrics. 
+    CRITICAL: Identify 3 "Winning Angles"—specific strategic gaps or opportunities where our business can outperform this competitor (e.g., better pricing for SMEs, more localized content, superior CX for a specific persona).`;
     const schema = {
         type: Type.OBJECT,
         properties: {
@@ -208,25 +221,36 @@ export const analyzeCompetitor = async (project: Project, url: string): Promise<
             seoMetrics: { type: Type.OBJECT, properties: { keywordStrategy: { type: Type.STRING }, topKeywordClusters: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { theme: { type: Type.STRING }, keywords: { type: Type.ARRAY, items: { type: Type.STRING } } } } }, topPages: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { url: { type: Type.STRING }, title: { type: Type.STRING } } } } } },
             socialPresence: { type: Type.OBJECT, properties: { instagram: { type: Type.OBJECT, properties: { handle: { type: Type.STRING }, followers: { type: Type.STRING } }, nullable: true }, facebook: { type: Type.OBJECT, properties: { handle: { type: Type.STRING }, followers: { type: Type.STRING } }, nullable: true }, linkedin: { type: Type.OBJECT, properties: { handle: { type: Type.STRING }, followers: { type: Type.STRING } }, nullable: true }, twitter: { type: Type.OBJECT, properties: { handle: { type: Type.STRING }, followers: { type: Type.STRING } }, nullable: true } } },
             rank: { type: Type.NUMBER },
-            contextualSummary: { type: Type.STRING }
+            contextualSummary: { type: Type.STRING },
+            winningAngles: {
+                type: Type.ARRAY,
+                items: {
+                    type: Type.OBJECT,
+                    properties: {
+                        title: { type: Type.STRING },
+                        description: { type: Type.STRING },
+                        isGenerative: { type: Type.BOOLEAN }
+                    }
+                }
+            }
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
     return JSON.parse(response.text || '{}');
 };
 
-export const suggestCompetitors = async (project: Project): Promise<{url: string, reason: string}[]> => {
+export const suggestCompetitors = async (project: Project): Promise<{ url: string, reason: string }[]> => {
     const prompt = `${getBusinessContextPrompt(project)} Suggest 3-5 potential competitors.`;
     const schema = {
         type: Type.ARRAY,
         items: { type: Type.OBJECT, properties: { url: { type: Type.STRING }, reason: { type: Type.STRING } } }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -245,7 +269,7 @@ export const compareCompetitors = async (project: Project, c1: CompetitiveAnalys
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -266,7 +290,7 @@ export const getKeywordDetails = async (project: Project, keyword: string): Prom
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -288,7 +312,7 @@ const componentSchema = {
 export const generateHtmlSection = async (project: Project, description: string, inspiration?: any): Promise<HtmlComponent> => {
     const prompt = `${getBusinessContextPrompt(project)} Generate a valid HTML snippet (using Tailwind CSS classes) for a website section: ${description}. Inspiration: ${JSON.stringify(inspiration)}`;
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -298,7 +322,7 @@ export const generateHtmlSection = async (project: Project, description: string,
 export const generateWireframe = async (project: Project, description: string): Promise<HtmlComponent> => {
     const prompt = `${getBusinessContextPrompt(project)} Generate a low-fidelity wireframe HTML snippet (using Tailwind CSS) for: ${description}. Use gray placeholders.`;
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -308,7 +332,7 @@ export const generateWireframe = async (project: Project, description: string): 
 export const generateStrategicHtmlSection = async (project: Project, payload: StrategicComponentPayload): Promise<HtmlComponent> => {
     const prompt = `${getBusinessContextPrompt(project)} Generate a strategic HTML component based on: ${JSON.stringify(payload)}`;
     const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -318,7 +342,7 @@ export const generateStrategicHtmlSection = async (project: Project, payload: St
 export const refineHtmlSection = async (project: Project, htmlCode: string, instruction: string): Promise<HtmlComponent> => {
     const prompt = `Refine this HTML code: ${htmlCode}. Instruction: ${instruction}.`;
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -329,7 +353,7 @@ export const generateStyleVariations = async (project: Project, component: HtmlC
     const prompt = `Generate 3 style variations for this component. Return as array.`;
     const schema = { type: Type.ARRAY, items: componentSchema };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -339,7 +363,7 @@ export const generateStyleVariations = async (project: Project, component: HtmlC
 export const designWireframe = async (project: Project, htmlCode: string): Promise<HtmlComponent> => {
     const prompt = `Apply the project's brand style to this wireframe HTML: ${htmlCode}.`;
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -349,16 +373,52 @@ export const designWireframe = async (project: Project, htmlCode: string): Promi
 // --- KeywordStrategist ---
 
 export const keywordStrategy = async (project: Project, topic: string): Promise<KeywordStrategyResult> => {
-    const prompt = `${getBusinessContextPrompt(project)} Create a keyword strategy for topic: ${topic}.`;
+    const prompt = `${getBusinessContextPrompt(project)} Create a high-fidelity keyword strategy for topic: ${topic}. 
+    Group keywords into semantic clusters with specific content strategies. 
+    CRITICAL: Identify "Zero-Click Opportunities"—specific questions that appear in SERPs (e.g., "People Also Ask") for which we can provide direct, snippet-worthy answers to capture attention even without a click.`;
     const schema = {
         type: Type.OBJECT,
         properties: {
             seedTopic: { type: Type.STRING },
-            clusters: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { theme: { type: Type.STRING }, contentStrategy: { type: Type.STRING }, keywords: { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { keyword: { type: Type.STRING }, searchVolume: { type: Type.STRING }, difficulty: { type: Type.STRING }, cpc: { type: Type.STRING }, competition: { type: Type.STRING }, intent: { type: Type.STRING } } } } } } }
+            clusters: {
+                type: Type.ARRAY,
+                items: {
+                    type: Type.OBJECT,
+                    properties: {
+                        theme: { type: Type.STRING },
+                        contentStrategy: { type: Type.STRING },
+                        keywords: {
+                            type: Type.ARRAY,
+                            items: {
+                                type: Type.OBJECT,
+                                properties: {
+                                    keyword: { type: Type.STRING },
+                                    searchVolume: { type: Type.STRING },
+                                    difficulty: { type: Type.STRING },
+                                    cpc: { type: Type.STRING },
+                                    competition: { type: Type.STRING },
+                                    intent: { type: Type.STRING }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            zeroClickOpportunities: {
+                type: Type.ARRAY,
+                items: {
+                    type: Type.OBJECT,
+                    properties: {
+                        keyword: { type: Type.STRING },
+                        question: { type: Type.STRING },
+                        answerSnippet: { type: Type.STRING }
+                    }
+                }
+            }
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -376,11 +436,14 @@ export const generateStrategyBrief = async (project: Project, campaignGoal: stri
     const prompt = `${getBusinessContextPrompt(project)} 
     Current Date: ${today}.
     Campaign Goal: ${campaignGoal}. 
-    PersonaID: ${personaId || 'Best Fit'}. 
+    Persona: ${personaId || 'Best Fit'}. 
     
-    Generate Strategy Brief. 
+    COMPETITIVE INTELLIGENCE: Incorporate winning angles from competitors: ${JSON.stringify(project.competitors.flatMap(c => c.winningAngles || []))}.
+    PERSONA PSYCHOLOGY: Ensure key messaging aligns with target persona motivators and persuasion tactics.
+    
+    Generate a comprehensive Strategy Brief. 
     IMPORTANT: All dates in the campaignTimeline must be strictly in the future, starting after ${today}. Do not generate dates in the past.`;
-    
+
     const schema = {
         type: Type.OBJECT,
         properties: {
@@ -395,7 +458,7 @@ export const generateStrategyBrief = async (project: Project, campaignGoal: stri
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema, thinkingConfig: { thinkingBudget: 32768 } }
     });
@@ -405,7 +468,10 @@ export const generateStrategyBrief = async (project: Project, campaignGoal: stri
 // --- BehavioralIntelligenceHub ---
 
 export const analyzePersonaTouchpoints = async (project: Project, persona: Persona): Promise<InferredBehaviorProfile[]> => {
-    const prompt = `Analyze digital touchpoints for persona: ${JSON.stringify(persona)}.`;
+    const prompt = `${getBusinessContextPrompt(project)} Analyze digital touchpoints for persona: ${JSON.stringify(persona)}. 
+    Identify 3-5 distinct behavioral profiles (e.g., "The Skeptical Researcher", "The ROI-Driven Decider"). 
+    Leverage wait-times, click-depth, and referral sources to infer these. 
+    Crucially, align these profiles with the persona's psychological profile (motivators: ${persona.psychologicalProfile?.motivators.join(', ')}).`;
     const schema = {
         type: Type.ARRAY,
         items: {
@@ -419,7 +485,7 @@ export const analyzePersonaTouchpoints = async (project: Project, persona: Perso
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -427,7 +493,11 @@ export const analyzePersonaTouchpoints = async (project: Project, persona: Perso
 };
 
 export const generateBehavioralIntelligencePlan = async (project: Project, persona: Persona, profile: InferredBehaviorProfile): Promise<Omit<BehavioralIntelligencePlan, 'id' | 'personaId'>> => {
-    const prompt = `Generate intelligence plan for behavior: ${JSON.stringify(profile)}.`;
+    const prompt = `${getBusinessContextPrompt(project)} Generate a high-fidelity Behavioral Intelligence Plan for: ${JSON.stringify(profile)}. 
+    Target Persona: ${persona.name} (${persona.role}). 
+    Persona Motivators: ${persona.psychologicalProfile?.motivators.join(', ')}.
+    Persona Persuasion Tactics: ${persona.psychologicalProfile?.persuasionTactics.join(', ')}.
+    Provide an ethical, data-driven strategy to influence this specific behavior through personalization and precise GA4/Meta measurement.`;
     const schema = {
         type: Type.OBJECT,
         properties: {
@@ -439,7 +509,7 @@ export const generateBehavioralIntelligencePlan = async (project: Project, perso
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -464,7 +534,7 @@ export const seoAudit = async (project: Project, url: string): Promise<SeoAuditR
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -475,7 +545,7 @@ export const suggestPersonalizationForSeo = async (project: Project, issues: Seo
     const prompt = `Suggest personalization opportunities for these SEO issues: ${JSON.stringify(issues)}.`;
     const schema = { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { opportunity: { type: Type.STRING }, behaviorPrompt: { type: Type.STRING } } } };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -499,7 +569,7 @@ export const generateContentOpportunities = async (project: Project): Promise<Co
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -517,7 +587,7 @@ export const generatePost = async (project: Project, topic: string): Promise<Pos
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -528,7 +598,7 @@ export const generateComments = async (project: Project, topic: string): Promise
     const prompt = `${getBusinessContextPrompt(project)} Write 3 comments for this post: ${topic}.`;
     const schema = { type: Type.ARRAY, items: { type: Type.STRING } };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -545,7 +615,7 @@ export const zeroClick = async (project: Project, topic: string): Promise<ZeroCl
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -567,7 +637,7 @@ export const refinePost = async (project: Project, original: PostGenerationResul
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-1.5-flash',
         contents: p,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -589,7 +659,7 @@ export const generateEmailCampaign = async (project: Project, goal: string, pers
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
+        model: 'gemini-1.5-flash',
         contents: prompt,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });

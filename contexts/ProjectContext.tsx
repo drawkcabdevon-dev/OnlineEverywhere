@@ -12,12 +12,13 @@ interface ProjectContextType {
   updateActiveProject: (updater: (project: Project) => Project) => void;
   updateCustomization: (customization: Partial<Customization>) => void;
   createProject: (name: string, purpose: string, url?: string) => void;
+  createDemoProject: (name: string) => void;
+  clearGuestProject: () => void;
   activeModule: ModuleId;
   navigateToModule: (moduleId: ModuleId, payload?: any) => void;
   logActivity: (message: string, module: ModuleId, details?: any) => void;
   navigationPayload: any;
   clearNavigationPayload: () => void;
-  // V2.0 Additions
   isSettingsOpen: boolean;
   openSettings: () => void;
   closeSettings: () => void;
@@ -34,6 +35,72 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const openSettings = () => setIsSettingsOpen(true);
   const closeSettings = () => setIsSettingsOpen(false);
+
+  const createDemoProject = (name: string) => {
+    const demoProject: Project = {
+      id: 'demo-project-id',
+      userId: 'guest',
+      name,
+      createdAt: new Date().toISOString(),
+      foundation: {
+        businessName: name,
+        businessDescription: 'A sample business for demo purposes.',
+        websiteUrl: 'https://example.com',
+        businessType: 'E-commerce',
+        industry: 'Retail',
+        targetAudience: ['Tech-savvy adults'],
+        brandVoice: 'Professional',
+        objective: ['Increase sales'],
+        brandValues: ['Innovation'],
+      },
+      customization: {
+        theme: 'Professional',
+        colorMode: 'Light',
+        primaryColor: '#6366F1',
+        secondaryColor: '#0F172A',
+        accentColor: '#818CF8',
+        font: 'Inter',
+        borderRadius: '8px',
+        buttonStyle: 'rounded corners, solid background color',
+      },
+      suggestions: { audiences: [], objectives: [], personaGoals: [], personaPainPoints: [], personaRoles: [] },
+      personas: [],
+      personaComparison: null,
+      swot: null,
+      competitors: [],
+      competitorComparison: null,
+      keywordStrategy: null,
+      websiteComponents: [],
+      visualAssets: [],
+      activityLog: [{
+        id: crypto.randomUUID(),
+        timestamp: new Date().toISOString(),
+        message: `Demo Project "${name}" initialized.`,
+        module: 'dashboard'
+      }],
+      dashboardInsights: null,
+      seoAudit: null,
+      cmoBriefing: null,
+      behavioralPlans: [],
+      emailCampaigns: [],
+      strategyBriefs: [],
+      googleSearchUpdates: [],
+      googleSearchUpdatesLastChecked: null,
+      integrations: {
+        ga4: { connected: false },
+        gsc: { connected: false },
+      },
+      lastContentCreatorResult: null,
+      location: null,
+    };
+    setProjects([demoProject]); // Replace with just the demo project for guests
+    setActiveProjectId(demoProject.id);
+  };
+
+  const clearGuestProject = () => {
+    setProjects([]);
+    setActiveProjectId(null);
+  };
 
   const activeProject = useMemo(() => {
     return projects.find(p => p.id === activeProjectId) || null;
@@ -154,7 +221,6 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setNavigationPayload(null);
   };
 
-
   const value = {
     projects,
     setProjects,
@@ -164,6 +230,8 @@ export const ProjectProvider: React.FC<{ children: React.ReactNode }> = ({ child
     updateActiveProject,
     updateCustomization,
     createProject,
+    createDemoProject,
+    clearGuestProject,
     activeModule,
     navigateToModule,
     logActivity,

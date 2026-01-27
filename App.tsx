@@ -32,13 +32,44 @@ const App: React.FC = () => {
     activeProject,
     isSettingsOpen,
     openSettings,
-    closeSettings
+    closeSettings,
+    createDemoProject,
+    clearGuestProject
   } = useProject();
 
-  const { currentUser, logout } = useAuth();
+  const { currentUser, isGuest, loginAsGuest, logout: firebaseLogout } = useAuth();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
-  if (!currentUser) return <><ErrorBanner /><Auth /></>;
+  // Handle auto-demo from URL
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const demoModule = params.get('demo');
+    if (demoModule && !currentUser) {
+      loginAsGuest();
+      // Optionally navigate to specific module
+      if (MODULES[demoModule as ModuleId]) {
+        navigateToModule(demoModule as ModuleId);
+      }
+      // Clear URL params to prevent re-triggering
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, [currentUser, loginAsGuest, navigateToModule]);
+
+  // Handle Guest Project Init
+  React.useEffect(() => {
+    if (isGuest && !activeProjectId) {
+      createDemoProject('Demo Business');
+    }
+  }, [isGuest, activeProjectId, createDemoProject]);
+
+  const handleLogout = async () => {
+    if (isGuest) {
+      clearGuestProject();
+    }
+    await firebaseLogout();
+  };
+
+  if (!currentUser && !isGuest) return <><ErrorBanner /><Auth /></>;
   if (!activeProjectId) return <><ErrorBanner /><ProjectHub /></>;
 
   const renderModule = () => {
@@ -165,7 +196,7 @@ const App: React.FC = () => {
             </button>
             {!isSidebarCollapsed && (
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="flex-[2] flex items-center justify-center gap-2 px-3 py-2.5 bg-white border border-gray-100 rounded-xl text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-google-red hover:border-google-red transition-all shadow-sm"
               >
                 <span className="material-symbols-outlined text-sm">logout</span>

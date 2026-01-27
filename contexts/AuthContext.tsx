@@ -4,8 +4,10 @@ import { auth } from '../services/firebase';
 
 interface AuthContextType {
     currentUser: User | null;
+    isGuest: boolean;
     loading: boolean;
     signInWithGoogle: () => Promise<void>;
+    loginAsGuest: () => void;
     logout: () => Promise<void>;
 }
 
@@ -13,12 +15,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [isGuest, setIsGuest] = useState(() => sessionStorage.getItem('isGuest') === 'true');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
             setLoading(false);
+            if (user) {
+                // If real user logs in, remove guest status
+                setIsGuest(false);
+                sessionStorage.removeItem('isGuest');
+            }
         });
 
         return unsubscribe;
@@ -34,9 +42,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const loginAsGuest = () => {
+        setIsGuest(true);
+        sessionStorage.setItem('isGuest', 'true');
+    };
+
     const logout = async () => {
         try {
             await firebaseSignOut(auth);
+            setIsGuest(false);
+            sessionStorage.removeItem('isGuest');
         } catch (error) {
             console.error("Error signing out", error);
         }
@@ -44,8 +59,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const value = {
         currentUser,
+        isGuest,
         loading,
         signInWithGoogle,
+        loginAsGuest,
         logout
     };
 

@@ -12,10 +12,13 @@ const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" })
     </div>
 );
 
+import { APP_URL, DEMO_URLS } from '../config';
+
 const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { isOpen: boolean, onClose: () => void, initialType?: 'early-access' | 'audit' }) => {
     if (!isOpen) return null;
 
     const [type, setType] = useState(initialType);
+    const [submitted, setSubmitted] = useState(false);
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md" onClick={onClose}>
@@ -30,12 +33,14 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                 <div className="flex justify-between items-start mb-8">
                     <div>
                         <h2 className="text-3xl font-display font-bold text-gray-900">
-                            {type === 'audit' ? 'Infrastructure Audit' : 'Join the Inner Circle'}
+                            {submitted ? 'Access Granted' : (type === 'audit' ? 'Infrastructure Audit' : 'Join the Inner Circle')}
                         </h2>
                         <p className="text-gray-500 mt-2 leading-relaxed">
-                            {type === 'audit'
-                                ? 'Schedule a 36-point technical and strategic digital health check.'
-                                : 'Be the first to experience the AI-native marketing revolution.'}
+                            {submitted
+                                ? 'Your request is registered. While we review it, why not test our AI core?'
+                                : (type === 'audit'
+                                    ? 'Schedule a 36-point technical and strategic digital health check.'
+                                    : 'Be the first to experience the AI-native marketing revolution.')}
                         </p>
                     </div>
                     <button onClick={onClose} className="size-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
@@ -43,41 +48,55 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                     </button>
                 </div>
 
-                <form className="space-y-6" onSubmit={async e => {
-                    e.preventDefault();
-                    const formData = new FormData(e.currentTarget);
-                    const data = {
-                        name: formData.get('name'),
-                        email: formData.get('email'),
-                        business: formData.get('business'),
-                    };
-                    const res = await submitLead(type, data);
-                    if (res.success) {
-                        alert(`Success! Your ${type === 'audit' ? 'audit request' : 'early access'} has been registered.`);
-                        onClose();
-                    } else {
-                        alert('Submission failed. Please try again.');
-                    }
-                }}>
+                {submitted ? (
                     <div className="space-y-4">
-                        <div>
-                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Full Name</label>
-                            <input name="name" type="text" placeholder="John Doe" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
-                        </div>
-                        <div>
-                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Business Email</label>
-                            <input name="email" type="email" placeholder="john@company.com" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
-                        </div>
-                        <div>
-                            <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Company / Industry</label>
-                            <input name="business" type="text" placeholder="Endeavor Tourism" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" />
-                        </div>
+                        <a
+                            href={DEMO_URLS.PERSONA_LAB}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full bg-google-blue text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-google-blue/30 transition-all transform hover:scale-[1.02]"
+                        >
+                            <span className="material-symbols-outlined">face</span>
+                            Try PersonaLab Demo
+                        </a>
+                        <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium">No account required for limited demo</p>
                     </div>
-                    <button type="submit" className={`w-full ${type === 'audit' ? 'bg-google-red hover:bg-red-600 shadow-google-red/20' : 'bg-google-blue hover:bg-blue-600 shadow-google-blue/20'} text-white py-5 rounded-2xl font-bold transition-all transform hover:scale-[1.02] shadow-xl`}>
-                        {type === 'audit' ? 'Confirm Audit Request' : 'Request Early Access'}
-                    </button>
-                    <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium">Secured by OnLineEverywhere Protocols</p>
-                </form>
+                ) : (
+                    <form className="space-y-6" onSubmit={async e => {
+                        e.preventDefault();
+                        const formData = new FormData(e.currentTarget);
+                        const data = {
+                            name: formData.get('name'),
+                            email: formData.get('email'),
+                            business: formData.get('business'),
+                        };
+                        const res = await submitLead(type, data);
+                        if (res.success) {
+                            setSubmitted(true);
+                        } else {
+                            alert('Submission failed. Please try again.');
+                        }
+                    }}>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Full Name</label>
+                                <input name="name" type="text" placeholder="John Doe" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Business Email</label>
+                                <input name="email" type="email" placeholder="john@company.com" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
+                            </div>
+                            <div>
+                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Company / Industry</label>
+                                <input name="business" type="text" placeholder="Endeavor Tourism" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" />
+                            </div>
+                        </div>
+                        <button type="submit" className={`w-full ${type === 'audit' ? 'bg-google-red hover:bg-red-600 shadow-google-red/20' : 'bg-google-blue hover:bg-blue-600 shadow-google-blue/20'} text-white py-5 rounded-2xl font-bold transition-all transform hover:scale-[1.02] shadow-xl`}>
+                            {type === 'audit' ? 'Confirm Audit Request' : 'Request Early Access'}
+                        </button>
+                        <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium text-gray-300">Secured by OnLineEverywhere Protocols</p>
+                    </form>
+                )}
             </motion.div>
         </div>
     );
@@ -194,10 +213,23 @@ const Layout: React.FC = () => {
                                 {!desktopSidebarCollapsed && <span className="font-medium text-sm">{link.label}</span>}
                             </Link>
                         ))}
+
+                        <div className="pt-4 border-t border-gray-50">
+                            <a
+                                href={APP_URL}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`flex items-center gap-3 px-3 py-3 rounded-xl text-google-blue bg-blue-50/30 hover:bg-blue-50 transition-all group ${desktopSidebarCollapsed ? 'justify-center' : ''}`}
+                                title={desktopSidebarCollapsed ? 'Launch Platform' : ''}
+                            >
+                                <span className={`material-symbols-outlined ${desktopSidebarCollapsed ? 'text-2xl' : 'text-xl'} group-hover:scale-110 transition-transform`}>hub</span>
+                                {!desktopSidebarCollapsed && <span className="font-bold text-sm tracking-tight uppercase">Launch Platform</span>}
+                            </a>
+                        </div>
                     </nav>
 
                     {/* CTA */}
-                    <div className="p-4 border-t border-gray-100">
+                    <div className="p-4 border-t border-gray-100 flex flex-col gap-2">
                         <button
                             onClick={() => {
                                 setModalConfig({ open: true, type: 'early-access' });

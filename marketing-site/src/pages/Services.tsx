@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useOutletContext } from 'react-router-dom';
+import { DEMO_URLS } from '../config';
 
 const ColorStripDivider: React.FC = () => (
     <div className="flex h-1.5 w-full">
@@ -127,15 +128,26 @@ const Services: React.FC = () => {
                                 <p className="text-xl text-gray-400 leading-relaxed mb-10 font-medium">
                                     Every service we provide is augmented by our proprietary AI frameworks. We build self-optimizing digital ecosystems that learn from your audience's behavior.
                                 </p>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    onClick={() => setModalOpen(true, 'audit')}
-                                    className="bg-white text-navy-deep px-10 py-5 rounded-2xl font-bold flex items-center gap-3 hover:bg-google-blue hover:text-white transition-all shadow-xl text-lg"
-                                >
-                                    <span className="material-symbols-outlined">analytics</span>
-                                    Request Technical Audit
-                                </motion.button>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        onClick={() => setModalOpen(true, 'audit')}
+                                        className="bg-white text-navy-deep px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-google-blue hover:text-white transition-all shadow-xl text-lg"
+                                    >
+                                        <span className="material-symbols-outlined">analytics</span>
+                                        Request Technical Audit
+                                    </motion.button>
+                                    <a
+                                        href={DEMO_URLS.PERSONA_LAB}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-google-blue text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-xl text-lg shadow-google-blue/20"
+                                    >
+                                        <span className="material-symbols-outlined">bolt</span>
+                                        Try AI Demo
+                                    </a>
+                                </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-6 relative">

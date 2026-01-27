@@ -6,14 +6,14 @@ export type { ModuleId, ToolboxCategory } from './constants';
 
 
 export interface User {
-  id: string;
-  email: string;
-  name: string;
+    id: string;
+    email: string;
+    name: string;
 }
 
 export interface Suggestion {
-  name: string;
-  description: string;
+    name: string;
+    description: string;
 }
 
 export interface ProjectFoundation {
@@ -25,7 +25,9 @@ export interface ProjectFoundation {
     objective: string[];
     businessDescription: string;
     websiteUrl: string;
+    competitorUrls?: string[];
     brandValues?: string[];
+    geographicFocus?: 'Local' | 'Regional' | 'National' | 'Global';
 }
 
 export interface FoundationSuggestions {
@@ -54,6 +56,12 @@ export interface Persona {
     role: string;
     goals: string[];
     painPoints: string[];
+    psychologicalProfile?: {
+        motivators: string[];
+        persuasionTactics: string[];
+        cognitiveBiases: string[];
+    };
+    strategicFit?: number; // 0-100 score relative to project objectives
     cxMap: {
         stages: CxStage[];
     };
@@ -115,6 +123,11 @@ export interface CompetitiveAnalysis {
     sources?: { title: string; uri: string }[];
     rank?: number;
     contextualSummary?: string;
+    winningAngles?: {
+        title: string;
+        description: string;
+        isGenerative: boolean;
+    }[];
 }
 
 export interface CompetitorComparisonResult {
@@ -152,6 +165,11 @@ export interface KeywordStrategyResult {
     seedTopic: string;
     clusters: KeywordCluster[];
     sources?: { title: string; uri: string }[];
+    zeroClickOpportunities?: {
+        keyword: string;
+        question: string;
+        answerSnippet: string;
+    }[];
 }
 
 export interface Customization {
@@ -170,12 +188,12 @@ export interface HtmlComponent {
     name: string;
     description: string;
     htmlCode: string;
-    personaId?: string; 
+    personaId?: string;
     isVariant?: boolean;
     originalId?: string;
     inspiration?: {
-      source: string;
-      details: string;
+        source: string;
+        details: string;
     };
     isWireframe?: boolean;
     customization?: Customization;

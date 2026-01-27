@@ -39,34 +39,34 @@ const MarketRadar: React.FC = () => {
     const [selectedAnalysisId, setSelectedAnalysisId] = useState<string | null>(null);
     const [compareIds, setCompareIds] = useState<string[]>([]);
     const [isSuggesting, setIsSuggesting] = useState(false);
-    const [suggestedCompetitors, setSuggestedCompetitors] = useState<{url: string, reason: string}[]>([]);
+    const [suggestedCompetitors, setSuggestedCompetitors] = useState<{ url: string, reason: string }[]>([]);
     const [isRequestingLocation, setIsRequestingLocation] = useState(false);
-    
+
     const [activeKeywordAnalysis, setActiveKeywordAnalysis] = useState<{
         keyword: string;
         details: KeywordInfo | null;
         isLoading: boolean;
         error: string | null;
     } | null>(null);
-    
+
     const competitors = activeProject?.competitors || [];
     const comparisonResult = activeProject?.competitorComparison;
-    
+
     useEffect(() => {
-      if (activeProject?.foundation.websiteUrl && suggestedCompetitors.length === 0 && competitors.length === 0) {
-        handleSuggestCompetitors();
-      }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (activeProject?.foundation.websiteUrl && suggestedCompetitors.length === 0 && competitors.length === 0) {
+            handleSuggestCompetitors();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeProject?.foundation.websiteUrl, competitors.length]);
 
 
     useEffect(() => {
-      if (competitors.length > 0 && !selectedAnalysisId) {
-        setSelectedAnalysisId(competitors[0].id);
-      }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        if (competitors.length > 0 && !selectedAnalysisId) {
+            setSelectedAnalysisId(competitors[0].id);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [competitors]);
-    
+
     const runAnalysis = async (urlToAnalyze: string) => {
         if (!activeProject || !urlToAnalyze) return;
         setIsLoading(true);
@@ -91,17 +91,17 @@ const MarketRadar: React.FC = () => {
         setIsSuggesting(true);
         setSuggestedCompetitors([]);
         try {
-          const suggestions = await geminiService.suggestCompetitors(activeProject);
-          setSuggestedCompetitors(suggestions);
-          if (suggestions.length > 0) {
-            logActivity('Identified potential competitors with AI.', 'market-radar');
-          }
+            const suggestions = await geminiService.suggestCompetitors(activeProject);
+            setSuggestedCompetitors(suggestions);
+            if (suggestions.length > 0) {
+                logActivity('Identified potential competitors with AI.', 'market-radar');
+            }
         } catch (error) {
-          console.error("Failed to suggest competitors", error);
+            console.error("Failed to suggest competitors", error);
         } finally {
-          setIsSuggesting(false);
+            setIsSuggesting(false);
         }
-      };
+    };
 
     const handleRequestLocation = () => {
         setIsRequestingLocation(true);
@@ -118,7 +118,7 @@ const MarketRadar: React.FC = () => {
             }
         );
     };
-    
+
     const handleCompareToggle = (id: string) => {
         setCompareIds(prev => {
             if (prev.includes(id)) {
@@ -136,7 +136,7 @@ const MarketRadar: React.FC = () => {
         const competitor1 = competitors.find(c => c.id === compareIds[0]);
         const competitor2 = competitors.find(c => c.id === compareIds[1]);
         if (!competitor1 || !competitor2) return;
-        
+
         setIsComparing(true);
         try {
             const result = await geminiService.compareCompetitors(activeProject, competitor1, competitor2);
@@ -150,15 +150,15 @@ const MarketRadar: React.FC = () => {
     };
 
     const handleBuildInspired = (competitor: CompetitiveAnalysis) => {
-      const payload = {
-        description: `Create a section inspired by our competitor, ${competitor.competitorUrl}. Their executive summary is: "${competitor.executiveSummary}". Their value proposition is: "${competitor.profile.valueProposition}"`,
-        inspiration: {
-          source: 'Market Radar',
-          details: competitor.competitorUrl,
-          refCode: competitor.competitorUrl,
-        }
-      };
-      navigateToModule('website-dev', payload);
+        const payload = {
+            description: `Create a section inspired by our competitor, ${competitor.competitorUrl}. Their executive summary is: "${competitor.executiveSummary}". Their value proposition is: "${competitor.profile.valueProposition}"`,
+            inspiration: {
+                source: 'Market Radar',
+                details: competitor.competitorUrl,
+                refCode: competitor.competitorUrl,
+            }
+        };
+        navigateToModule('website-dev', payload);
     };
 
     const selectedAnalysis = competitors.find(c => c.id === selectedAnalysisId);
@@ -171,7 +171,7 @@ const MarketRadar: React.FC = () => {
             </Card>
         </div>
     );
-    
+
     const SwotList: React.FC<{ title: string; items: string[] | undefined; color: string }> = ({ title, items, color }) => (
         <div>
             <h4 className={`font-semibold ${color} mb-2`}>{title}</h4>
@@ -180,7 +180,7 @@ const MarketRadar: React.FC = () => {
             </ul>
         </div>
     );
-    
+
     const handleKeywordClick = async (keyword: string) => {
         if (!activeProject) return;
         setActiveKeywordAnalysis({ keyword, details: null, isLoading: true, error: null });
@@ -198,7 +198,7 @@ const MarketRadar: React.FC = () => {
             {text}
         </span>
     );
-    
+
     const intentColor = (intent: KeywordInfo['intent']) => {
         switch (intent) {
             case 'Informational': return 'bg-blue-50 text-blue-700';
@@ -224,7 +224,7 @@ const MarketRadar: React.FC = () => {
             <div className="mt-1 font-semibold text-gray-900">{children}</div>
         </div>
     );
-    
+
     const getRankColor = (rank: number) => {
         if (rank > 75) return 'bg-red-50 text-red-700 border-red-200';
         if (rank > 40) return 'bg-yellow-50 text-yellow-700 border-yellow-200';
@@ -271,38 +271,38 @@ const MarketRadar: React.FC = () => {
                                 <div className="mt-4 space-y-2">
                                     {suggestedCompetitors.map((s, i) => (
                                         <Card key={i} className="p-3 bg-gray-50 border-gray-200">
-                                           <div>
-                                             <p className="font-semibold text-primary truncate">{s.url}</p>
-                                             <p className="text-xs text-gray-600 mt-1 font-serif">{s.reason}</p>
-                                           </div>
-                                           <Button 
-                                              size="sm" 
-                                              variant="ghost"
-                                              className="mt-2" 
-                                              onClick={() => runAnalysis(s.url)}
-                                              disabled={isLoading}
-                                           >
-                                              Analyze this Competitor
-                                           </Button>
+                                            <div>
+                                                <p className="font-semibold text-primary truncate">{s.url}</p>
+                                                <p className="text-xs text-gray-600 mt-1 font-serif">{s.reason}</p>
+                                            </div>
+                                            <Button
+                                                size="sm"
+                                                variant="ghost"
+                                                className="mt-2"
+                                                onClick={() => runAnalysis(s.url)}
+                                                disabled={isLoading}
+                                            >
+                                                Analyze this Competitor
+                                            </Button>
                                         </Card>
                                     ))}
                                 </div>
                             )}
                         </div>
                     </Section>
-                    
+
                     <Section title="Intelligence Reports" description="Select a report to view details, or choose two to run a comparative analysis.">
                         <ul className="space-y-2">
                             {competitors.map(c => (
                                 <li key={c.id} className="flex items-center space-x-2">
-                                     <input
+                                    <input
                                         type="checkbox"
                                         checked={compareIds.includes(c.id)}
                                         onChange={() => handleCompareToggle(c.id)}
                                         className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                                     />
-                                    <button 
-                                        onClick={() => setSelectedAnalysisId(c.id)} 
+                                    />
+                                    <button
+                                        onClick={() => setSelectedAnalysisId(c.id)}
                                         className={`w-full text-left p-2 rounded transition-colors flex items-center justify-between ${selectedAnalysisId === c.id ? 'bg-primary/10 border border-primary/30' : 'bg-white hover:bg-gray-50 border border-transparent'}`}
                                         aria-current={selectedAnalysisId === c.id}
                                     >
@@ -319,63 +319,63 @@ const MarketRadar: React.FC = () => {
                     </Section>
 
                     {competitors.length >= 2 && (
-                       <Section title="Comparative Analysis" description="Compare two competitors head-to-head for strategic recommendations.">
-                          <Button onClick={handleRunComparison} isLoading={isComparing} disabled={compareIds.length !== 2}>
-                              Compare ({compareIds.length}/2)
-                          </Button>
-                          {comparisonResult && (
-                              <div className="mt-4 border-t border-gray-200 pt-4">
-                                  {(() => { 
-                                      const c1 = competitors.find(c => c.competitorUrl === comparisonResult.competitor1Url);
-                                      const c2 = competitors.find(c => c.competitorUrl === comparisonResult.competitor2Url);
+                        <Section title="Comparative Analysis" description="Compare two competitors head-to-head for strategic recommendations.">
+                            <Button onClick={handleRunComparison} isLoading={isComparing} disabled={compareIds.length !== 2}>
+                                Compare ({compareIds.length}/2)
+                            </Button>
+                            {comparisonResult && (
+                                <div className="mt-4 border-t border-gray-200 pt-4">
+                                    {(() => {
+                                        const c1 = competitors.find(c => c.competitorUrl === comparisonResult.competitor1Url);
+                                        const c2 = competitors.find(c => c.competitorUrl === comparisonResult.competitor2Url);
 
-                                      if (!c1 || !c2) {
-                                          return <p className="text-sm text-yellow-600">Could not find competitor data for comparison. Please try again.</p>;
-                                      }
+                                        if (!c1 || !c2) {
+                                            return <p className="text-sm text-yellow-600">Could not find competitor data for comparison. Please try again.</p>;
+                                        }
 
-                                      return (
-                                          <div className="space-y-6">
-                                              <div>
-                                                  <h4 className="text-lg font-bold text-gray-900">Head-to-Head Comparison</h4>
-                                                  <div className="grid grid-cols-2 gap-4 mt-2 mb-4 text-center">
-                                                      <p className="font-semibold text-primary truncate">{c1.competitorUrl}</p>
-                                                      <p className="font-semibold text-primary truncate">{c2.competitorUrl}</p>
-                                                  </div>
-                                              </div>
-                                              <ComparisonDetail
-                                                  title="Value Proposition"
-                                                  value1={<p>{c1.profile.valueProposition}</p>}
-                                                  value2={<p>{c2.profile.valueProposition}</p>}
-                                              />
-                                              <ComparisonDetail
-                                                  title="Target Audience"
-                                                  value1={<p>{c1.profile.targetAudience}</p>}
-                                                  value2={<p>{c2.profile.targetAudience}</p>}
-                                              />
-                                              <ComparisonDetail
-                                                  title="Strengths"
-                                                  value1={<ul className="list-disc list-inside space-y-1">{c1.swot.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>}
-                                                  value2={<ul className="list-disc list-inside space-y-1">{c2.swot.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>}
-                                              />
-                                              <ComparisonDetail
-                                                  title="Weaknesses"
-                                                  value1={<ul className="list-disc list-inside space-y-1">{c1.swot.weaknesses.map((s, i) => <li key={i}>{s}</li>)}</ul>}
-                                                  value2={<ul className="list-disc list-inside space-y-1">{c2.swot.weaknesses.map((s, i) => <li key={i}>{s}</li>)}</ul>}
-                                              />
-                                              <div className="pt-4">
-                                                  <h4 className="font-semibold text-secondary mb-2">AI-Powered Analysis</h4>
-                                                  <p className="text-sm text-gray-700 font-serif">{comparisonResult.analysis}</p>
-                                              </div>
-                                              <div className="pt-4">
-                                                  <h4 className="font-semibold text-secondary mb-2">Strategic Recommendation for You</h4>
-                                                  <p className="text-sm text-gray-700 font-serif">{comparisonResult.recommendation}</p>
-                                              </div>
-                                          </div>
-                                      );
-                                  })()}
-                              </div>
-                          )}
-                       </Section>
+                                        return (
+                                            <div className="space-y-6">
+                                                <div>
+                                                    <h4 className="text-lg font-bold text-gray-900">Head-to-Head Comparison</h4>
+                                                    <div className="grid grid-cols-2 gap-4 mt-2 mb-4 text-center">
+                                                        <p className="font-semibold text-primary truncate">{c1.competitorUrl}</p>
+                                                        <p className="font-semibold text-primary truncate">{c2.competitorUrl}</p>
+                                                    </div>
+                                                </div>
+                                                <ComparisonDetail
+                                                    title="Value Proposition"
+                                                    value1={<p>{c1.profile.valueProposition}</p>}
+                                                    value2={<p>{c2.profile.valueProposition}</p>}
+                                                />
+                                                <ComparisonDetail
+                                                    title="Target Audience"
+                                                    value1={<p>{c1.profile.targetAudience}</p>}
+                                                    value2={<p>{c2.profile.targetAudience}</p>}
+                                                />
+                                                <ComparisonDetail
+                                                    title="Strengths"
+                                                    value1={<ul className="list-disc list-inside space-y-1">{c1.swot.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>}
+                                                    value2={<ul className="list-disc list-inside space-y-1">{c2.swot.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>}
+                                                />
+                                                <ComparisonDetail
+                                                    title="Weaknesses"
+                                                    value1={<ul className="list-disc list-inside space-y-1">{c1.swot.weaknesses.map((s, i) => <li key={i}>{s}</li>)}</ul>}
+                                                    value2={<ul className="list-disc list-inside space-y-1">{c2.swot.weaknesses.map((s, i) => <li key={i}>{s}</li>)}</ul>}
+                                                />
+                                                <div className="pt-4">
+                                                    <h4 className="font-semibold text-secondary mb-2">AI-Powered Analysis</h4>
+                                                    <p className="text-sm text-gray-700 font-serif">{comparisonResult.analysis}</p>
+                                                </div>
+                                                <div className="pt-4">
+                                                    <h4 className="font-semibold text-secondary mb-2">Strategic Recommendation for You</h4>
+                                                    <p className="text-sm text-gray-700 font-serif">{comparisonResult.recommendation}</p>
+                                                </div>
+                                            </div>
+                                        );
+                                    })()}
+                                </div>
+                            )}
+                        </Section>
                     )}
                 </div>
 
@@ -383,17 +383,17 @@ const MarketRadar: React.FC = () => {
                     {selectedAnalysis ? (
                         <Card className="p-6 space-y-6 animate-slide-in-up">
                             <div className="flex justify-between items-start">
-                              <div>
-                                <h2 className="text-2xl font-bold text-gray-900">{selectedAnalysis.competitorUrl}</h2>
-                                {selectedAnalysis.rank && selectedAnalysis.contextualSummary && (
-                                    <div className={`mt-2 p-3 rounded-lg border text-sm ${getRankColor(selectedAnalysis.rank)}`}>
-                                        <span className="font-bold">Threat Score: {selectedAnalysis.rank}/100.</span> {selectedAnalysis.contextualSummary}
-                                    </div>
-                                )}
-                              </div>
-                              <Button size="sm" onClick={() => handleBuildInspired(selectedAnalysis)}>Build Inspired Section</Button>
+                                <div>
+                                    <h2 className="text-2xl font-bold text-gray-900">{selectedAnalysis.competitorUrl}</h2>
+                                    {selectedAnalysis.rank && selectedAnalysis.contextualSummary && (
+                                        <div className={`mt-2 p-3 rounded-lg border text-sm ${getRankColor(selectedAnalysis.rank)}`}>
+                                            <span className="font-bold">Threat Score: {selectedAnalysis.rank}/100.</span> {selectedAnalysis.contextualSummary}
+                                        </div>
+                                    )}
+                                </div>
+                                <Button size="sm" onClick={() => handleBuildInspired(selectedAnalysis)}>Build Inspired Section</Button>
                             </div>
-                            
+
                             <ReportSection title="Executive Summary">
                                 <p className="text-sm text-gray-600 font-serif">{selectedAnalysis.executiveSummary}</p>
                             </ReportSection>
@@ -424,6 +424,33 @@ const MarketRadar: React.FC = () => {
                                 </div>
                             </ReportSection>
 
+                            {selectedAnalysis.winningAngles && selectedAnalysis.winningAngles.length > 0 && (
+                                <Section title="Strategic Winning Angles" description="AI-identified gaps where you can outperform this competitor.">
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        {selectedAnalysis.winningAngles.map((angle, i) => (
+                                            <div key={i} className="p-6 bg-indigo-50/50 border border-indigo-100 rounded-[2rem] shadow-none hover:shadow-md transition-shadow group flex flex-col">
+                                                <div className="flex items-center gap-3 mb-4">
+                                                    <div className="size-8 rounded-lg bg-indigo-500 text-white flex items-center justify-center font-bold text-xs group-hover:scale-110 transition-transform">
+                                                        {i + 1}
+                                                    </div>
+                                                    <h4 className="font-bold text-indigo-900 leading-tight">{angle.title}</h4>
+                                                </div>
+                                                <p className="text-xs text-indigo-700/80 leading-relaxed mb-6 font-serif flex-1">{angle.description}</p>
+                                                {angle.isGenerative && (
+                                                    <button
+                                                        onClick={() => navigateToModule('content-creator', { topic: `Exploit gap: ${angle.title}`, context: { competitorUrl: selectedAnalysis.competitorUrl } })}
+                                                        className="flex items-center gap-2 text-[10px] font-bold text-indigo-500 uppercase tracking-widest hover:text-indigo-700 transition-colors mt-auto"
+                                                    >
+                                                        <span>Generate Counter-Asset</span>
+                                                        <span className="material-symbols-outlined text-xs">arrow_forward</span>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </Section>
+                            )}
+
                             <ReportSection title="Marketing & SEO">
                                 <div>
                                     <h4 className="font-semibold text-secondary mb-2">Overall Marketing Strategy</h4>
@@ -441,7 +468,7 @@ const MarketRadar: React.FC = () => {
                                                 <p className="font-medium text-gray-800">{cluster.theme}</p>
                                                 <div className="flex flex-wrap gap-2 mt-1">
                                                     {cluster.keywords.map((kw, j) => (
-                                                        <button 
+                                                        <button
                                                             key={j}
                                                             onClick={() => handleKeywordClick(kw)}
                                                             className="bg-gray-100 border border-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full hover:bg-primary hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
@@ -456,7 +483,7 @@ const MarketRadar: React.FC = () => {
                                 </div>
                             </ReportSection>
 
-                             <ReportSection title="Social Media Presence">
+                            <ReportSection title="Social Media Presence">
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     <SocialCard platform="instagram" data={selectedAnalysis.socialPresence.instagram} />
                                     <SocialCard platform="facebook" data={selectedAnalysis.socialPresence.facebook} />
@@ -464,23 +491,23 @@ const MarketRadar: React.FC = () => {
                                     <SocialCard platform="twitter" data={selectedAnalysis.socialPresence.twitter} />
                                 </div>
                             </ReportSection>
-                            
+
                             <ReportSection title="Sources">
                                 <ul className="list-disc list-inside text-sm space-y-1">
-                                {selectedAnalysis.sources?.map((s, i) => <li key={i}><a href={s.uri} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{s.title || s.uri}</a></li>)}
+                                    {selectedAnalysis.sources?.map((s, i) => <li key={i}><a href={s.uri} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{s.title || s.uri}</a></li>)}
                                 </ul>
                             </ReportSection>
                         </Card>
                     ) : (
-                         <Card className="p-6 h-full flex items-center justify-center">
-                           {isLoading || isSuggesting ? <Spinner showMessages messages={["Scanning the web for competitors...", "Analyzing SERPs for overlaps...", "Identifying strategic threats..."]}/> : <p className="text-gray-400">Analyze a competitor or select one to see the report.</p>}
+                        <Card className="p-6 h-full flex items-center justify-center">
+                            {isLoading || isSuggesting ? <Spinner showMessages messages={["Scanning the web for competitors...", "Analyzing SERPs for overlaps...", "Identifying strategic threats..."]} /> : <p className="text-gray-400">Analyze a competitor or select one to see the report.</p>}
                         </Card>
                     )}
                 </div>
             </div>
-            <Modal 
-                isOpen={!!activeKeywordAnalysis} 
-                onClose={() => setActiveKeywordAnalysis(null)} 
+            <Modal
+                isOpen={!!activeKeywordAnalysis}
+                onClose={() => setActiveKeywordAnalysis(null)}
                 title={`Keyword Analysis: "${activeKeywordAnalysis?.keyword}"`}
             >
                 {activeKeywordAnalysis?.isLoading && <div className="flex justify-center p-8"><Spinner /></div>}
@@ -494,7 +521,7 @@ const MarketRadar: React.FC = () => {
                             <DetailItem label="Est. CPC">
                                 {activeKeywordAnalysis.details.cpc}
                             </DetailItem>
-                             <DetailItem label="Intent">
+                            <DetailItem label="Intent">
                                 <Badge text={activeKeywordAnalysis.details.intent} color={intentColor(activeKeywordAnalysis.details.intent)} />
                             </DetailItem>
                             <DetailItem label="SEO Difficulty">
