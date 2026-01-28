@@ -12,7 +12,16 @@ import {
 import { checkQuota } from './quotaService';
 import { sanitizePromptInput } from './securityService';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const getAITool = () => {
+    const key = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!key) {
+        console.warn('Gemini API key is missing. AI features will be disabled.');
+        return null;
+    }
+    return new GoogleGenAI({ apiKey: key });
+};
+
+const ai = getAITool();
 
 export type StrategicComponentPayload =
     | { strategy: 'keyword'; data: KeywordCluster }
@@ -722,7 +731,7 @@ export const generateVideo = async (project: Project, prompt: string, imageBase6
 
     const uri = operation.response?.generatedVideos?.[0]?.video?.uri;
     if (!uri) throw new Error("Video generation failed.");
-    return `${uri}&key=${process.env.API_KEY}`;
+    return `${uri}&key=${import.meta.env.VITE_GEMINI_API_KEY || ''}`;
 };
 
 // --- Advanced Content Creator ---
