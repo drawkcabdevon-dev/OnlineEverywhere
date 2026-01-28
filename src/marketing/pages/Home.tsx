@@ -532,6 +532,11 @@ const Home: React.FC = () => {
                                 title: "Ocean Blue International",
                                 results: "4.8x ROAS",
                                 image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCPUc8wJRKJL-idYU3ytHQhrGZPVnGYb0vbKABO9AfePRXqthWXoBEcNYWGPzGgRhZGRRmo84e7ZOHi3xHGb38xMj-wcCFT5Ig-6bsbAm0A-5vbnKpLM8HepUmr9O43e03_UIXQ1Yh4jBVmicRc5ItNXEnXsoqc9LZ_XhJKOaBhE9lbVxvCb-bXA3H5d9tMRCvOpPANQg2VuQLvOwPxHZ7heaZ7a8-yDmWVJU8dlssOKehykxoKH5cDjC_1NFwCKMDNhIyOQIoS1TE"
+                            },
+                            {
+                                title: "Mobile Page Speed Optimization",
+                                results: "40% Speed Increase",
+                                image: "/mobile-speed-opt.png"
                             }
                         ].map((work, i) => (
                             <motion.div
