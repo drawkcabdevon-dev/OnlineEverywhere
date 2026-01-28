@@ -64,6 +64,11 @@ steps:
     args: ['setmeta', '-h', 'Cache-Control:no-cache, no-store, must-revalidate', 'gs://$_MARKETING_BUCKET/index.html']
     id: 'Set Cache Control for Index'
 
+  # 8. Configure GCS for SPA (fallback to index.html on 404)
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['web', 'set', '-m', 'index.html', '-e', 'index.html', 'gs://$_MARKETING_BUCKET']
+    id: 'Set GCS Website Config'
+
 options:
   logging: CLOUD_LOGGING_ONLY
 
