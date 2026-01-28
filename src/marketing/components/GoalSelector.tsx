@@ -10,7 +10,7 @@ interface GoalTab {
     icon: string;
     color: string;
     services: string[];
-    videoUrl: string;
+    imagePath: string;
     caseStudies: {
         title: string;
         image: string;
@@ -27,7 +27,7 @@ const tabs: GoalTab[] = [
         icon: 'code',
         color: 'google-blue',
         services: ["New Platform & Migrations", "Performance Audits", "Core Web Vitals", "Content Strategy", "CRM & API Systems", "Security Monitoring"],
-        videoUrl: 'https://www.gstatic.com/marketing-cms/ads/b6/eb/22dca4fd49028b25eaf37a6f14df/googleads-leads-whitebg-4s-v001-1200x898.mp4',
+        imagePath: '/images/services/web_engineering.png',
         caseStudies: [
             {
                 title: 'Institutional Platform Migration',
@@ -49,7 +49,7 @@ const tabs: GoalTab[] = [
         icon: 'search',
         color: 'google-red',
         services: ["Full Page Indexing", "Sitemap Submission", "URL Inspection", "Search Console Mastery", "Technical SEO Audits", "Schema Data"],
-        videoUrl: 'https://www.gstatic.com/marketing-cms/ads/ab/60/13518c2248ad9e06fd5d7d9d3e9c/googleads-online-whitebg-4s-v001-1200x898.mp4',
+        imagePath: '/images/services/search_visibility.png',
         caseStudies: [
             {
                 title: 'Zero-Click Opportunity Analysis',
@@ -71,7 +71,7 @@ const tabs: GoalTab[] = [
         icon: 'analytics',
         color: 'google-yellow',
         services: ["GA4 & GTM Configuration", "Journey Mapping", "Event Tracking", "Behavior Audits", "Reporting Dashboards", "Conversion ROI"],
-        videoUrl: 'https://www.gstatic.com/marketing-cms/ads/b6/eb/22dca4fd49028b25eaf37a6f14df/googleads-leads-whitebg-4s-v001-1200x898.mp4',
+        imagePath: '/images/services/strategic_analysis.png',
         caseStudies: [
             {
                 title: 'Behavioral Funnel Optimization',
@@ -93,7 +93,7 @@ const tabs: GoalTab[] = [
         icon: 'palette',
         color: 'google-green',
         services: ["Brand Identity", "High-Conversion Ads", "Digital Assets", "Video Design", "Custom QR Codes", "Service Showcases"],
-        videoUrl: 'https://www.gstatic.com/marketing-cms/ads/ab/60/13518c2248ad9e06fd5d7d9d3e9c/googleads-online-whitebg-4s-v001-1200x898.mp4',
+        imagePath: '/images/services/brand_identity.png',
         caseStudies: [
             {
                 title: 'Institutional Brand Identity',
@@ -152,16 +152,16 @@ const GoalSelector: React.FC = () => {
                         {/* Callout Section */}
                         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
                             <div className="lg:w-1/2 rounded-[3rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] bg-navy-deep aspect-video relative group">
-                                <video
-                                    key={activeTab.videoUrl}
-                                    autoPlay
-                                    muted
-                                    playsInline
-                                    loop
-                                    className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-                                >
-                                    <source src={activeTab.videoUrl} type="video/mp4" />
-                                </video>
+                                <motion.img
+                                    key={activeTab.imagePath}
+                                    initial={{ scale: 1.1, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 0.8 }}
+                                    whileHover={{ opacity: 1 }}
+                                    transition={{ duration: 0.5 }}
+                                    src={activeTab.imagePath}
+                                    alt={activeTab.title}
+                                    className="w-full h-full object-cover transition-opacity duration-500"
+                                />
                                 <div className={`absolute top-8 left-8 p-4 rounded-2xl bg-${activeTab.color} text-white shadow-xl`}>
                                     <span className="material-symbols-outlined text-2xl">{activeTab.icon}</span>
                                 </div>
