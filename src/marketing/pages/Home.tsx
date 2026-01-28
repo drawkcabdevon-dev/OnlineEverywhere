@@ -333,10 +333,33 @@ const Home: React.FC = () => {
             {/* Packages Section */}
             <section className="py-24 bg-surface" id="packages">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="text-center mb-16">
-                        <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4 framework-title">Strategic Frameworks</h2>
-                        <h3 className="text-4xl lg:text-5xl font-display font-bold text-gray-900 tracking-tight">Tailored solutions for every stage of growth.</h3>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-24">
+                        <div className="lg:col-span-7">
+                            <h2 className="text-google-blue font-bold text-sm uppercase tracking-[0.3em] mb-6 framework-title">Strategic Frameworks</h2>
+                            <h3 className="text-5xl lg:text-8xl font-display font-bold text-gray-900 tracking-tighter leading-[0.85] mb-10">
+                                Engineering Your <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue to-cyan-500">Competitive Advantage.</span>
+                            </h3>
+                            <p className="text-xl text-gray-500 leading-relaxed max-w-xl">
+                                We bridge the gap between Caribbean excellence and global digital demand through high-fidelity infrastructure and institutional-grade AI strategy.
+                            </p>
+                        </div>
+                        <div className="lg:col-span-5 animated-text-list">
+                            <div className="animated-text-item">
+                                <p>Brand Identity</p>
+                            </div>
+                            <div className="animated-text-item">
+                                <p>Conversion Metrics</p>
+                            </div>
+                            <div className="animated-text-item">
+                                <p>Data Infrastructure</p>
+                            </div>
+                            <div className="animated-text-item">
+                                <p>Scale & Distribution</p>
+                            </div>
+                        </div>
                     </div>
+
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
                         {[
                             {
