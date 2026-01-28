@@ -1,4 +1,3 @@
-console.log('DEBUG: main.tsx starting');
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -10,7 +9,6 @@ import { AuthProvider } from './platform/contexts/AuthContext'
 import './marketing/index.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
-console.log('DEBUG: rendering root');
 
 root.render(
     <React.StrictMode>
