@@ -55,7 +55,7 @@ const PackageCard: React.FC<PackageCardProps> = ({ pkg }) => {
                         <h5 className={`text-lg font-bold text-${pkg.color} mb-4`}>Deliverables</h5>
                         <ul className="space-y-3 flex-grow text-[13px] text-gray-600 leading-tight">
                             {pkg.deliverables.map((item, idx) => (
-                                <li key={idx} className="flex gap-2">
+                                <li key={idx} className="flex gap-2 animated-list-item">
                                     <span className={`material-symbols-outlined text-${pkg.color} text-sm`}>check</span>
                                     <span>{item}</span>
                                 </li>
@@ -334,7 +334,7 @@ const Home: React.FC = () => {
             <section className="py-24 bg-surface" id="packages">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-16">
-                        <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Strategic Frameworks</h2>
+                        <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4 framework-title">Strategic Frameworks</h2>
                         <h3 className="text-4xl lg:text-5xl font-display font-bold text-gray-900 tracking-tight">Tailored solutions for every stage of growth.</h3>
                     </div>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
