@@ -24,7 +24,7 @@ const getAITool = () => {
     // SECURITY NOTE: This key is exposed in the browser bundle. To prevent unauthorized 
     // usage/costs in production, you MUST set "API Key Restrictions" in your Google Cloud 
     // Console (restrict by HTTP Referrer to your domain).
-    return new GoogleGenAI({ apiKey: key, apiVersion: 'v1' });
+    return new GoogleGenAI({ apiKey: key, apiVersion: 'v1beta' });
 };
 
 const ai = getAITool();

@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
+import {
+    WebEngineeringVisual,
+    SearchVisibilityVisual,
+    StrategicAnalysisVisual,
+    BrandDesignVisual
+} from './ServiceVisuals';
+
 interface GoalTab {
     id: string;
     label: string;
@@ -10,7 +17,7 @@ interface GoalTab {
     icon: string;
     color: string;
     services: string[];
-    imagePath: string;
+    Visual: React.FC;
     caseStudies: {
         title: string;
         image: string;
@@ -27,7 +34,7 @@ const tabs: GoalTab[] = [
         icon: 'code',
         color: 'google-blue',
         services: ["New Platform & Migrations", "Performance Audits", "Core Web Vitals", "Content Strategy", "CRM & API Systems", "Security Monitoring"],
-        imagePath: '/images/services/web_engineering.png',
+        Visual: WebEngineeringVisual,
         caseStudies: [
             {
                 title: 'Institutional Platform Migration',
@@ -49,7 +56,7 @@ const tabs: GoalTab[] = [
         icon: 'search',
         color: 'google-red',
         services: ["Full Page Indexing", "Sitemap Submission", "URL Inspection", "Search Console Mastery", "Technical SEO Audits", "Schema Data"],
-        imagePath: '/images/services/search_visibility.png',
+        Visual: SearchVisibilityVisual,
         caseStudies: [
             {
                 title: 'Zero-Click Opportunity Analysis',
@@ -71,7 +78,7 @@ const tabs: GoalTab[] = [
         icon: 'analytics',
         color: 'google-yellow',
         services: ["GA4 & GTM Configuration", "Journey Mapping", "Event Tracking", "Behavior Audits", "Reporting Dashboards", "Conversion ROI"],
-        imagePath: '/images/services/strategic_analysis.png',
+        Visual: StrategicAnalysisVisual,
         caseStudies: [
             {
                 title: 'Behavioral Funnel Optimization',
@@ -93,7 +100,7 @@ const tabs: GoalTab[] = [
         icon: 'palette',
         color: 'google-green',
         services: ["Brand Identity", "High-Conversion Ads", "Digital Assets", "Video Design", "Custom QR Codes", "Service Showcases"],
-        imagePath: '/images/services/brand_identity.png',
+        Visual: BrandDesignVisual,
         caseStudies: [
             {
                 title: 'Institutional Brand Identity',
@@ -151,20 +158,8 @@ const GoalSelector: React.FC = () => {
                     >
                         {/* Callout Section */}
                         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-                            <div className="lg:w-1/2 rounded-[3rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] bg-navy-deep aspect-video relative group">
-                                <motion.img
-                                    key={activeTab.imagePath}
-                                    initial={{ scale: 1.1, opacity: 0 }}
-                                    animate={{ scale: 1, opacity: 0.8 }}
-                                    whileHover={{ opacity: 1 }}
-                                    transition={{ duration: 0.5 }}
-                                    src={activeTab.imagePath}
-                                    alt={activeTab.title}
-                                    className="w-full h-full object-cover transition-opacity duration-500"
-                                />
-                                <div className={`absolute top-8 left-8 p-4 rounded-2xl bg-${activeTab.color} text-white shadow-xl`}>
-                                    <span className="material-symbols-outlined text-2xl">{activeTab.icon}</span>
-                                </div>
+                            <div className="lg:w-1/2 min-h-[300px] lg:min-h-[400px]">
+                                <activeTab.Visual />
                             </div>
 
                             <div className="lg:w-1/2 space-y-10">
