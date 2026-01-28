@@ -159,25 +159,25 @@ const Ollie: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="text-center mb-12 lg:mb-16">
                         <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Investment</h2>
-                        <h3 className="text-3xl lg:text-4xl font-display font-bold text-navy-deep">Choose Your Growth Engine.</h3>
+                        <h3 className="text-3xl lg:text-4xl font-display font-bold text-navy-deep">Choose Your Strategic Partnership.</h3>
                         <p className="text-gray-500 mt-4 max-w-2xl mx-auto text-sm lg:text-base">
-                            Scalable intelligence for every stage of business. Transparent pricing with no hidden fees.
+                            High-fidelity infrastructure and professional strategic oversight. Transparent monthly retention with no lock-in.
                         </p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                         {/* Freelancer */}
                         <div className="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all relative">
-                            <h4 className="text-xl font-bold text-gray-900 mb-2">Freelancer</h4>
-                            <p className="text-sm text-gray-500 mb-6">Essential tools for solo strategists.</p>
+                            <h4 className="text-xl font-bold text-gray-900 mb-2">Basic Retention</h4>
+                            <p className="text-sm text-gray-500 mb-6">Essential strategic oversight and maintenance.</p>
                             <div className="text-4xl font-bold text-navy-deep mb-6">$49<span className="text-lg text-gray-400 font-normal">/mo</span></div>
                             <button onClick={() => setModalOpen(true, 'early-access')} className="w-full py-3 rounded-xl border border-gray-200 font-bold text-gray-700 hover:bg-gray-50 transition-all mb-8">Get Started</button>
                             <ul className="space-y-4 text-sm text-gray-600">
                                 <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 1 Active Project</li>
-                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 5 Pro Model Calls/mo</li>
-                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 50 AI Media Credits</li>
-                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 3 Strategy Briefs</li>
-                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Basic Privacy Shield</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Monthly Performance Review</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Pro Infrastructure Support</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Basic Data Tracking</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Privacy Shield</li>
                             </ul>
                         </div>
 
@@ -197,17 +197,17 @@ const Ollie: React.FC = () => {
                             </ul>
                         </div>
 
-                        {/* Agency */}
+                        {/* Partner Consultancy */}
                         <div className="bg-white rounded-[2rem] p-6 lg:p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all relative">
-                            <h4 className="text-xl font-bold text-gray-900 mb-2">Agency</h4>
-                            <p className="text-sm text-gray-500 mb-6">High-volume production power.</p>
+                            <h4 className="text-xl font-bold text-gray-900 mb-2">Partner Consultancy</h4>
+                            <p className="text-sm text-gray-500 mb-6">High-volume production and direct consultancy.</p>
                             <div className="text-4xl font-bold text-navy-deep mb-6">$499<span className="text-lg text-gray-400 font-normal">/mo</span></div>
                             <button onClick={() => setModalOpen(true, 'early-access')} className="w-full py-3 rounded-xl border border-gray-200 font-bold text-gray-700 hover:bg-gray-50 transition-all mb-8">Contact Sales</button>
                             <ul className="space-y-4 text-sm text-gray-600">
                                 <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 10 Active Projects</li>
-                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> <strong>Unlimited</strong> Pro Calls</li>
-                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 2,000 AI Media Credits</li>
-                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> 500 Strategy Briefs</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Weekly Strategic Consults</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Advanced Analytics Hub</li>
+                                <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> Custom Strategy Briefs</li>
                                 <li className="flex items-center gap-3"><span className="material-symbols-outlined text-green-500 text-lg">check_circle</span> White-label Reports</li>
                             </ul>
                         </div>

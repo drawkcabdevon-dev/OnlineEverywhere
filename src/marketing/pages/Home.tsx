@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { GlobalIntentVisual, InvisibleGapVisual, StrategicProjectionVisual, InstitutionalGrowthVisual } from '../components/RoadmapVisuals';
 import { useOutletContext, Link } from 'react-router-dom';
+import TabbedScenarios from '../components/TabbedScenarios';
 
 const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" }) => (
     <div className={`flex h-1.5 w-full ${className}`}>
@@ -148,7 +149,7 @@ const Home: React.FC = () => {
                             Meet <span className="text-google-blue font-bold">Ollie</span>: Your AI Co-Pilot.
                         </h2>
                         <p className="mt-8 text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                            Ollie designs, builds, and manages unified digital marketing infrastructure that turns interest into sustained growth.
+                            Ollie is our proprietary AI core. Together, we consult, build, and manage unified digital marketing infrastructure that turns interest into sustained growth.
                         </p>
                     </motion.div>
 
@@ -328,6 +329,11 @@ const Home: React.FC = () => {
                     </motion.div>
                 </div>
             </section>
+
+            <ColorStripDivider />
+
+            {/* Targeting Scenarios: The Digital Void */}
+            <TabbedScenarios />
 
             <ColorStripDivider />
 
