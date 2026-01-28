@@ -53,7 +53,7 @@ const PackageCard: React.FC<PackageCardProps> = ({ pkg }) => {
                     </div>
                     <div className={`absolute inset-0 backface-hidden rotate-y-180 rounded-2xl border-2 border-${pkg.color} bg-white p-8 flex flex-col shadow-m3`}>
                         <h5 className={`text-lg font-bold text-${pkg.color} mb-4`}>Deliverables</h5>
-                        <ul className="space-y-3 flex-grow text-[13px] text-gray-600 leading-tight">
+                        <ul className="space-y-3 flex-grow text-[13px] text-gray-800 font-medium leading-tight">
                             {pkg.deliverables.map((item, idx) => (
                                 <li key={idx} className="flex gap-2 animated-list-item">
                                     <span className={`material-symbols-outlined text-${pkg.color} text-sm`}>check</span>

@@ -143,16 +143,14 @@ const Layout: React.FC = () => {
                                 animate={{ scale: scrolled ? 0.9 : 1 }}
                                 className="size-full rounded-full border-2 border-google-blue/20 flex items-center justify-center p-0.5"
                             >
-                                <div className="size-full rounded-full border-[3px] border-google-blue flex items-center justify-center relative overflow-hidden">
-                                    <div className="absolute inset-0 bg-gradient-to-tr from-google-blue via-google-blue to-google-red opacity-10"></div>
+                                <div className="size-full rounded-full border-[3px] border-google-blue flex items-center justify-center">
                                     <span className="material-symbols-outlined text-google-blue text-xl font-variation-fill">ads_click</span>
-                                    <div className="absolute -top-1 -right-1 size-3 bg-google-red rounded-full border-2 border-white"></div>
                                 </div>
                             </motion.div>
                         </div>
                         <div className="flex flex-col">
                             <h1 className="text-lg lg:text-xl font-display font-bold text-gray-800 leading-none">
-                                Online<span className="text-google-blue">Every</span><span className="text-google-red">where</span>
+                                Online<span className="text-google-blue">Everywhere</span>
                             </h1>
                             <p className="text-[9px] text-gray-400 uppercase tracking-widest mt-0.5 font-bold">Strategic AI Partners</p>
                         </div>
@@ -275,15 +273,13 @@ const Layout: React.FC = () => {
                             <div className="flex items-center gap-3">
                                 <div className="relative size-10 flex items-center justify-center">
                                     <div className="size-full rounded-full border-2 border-google-blue/20 flex items-center justify-center p-0.5">
-                                        <div className="size-full rounded-full border-[3px] border-google-blue flex items-center justify-center relative overflow-hidden">
-                                            <div className="absolute inset-0 bg-gradient-to-tr from-google-blue via-google-blue to-google-red opacity-10"></div>
+                                        <div className="size-full rounded-full border-[3px] border-google-blue flex items-center justify-center">
                                             <span className="material-symbols-outlined text-google-blue text-xl font-variation-fill">ads_click</span>
-                                            <div className="absolute -top-1 -right-1 size-3 bg-google-red rounded-full border-2 border-white"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
-                                    <h2 className="text-xl font-display font-bold text-gray-800 leading-none underline decoration-google-red/30 decoration-2 underline-offset-4">OnlineEverywhere</h2>
+                                    <h2 className="text-xl font-display font-bold text-gray-800 leading-none">Online Everywhere</h2>
                                     <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-1 font-bold">Strategic AI Partners</p>
                                 </div>
                             </div>
