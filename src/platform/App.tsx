@@ -41,7 +41,7 @@ const App: React.FC = () => {
     clearGuestProject
   } = useProject();
 
-  const { currentUser, isGuest, loginAsGuest, logout: firebaseLogout } = useAuth();
+  const { currentUser, isGuest, loading, loginAsGuest, logout: firebaseLogout } = useAuth();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   // Handle auto-demo from URL
@@ -72,6 +72,17 @@ const App: React.FC = () => {
     }
     await firebaseLogout();
   };
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-[9999]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-google-blue border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-sm font-bold text-gray-500 uppercase tracking-widest animate-pulse">Initializing OS...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!currentUser && !isGuest) return <><ErrorBanner /><Auth /></>;
   if (!activeProjectId) return <><ErrorBanner /><ProjectHub /></>;
