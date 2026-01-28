@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { GlobalIntentVisual, InvisibleGapVisual, StrategicProjectionVisual, InstitutionalGrowthVisual } from '../components/RoadmapVisuals';
 import { useOutletContext, Link } from 'react-router-dom';
 
 const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" }) => (
@@ -365,36 +366,36 @@ const Home: React.FC = () => {
 
                             {[
                                 {
-                                    stage: "Stage 01",
                                     title: "Global Intent",
                                     color: "google-blue",
                                     icon: "public",
                                     desc: "80% of regional tourism and export queries originate in international markets. We identify where your global audience is already searching.",
-                                    tags: ["Market Intelligence", "Traffic Hubs"]
+                                    tags: ["Market Intelligence", "Traffic Hubs"],
+                                    Visual: GlobalIntentVisual
                                 },
                                 {
-                                    stage: "Stage 02",
                                     title: "The Invisible Gap",
                                     color: "google-red",
                                     icon: "visibility_off",
                                     desc: "Without high-fidelity projection, Caribbean excellence remains invisible to the Digital Universe. We map the gap between your potential and current reach.",
-                                    tags: ["Digital Void Analysis", "Opportunity Mapping"]
+                                    tags: ["Digital Void Analysis", "Opportunity Mapping"],
+                                    Visual: InvisibleGapVisual
                                 },
                                 {
-                                    stage: "Stage 03",
                                     title: "Strategic Projection",
                                     color: "google-green",
                                     icon: "shortcut",
                                     desc: "Bridging the gap via institutional-grade infrastructure. We project your business into the streams where international high-value clients live.",
-                                    tags: ["AI Strategy", "Growth Hubs"]
+                                    tags: ["AI Strategy", "Growth Hubs"],
+                                    Visual: StrategicProjectionVisual
                                 },
                                 {
-                                    stage: "Stage 04",
                                     title: "Institutional Growth",
                                     color: "google-yellow",
                                     icon: "trending_up",
                                     desc: "Turning global intent into local sovereignty. We automate the conversion of international interest into domestic economic scaling.",
-                                    tags: ["Scale Operations", "Conversion"]
+                                    tags: ["Scale Operations", "Conversion"],
+                                    Visual: InstitutionalGrowthVisual
                                 }
                             ].map((item, i) => (
                                 <motion.div
@@ -411,8 +412,13 @@ const Home: React.FC = () => {
                                     <div className="relative">
                                         <div className={`inline-flex items-center gap-2 text-${item.color} font-bold text-xs uppercase tracking-widest mb-6`}>
                                             <span className="material-symbols-outlined text-lg">{item.icon}</span>
-                                            {item.stage}
                                         </div>
+
+                                        {/* Visual Component */}
+                                        <div className="mb-8">
+                                            <item.Visual />
+                                        </div>
+
                                         <h4 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-6 group-hover:text-google-blue transition-colors">{item.title}</h4>
                                         <p className="text-lg text-gray-500 leading-relaxed mb-8 max-w-md">
                                             {item.desc}
@@ -537,7 +543,7 @@ const Home: React.FC = () => {
                                 title: "Mobile Page Speed Optimization",
                                 results: "Strategic AI Partners",
                                 image: "/mobile-speed-opt.png",
-                                link: "https://CustomerSuccessU.org"
+                                link: "/services/mobile-page-speed-optimization"
                             }
                         ].map((work, i) => (
                             <motion.div
