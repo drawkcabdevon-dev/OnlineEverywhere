@@ -137,7 +137,7 @@ const Layout: React.FC = () => {
             <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-gray-100 py-3 shadow-sm' : 'bg-transparent py-5'}`}>
                 <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
                     {/* Logo Block */}
-                    <Link to="/" className="flex items-center gap-3 group">
+                    <Link to="/" className="flex items-center gap-1 group">
                         <div className="relative size-10 flex items-center justify-center">
                             <motion.div
                                 animate={{ scale: scrolled ? 0.9 : 1 }}
@@ -150,7 +150,7 @@ const Layout: React.FC = () => {
                         </div>
                         <div className="flex flex-col">
                             <h1 className="text-lg lg:text-xl font-display font-bold text-gray-800 leading-none">
-                                Online<span className="text-google-blue">Everywhere</span>
+                                nline<span className="text-google-blue">Everywhere</span>
                             </h1>
                             <p className="text-[9px] text-gray-400 uppercase tracking-widest mt-0.5 font-bold">Strategic AI Partners</p>
                         </div>
@@ -270,7 +270,7 @@ const Layout: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
                         <div className="col-span-1 space-y-6">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-1">
                                 <div className="relative size-10 flex items-center justify-center">
                                     <div className="size-full rounded-full border-2 border-google-blue/20 flex items-center justify-center p-0.5">
                                         <div className="size-full rounded-full border-[3px] border-google-blue flex items-center justify-center">
@@ -279,7 +279,7 @@ const Layout: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
-                                    <h2 className="text-xl font-display font-bold text-gray-800 leading-none">Online Everywhere</h2>
+                                    <h2 className="text-xl font-display font-bold text-gray-800 leading-none">nline Everywhere</h2>
                                     <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-1 font-bold">Strategic AI Partners</p>
                                 </div>
                             </div>
