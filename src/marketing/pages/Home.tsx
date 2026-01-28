@@ -344,18 +344,28 @@ const Home: React.FC = () => {
                                 We bridge the gap between Caribbean excellence and global digital demand through high-fidelity infrastructure and institutional-grade AI strategy.
                             </p>
                         </div>
-                        <div className="lg:col-span-5 animated-text-list">
-                            <div className="animated-text-item">
-                                <p>Brand Identity</p>
-                            </div>
-                            <div className="animated-text-item">
-                                <p>Conversion Metrics</p>
-                            </div>
-                            <div className="animated-text-item">
-                                <p>Data Infrastructure</p>
-                            </div>
-                            <div className="animated-text-item">
-                                <p>Scale & Distribution</p>
+                        <div className="lg:col-span-5 flex flex-col justify-center">
+                            <div className="space-y-4">
+                                {[
+                                    { title: "Stage 01: Global Intent", color: "google-blue" },
+                                    { title: "Stage 02: The Invisible Gap", color: "google-red" },
+                                    { title: "Stage 03: Strategic Projection", color: "google-green" },
+                                    { title: "Stage 04: Institutional Growth", color: "google-yellow" }
+                                ].map((step, i) => (
+                                    <motion.div
+                                        key={i}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: i * 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        viewport={{ once: true }}
+                                        className="flex items-center gap-4 group"
+                                    >
+                                        <div className={`size-1.5 rounded-full bg-${step.color} opacity-40 group-hover:opacity-100 transition-opacity`}></div>
+                                        <p className="text-2xl lg:text-3xl font-display font-medium text-gray-700 hover:text-gray-900 transition-colors">
+                                            {step.title}
+                                        </p>
+                                    </motion.div>
+                                ))}
                             </div>
                         </div>
                     </div>

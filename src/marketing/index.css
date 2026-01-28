@@ -190,7 +190,7 @@
         opacity: 0;
     }
 
-    /* High-Impact Animated Text List (Stitch Inspired) */
+    /* Refined Animated Text List (Stitch Inspired) */
     .animated-text-list {
         display: flex;
         flex-direction: column;
@@ -200,22 +200,20 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        font-family: "Google Sans", sans-serif;
+        font-family: inherit;
     }
 
     .animated-text-item {
-        padding: 15px 0;
+        padding: 12px 0;
         text-align: left;
-        font-size: 3rem;
-        /* High-impact size */
-        font-weight: 700;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
-        color: #1a1a1b;
-        /* Navy deep or dark gray */
-        opacity: 0;
-        transform: translateY(30px);
-        animation: fadeInUpReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        font-size: 2rem;
+        /* Reduced size for better blending */
+        font-weight: 500;
+        /* Normal weight for elegance */
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        color: #3c4043;
+        /* Blended gray */
     }
 
     @keyframes fadeInUpReveal {
