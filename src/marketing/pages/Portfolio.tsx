@@ -11,6 +11,8 @@ const Portfolio: React.FC = () => {
             title: "Global Tourism Intelligence Hub",
             category: "Technical Architecture",
             description: "A comprehensive data ecosystem for a national tourism body, integrating GA4, custom CRM APIs, and real-time behavioral tracking.",
+            challenge: "Fragmented data silos across multiple government and private vendors made it impossible to get a unified view of traveler behavior.",
+            solution: "Engineered a centralized BigQuery reservoir with custom API connectors to ingest and normalize disparate data points into a real-time dashboard.",
             image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU",
             tags: ["React", "BigQuery", "API Orchestration"],
             results: "+140% Conversion Lift"
@@ -19,6 +21,8 @@ const Portfolio: React.FC = () => {
             title: "Ocean Blue International",
             category: "Brand & Web Engineering",
             description: "Institutional rebranding and high-performance web infrastructure for a luxury hospitality group targeting European markets.",
+            challenge: "A legacy website with poor mobile performance and a dated brand identity was significantly hindering high-net-worth customer acquisition.",
+            solution: "Complete institutional rebranding paired with a Next.js 14 architecture, resulting in sub-second load times and a premium digital aesthetic.",
             image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCPUc8wJRKJL-idYU3ytHQhrGZPVnGYb0vbKABO9AfePRXqthWXoBEcNYWGPzGgRhZGRRmo84e7ZOHi3xHGb38xMj-wcCFT5Ig-6bsbAm0A-5vbnKpLM8HepUmr9O43e03_UIXQ1Yh4jBVmicRc5ItNXEnXsoqc9LZ_XhJKOaBhE9lbVxvCb-bXA3H5d9tMRCvOpPANQg2VuQLvOwPxHZ7heaZ7a8-yDmWVJU8dlssOKehykxoKH5cDjC_1NFwCKMDNhIyOQIoS1TE",
             tags: ["Brand Identity", "Next.js", "Core Web Vitals"],
             results: "4.8x ROAS"
@@ -27,6 +31,8 @@ const Portfolio: React.FC = () => {
             title: "Endeavor Growth Dashboard",
             category: "Strategic Analytics",
             description: "A unified ROI reporting engine for multi-channel marketing spend, closing the loop on a $2M ARR growth endeavor.",
+            challenge: "The marketing team was manually correlating spend across 6 platforms, leading to data lag and attribution inaccuracies.",
+            solution: "Automated the data pipeline using Looker Studio with custom attribution logic that credited conversions with 99.9% accuracy.",
             image: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJcsnTzbzJAof_YWdprJTvX4QpAdmkEC1ulbDcN1GceWvskDnRyga95IfRUk8L8K1lHX6QcqvRc-u2idzZ-yq5vOu1fEoWb-Gk2XFoblihPf97q4fyfzmfgYUm3w5vzoqpXc1LEnPoBLb2LT_NCu4D8KhvcfdouxpmH07afphP0M7zpJplxqUsXbbhFA6Y_AfJfmWV5Y57mZzN5x3SjZKQW35j1B_2jsbx-muqg5jyGC73tsw0ouDM8BG_aL6hFiwdFLRHPborldU",
             tags: ["Looker Studio", "GA4", "Data Modeling"],
             results: "99.9% Data Accuracy"
@@ -35,6 +41,8 @@ const Portfolio: React.FC = () => {
             title: "Barbados Tech Collective",
             category: "Digital Transformation",
             description: "Migrating a legacy tourism network to an AI-native ecosystem, enabling automated lead capture and personalized travel curation.",
+            challenge: "Highly manual booking processes and low search visibility were limiting the growth of local tech-driven tourism.",
+            solution: "Implemented an AI-first digital ecosystem that automated 70% of lead intake and significantly improved global search rankings.",
             image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCPUc8wJRKJL-idYU3ytHQhrGZPVnGYb0vbKABO9AfePRXqthWXoBEcNYWGPzGgRhZGRRmo84e7ZOHi3xHGb38xMj-wcCFT5Ig-6bsbAm0A-5vbnKpLM8HepUmr9O43e03_UIXQ1Yh4jBVmicRc5ItNXEnXsoqc9LZ_XhJKOaBhE9lbVxvCb-bXA3H5d9tMRCvOpPANQg2VuQLvOwPxHZ7heaZ7a8-yDmWVJU8dlssOKehykxoKH5cDjC_1NFwCKMDNhIyOQIoS1TE",
             tags: ["AI Integration", "Cloud Infrastructure", "SEO"],
             results: "Top 3 Search Ranking"
@@ -43,11 +51,15 @@ const Portfolio: React.FC = () => {
             title: "CustomerSuccessU Mobile Speed Optimization",
             category: "Technical Architecture",
             description: "Achieved 40% speed increase for a global not-for-profit education platform, ensuring instant access to career development resources on mobile devices across varying network conditions.",
+            challenge: "A global user base was struggling with slow load times on mobile, leading to significant user drop-off in developing regions with low-bandwidth connections.",
+            solution: "Applied a mobile-first engineering sprint including image compression, aggressive lazy loading, and a custom edge-caching CDN strategy.",
             image: "/mobile-speed-opt.png",
             tags: ["Core Web Vitals", "Mobile-First", "CDN Strategy"],
             results: "40% Speed Increase"
         }
     ];
+
+    const [selectedProject, setSelectedProject] = React.useState<any>(null);
 
     const filteredProjects = activeCategory === 'All'
         ? projects
@@ -116,8 +128,8 @@ const Portfolio: React.FC = () => {
                                     <h3 className="text-2xl font-display font-bold text-white">{project.title}</h3>
                                 </div>
                             </div>
-                            <div className="p-10 space-y-6">
-                                <p className="text-gray-500 leading-relaxed italic">
+                            <div className="p-10 space-y-6 flex flex-col h-full">
+                                <p className="text-gray-500 leading-relaxed italic flex-grow">
                                     "{project.description}"
                                 </p>
                                 <div className="flex flex-wrap gap-2">
@@ -132,14 +144,82 @@ const Portfolio: React.FC = () => {
                                         <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">Result</p>
                                         <p className="text-xl font-display font-bold">{project.results}</p>
                                     </div>
-                                    <button className="bg-gray-50 hover:bg-google-blue hover:text-white size-12 rounded-full flex items-center justify-center transition-all group">
-                                        <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                    <button
+                                        onClick={() => setSelectedProject(project)}
+                                        className="bg-gray-50 hover:bg-google-blue hover:text-white px-6 py-3 rounded-full flex items-center gap-2 font-bold text-xs transition-all group"
+                                    >
+                                        Explore Details
+                                        <span className="material-symbols-outlined group-hover:translate-x-1 transition-transform text-sm">arrow_forward</span>
                                     </button>
                                 </div>
                             </div>
                         </motion.div>
                     ))}
                 </div>
+
+                {/* Project Detail Modal */}
+                {selectedProject && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-navy-deep/90 backdrop-blur-md"
+                        onClick={() => setSelectedProject(null)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            className="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[3rem] p-8 lg:p-16 relative"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={() => setSelectedProject(null)}
+                                className="absolute top-8 right-8 size-12 bg-gray-50 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+                            >
+                                <span className="material-symbols-outlined">close</span>
+                            </button>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                                <div>
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-google-blue/10 border border-google-blue/20 text-google-blue text-[10px] font-bold uppercase tracking-widest mb-8">
+                                        Case Study: {selectedProject.category}
+                                    </div>
+                                    <h2 className="text-4xl lg:text-5xl font-display font-bold text-navy-deep mb-8 leading-tight">
+                                        {selectedProject.title}
+                                    </h2>
+
+                                    <div className="space-y-10">
+                                        <div>
+                                            <h3 className="text-xs font-bold text-google-blue uppercase tracking-widest mb-4">The Challenge</h3>
+                                            <p className="text-gray-600 leading-relaxed text-lg italic">
+                                                "{selectedProject.challenge}"
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <h3 className="text-xs font-bold text-google-blue uppercase tracking-widest mb-4">The Solution</h3>
+                                            <p className="text-gray-600 leading-relaxed text-lg">
+                                                {selectedProject.solution}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-12">
+                                    <div className="rounded-[2rem] overflow-hidden shadow-2xl">
+                                        <img src={selectedProject.image} alt={selectedProject.title} className="w-full object-cover" />
+                                    </div>
+
+                                    <div className="bg-gray-50 p-10 rounded-[2rem] border border-gray-100">
+                                        <h3 className="text-xs font-bold text-navy-deep uppercase tracking-widest mb-6 text-center">Institutional Impact</h3>
+                                        <div className="text-center">
+                                            <div className="text-6xl font-display font-bold text-google-blue mb-2">{selectedProject.results}</div>
+                                            <p className="text-sm font-bold text-gray-400 uppercase tracking-widest">Validated Metric</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
 
                 {/* Technical Standards Section */}
                 <div className="mt-32 rounded-[3rem] bg-gray-900 p-12 lg:p-24 text-white relative overflow-hidden text-center">
