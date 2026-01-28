@@ -330,44 +330,113 @@ const Home: React.FC = () => {
 
             <ColorStripDivider />
 
-            {/* Packages Section */}
-            <section className="py-24 bg-surface" id="packages">
+            {/* Scrollytelling Roadmap Section */}
+            <section className="py-32 bg-surface overflow-visible" id="frameworks">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-24">
-                        <div className="lg:col-span-7">
-                            <h2 className="text-google-blue font-bold text-sm uppercase tracking-[0.3em] mb-6 framework-title">Strategic Frameworks</h2>
-                            <h3 className="text-5xl lg:text-8xl font-display font-bold text-gray-900 tracking-tighter leading-[0.85] mb-10">
-                                Engineering Your <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue to-cyan-500">Competitive Advantage.</span>
-                            </h3>
-                            <p className="text-xl text-gray-500 leading-relaxed max-w-xl">
-                                We bridge the gap between Caribbean excellence and global digital demand through high-fidelity infrastructure and institutional-grade AI strategy.
-                            </p>
+                    <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
+                        {/* Sticky Left Column */}
+                        <div className="lg:w-1/2 lg:sticky lg:top-32 h-fit">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                <h2 className="text-google-blue font-bold text-sm uppercase tracking-[0.3em] mb-8">Strategic Frameworks</h2>
+                                <h3 className="text-5xl lg:text-7xl font-display font-bold text-gray-900 tracking-tighter leading-[0.9] mb-10">
+                                    Engineering Your <br />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue via-google-red to-google-green">Competitive Advantage.</span>
+                                </h3>
+                                <p className="text-xl text-gray-500 leading-relaxed max-w-lg mb-12">
+                                    We bridge the gap between Caribbean excellence and global digital demand through high-fidelity infrastructure and institutional-grade AI strategy.
+                                </p>
+                                <div className="flex items-center gap-6">
+                                    <div className="size-12 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 group hover:border-google-blue hover:text-google-blue transition-all cursor-pointer">
+                                        <span className="material-symbols-outlined animate-bounce">arrow_downward</span>
+                                    </div>
+                                    <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Scroll to Explore the Story</span>
+                                </div>
+                            </motion.div>
                         </div>
-                        <div className="lg:col-span-5 flex flex-col justify-center">
-                            <div className="space-y-4">
-                                {[
-                                    { title: "Stage 01: Global Intent", color: "google-blue" },
-                                    { title: "Stage 02: The Invisible Gap", color: "google-red" },
-                                    { title: "Stage 03: Strategic Projection", color: "google-green" },
-                                    { title: "Stage 04: Institutional Growth", color: "google-yellow" }
-                                ].map((step, i) => (
-                                    <motion.div
-                                        key={i}
-                                        initial={{ opacity: 0, x: 20 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: i * 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                        viewport={{ once: true }}
-                                        className="flex items-center gap-4 group"
-                                    >
-                                        <div className={`size-1.5 rounded-full bg-${step.color} opacity-40 group-hover:opacity-100 transition-opacity`}></div>
-                                        <p className="text-2xl lg:text-3xl font-display font-medium text-gray-700 hover:text-gray-900 transition-colors">
-                                            {step.title}
+
+                        {/* Scrollable Right Column */}
+                        <div className="lg:w-1/2 space-y-32 py-12 relative">
+                            <div className="roadmap-progress-line hidden lg:block"></div>
+
+                            {[
+                                {
+                                    stage: "Stage 01",
+                                    title: "Global Intent",
+                                    color: "google-blue",
+                                    icon: "public",
+                                    desc: "80% of regional tourism and export queries originate in international markets. We identify where your global audience is already searching.",
+                                    tags: ["Market Intelligence", "Traffic Hubs"]
+                                },
+                                {
+                                    stage: "Stage 02",
+                                    title: "The Invisible Gap",
+                                    color: "google-red",
+                                    icon: "visibility_off",
+                                    desc: "Without high-fidelity projection, Caribbean excellence remains invisible to the Digital Universe. We map the gap between your potential and current reach.",
+                                    tags: ["Digital Void Analysis", "Opportunity Mapping"]
+                                },
+                                {
+                                    stage: "Stage 03",
+                                    title: "Strategic Projection",
+                                    color: "google-green",
+                                    icon: "shortcut",
+                                    desc: "Bridging the gap via institutional-grade infrastructure. We project your business into the streams where international high-value clients live.",
+                                    tags: ["AI Strategy", "Growth Hubs"]
+                                },
+                                {
+                                    stage: "Stage 04",
+                                    title: "Institutional Growth",
+                                    color: "google-yellow",
+                                    icon: "trending_up",
+                                    desc: "Turning global intent into local sovereignty. We automate the conversion of international interest into domestic economic scaling.",
+                                    tags: ["Scale Operations", "Conversion"]
+                                }
+                            ].map((item, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, x: 50 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ amount: 0.5 }}
+                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                    className="relative pl-12 group"
+                                >
+                                    {/* Small dot on the line */}
+                                    <div className={`absolute left-[0.625rem] top-2 size-2.5 rounded-full bg-white border-2 border-${item.color} z-20 group-hover:scale-150 transition-transform`}></div>
+
+                                    <div className="roadmap-item-latent group-focus:roadmap-item-active while-in-view:roadmap-item-active">
+                                        <div className={`inline-flex items-center gap-2 text-${item.color} font-bold text-xs uppercase tracking-widest mb-6`}>
+                                            <span className="material-symbols-outlined text-lg">{item.icon}</span>
+                                            {item.stage}
+                                        </div>
+                                        <h4 className="text-3xl lg:text-4xl font-display font-bold text-gray-900 mb-6 group-hover:text-google-blue transition-colors">{item.title}</h4>
+                                        <p className="text-lg text-gray-500 leading-relaxed mb-8 max-w-md">
+                                            {item.desc}
                                         </p>
-                                    </motion.div>
-                                ))}
-                            </div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {item.tags.map(tag => (
+                                                <span key={tag} className="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
+                                                    {tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
+                    </div>
+                </div>
+            </section>
+            {/* Packages Section */}
+            <section className="py-24 bg-white border-t border-gray-100" id="packages">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="text-center mb-16">
+                        <h2 className="text-google-blue font-bold text-sm uppercase tracking-widest mb-4">Strategic Frameworks</h2>
+                        <h3 className="text-4xl lg:text-5xl font-display font-bold text-gray-900 tracking-tight">Our Barbados Roadmaps.</h3>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
@@ -386,55 +455,20 @@ const Home: React.FC = () => {
                                     'Social Proof & Authority Building Integration'
                                 ],
                                 trajectory: 'Growth Visualization',
-                                metric: '+240%',
-                                subtext: 'Lead quality increase in first 3 months.',
-                                heights: [30, 45, 60, 75, 100]
-                            },
-                            {
-                                id: 'catalyst',
-                                title: 'The Conversion Catalyst',
-                                icon: 'bolt',
-                                color: 'google-red',
-                                description: 'Optimize your existing traffic to maximize ROI and customer engagement.',
-                                deliverables: [
-                                    'Advanced Conversion Rate Optimization Strategy',
-                                    'Multi-variate Behavioral Analytics Setup',
-                                    'Dynamic Retargeting & Landing Page Systems',
-                                    'Automated Nurture Sequence Development',
-                                    'Performance Friction Audit & Technical Tuning'
-                                ],
-                                trajectory: 'Efficiency KPI',
-                                metric: '58%',
-                                subtext: 'Improved checkout completion rates.',
-                                circle: true
-                            },
-                            {
-                                id: 'partnership',
-                                title: 'The Proactive Partnership',
-                                icon: 'handshake',
-                                color: 'google-green',
-                                description: 'Long-term strategic alignment to scale multi-channel growth operations.',
-                                deliverables: [
-                                    'Monthly Technical & Strategic Roadmap Sessions',
-                                    'Omnichannel Data Infrastructure Management',
-                                    'End-to-End Funnel Optimization & Monitoring',
-                                    'Emerging Tech & AI Integration Consulting',
-                                    'Preferred Partner Resource Allocation'
-                                ],
-                                trajectory: 'Scale Trajectory',
-                                metric: '$2M ARR',
-                                subtext: 'Growth achieved in 12 months.',
+                                metric: '10x',
+                                subtext: 'Projected Reach Expansion.',
+                                heights: [30, 45, 60, 85, 100],
                                 path: true
                             },
                             {
-                                id: 'ignition',
-                                title: 'Paid Media Ignition',
-                                icon: 'local_fire_department',
-                                color: 'google-yellow',
-                                description: 'Hyper-focused advertising campaigns designed for rapid market penetration.',
+                                id: 'growth-engine',
+                                title: 'AI Powered Growth Engine',
+                                icon: 'bolt',
+                                color: 'google-green',
+                                description: 'Leverage institutional-grade AI strategy to automate your growth and scale operations.',
                                 deliverables: [
-                                    'High-Intent Search & Social Ad Management',
-                                    'Custom AI-Driven Audience Modeling',
+                                    'Institutional AI Strategy & Implementation',
+                                    'Automated Conversion & Scaling Workflows',
                                     'Real-time Performance Reporting Dashboard',
                                     'Dynamic Creative Optimization (DCO)',
                                     'Scalable ROAS-Centric Budget Allocation'
@@ -526,7 +560,7 @@ const Home: React.FC = () => {
             </section>
 
             {/* Featured Insights Section */}
-            <section className="py-24 bg-background overflow-hidden">
+            <section className="py-24 bg-background overflow-hidden px-4 sm:px-0">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 border-l-4 border-google-blue pl-6">
                         <div>

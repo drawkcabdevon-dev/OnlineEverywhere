@@ -131,112 +131,37 @@
         }
     }
 
-    /* Animated Text List */
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Scrollytelling Roadmap */
+    .roadmap-progress-line {
+        position: absolute;
+        left: 1rem;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #f1f3f4;
+        z-index: 10;
+        border-radius: 1px;
     }
 
-    @keyframes slideInLeft {
-        from {
-            opacity: 0;
-            transform: translateX(-30px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
+    .roadmap-item-latent {
+        opacity: 0.15;
+        transform: translateY(20px);
+        filter: grayscale(100%);
+        transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .animated-list-item {
-        animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        opacity: 0;
+    .roadmap-item-active {
+        opacity: 1;
+        transform: translateY(0);
+        filter: grayscale(0%);
     }
 
-    .animated-list-item:nth-child(1) {
-        animation-delay: 0.1s;
+    /* Target items specifically when in view via Framer/Tailwind */
+    .roadmap-item-active,
+    [data-active="true"] .roadmap-item-latent {
+        opacity: 1;
+        transform: translateY(0);
+        filter: grayscale(0%);
     }
 
-    .animated-list-item:nth-child(2) {
-        animation-delay: 0.2s;
-    }
-
-    .animated-list-item:nth-child(3) {
-        animation-delay: 0.3s;
-    }
-
-    .animated-list-item:nth-child(4) {
-        animation-delay: 0.4s;
-    }
-
-    .animated-list-item:nth-child(5) {
-        animation-delay: 0.5s;
-    }
-
-    .animated-list-item:nth-child(6) {
-        animation-delay: 0.6s;
-    }
-
-    .framework-title {
-        animation: slideInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        opacity: 0;
-    }
-
-    /* Refined Animated Text List (Stitch Inspired) */
-    .animated-text-list {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
-        background-color: transparent;
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: inherit;
-    }
-
-    .animated-text-item {
-        padding: 12px 0;
-        text-align: left;
-        font-size: 2rem;
-        /* Reduced size for better blending */
-        font-weight: 500;
-        /* Normal weight for elegance */
-        line-height: 1.2;
-        letter-spacing: -0.01em;
-        color: #3c4043;
-        /* Blended gray */
-    }
-
-    @keyframes fadeInUpReveal {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Staggered load for the high-impact list */
-    .animated-text-item:nth-child(1) {
-        animation-delay: 0.2s;
-    }
-
-    .animated-text-item:nth-child(2) {
-        animation-delay: 0.4s;
-    }
-
-    .animated-text-item:nth-child(3) {
-        animation-delay: 0.6s;
-    }
-
-    .animated-text-item:nth-child(4) {
-        animation-delay: 0.8s;
-    }
 }
