@@ -1,6 +1,7 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Link, useOutletContext } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useOutletContext } from 'react-router-dom';
+import PersonaDemo from '../components/PersonaDemo';
 
 const Ollie: React.FC = () => {
     const { setModalOpen }: any = useOutletContext();
@@ -153,6 +154,8 @@ const Ollie: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+            <PersonaDemo />
 
             {/* Pricing Section */}
             <section className="py-12 lg:py-24 bg-gray-50 border-t border-gray-100" id="pricing">

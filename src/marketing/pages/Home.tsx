@@ -124,11 +124,18 @@ const PackageCard: React.FC<PackageCardProps> = ({ pkg }) => {
     );
 };
 
+import SEO from '../components/SEO';
+
 const Home: React.FC = () => {
     const { setModalOpen }: any = useOutletContext();
 
     return (
         <>
+            <SEO
+                title="Digital Transformation & Global Growth Strategy"
+                description="OnLineEverywhere specializes in digital transformation for the tourism industry, bridging the gap to global markets through advanced technical frameworks."
+                canonicalPath="/"
+            />
             {/* Hero Section */}
             <section className="relative min-h-screen flex flex-col items-center pt-32 pb-32 px-6 lg:px-12 overflow-hidden bg-white">
                 <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50/40 via-white to-white"></div>

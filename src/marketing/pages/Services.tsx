@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
 import { DEMO_URLS } from '../config';
+import GoalSelector from '../components/GoalSelector';
 
 const ColorStripDivider: React.FC = () => (
     <div className="flex h-1.5 w-full">
@@ -12,42 +13,19 @@ const ColorStripDivider: React.FC = () => (
     </div>
 );
 
+import SEO from '../components/SEO';
+
 const Services: React.FC = () => {
     const { setModalOpen }: any = useOutletContext();
-
-    const serviceCategories = [
-        {
-            title: "Web Engineering",
-            icon: "code",
-            color: "google-blue",
-            description: "High-performance digital infrastructure. From new website platforms to migrations, we ensure a fast, modern, and ready technical core.",
-            services: ["New Platform & Migrations", "Google PageSpeed Audits", "Core Web Vitals Implementation", "Data-First Content Strategy", "CRM & API Orchestration", "Security & Uptime Monitoring"]
-        },
-        {
-            title: "Search & Visibility",
-            icon: "search",
-            color: "google-red",
-            description: "Ensuring Google immediately recognizes and indexes all content through rigorous technical SEO and site mapping.",
-            services: ["Full Page Indexing Setup", "Sitemap Submission", "URL Inspection Protocols", "Google Search Console Mastery", "Technical SEO Audits", "Schema Data Implementation"]
-        },
-        {
-            title: "Strategic Analysis",
-            icon: "analytics",
-            color: "google-yellow",
-            description: "Deep behavioral insights. We track every click to client, uncovering the exact friction points costing you revenue.",
-            services: ["GA4 & GTM Configuration", "Customer Journey Mapping", "Event Tracking Enablement", "Deep Behavior Audits", "Looker Studio Dashboards", "Conversion ROI Reporting"]
-        },
-        {
-            title: "Graphic Design",
-            icon: "palette",
-            color: "google-green",
-            description: "Visual excellence that communicates institutional authority and brand prestige.",
-            services: ["Brand Identity & Logo", "High-Conversion Ad Assets", "Digital Visual Assets", "Video Thumbnail Design", "Custom QR Code Solutions", "Product & Service Showcases"]
-        }
-    ];
+    const navigate = useNavigate();
 
     return (
         <div className="bg-white min-h-screen">
+            <SEO
+                title="Strategic AI Marketing Services"
+                description="Comprehensive digital solutions including AI-native infrastructure, conversion optimization, and global market acquirements."
+                canonicalPath="/services"
+            />
             <ColorStripDivider />
 
             {/* Services Hero */}
@@ -72,37 +50,7 @@ const Services: React.FC = () => {
                 </div>
             </section>
 
-            <section className="py-24">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                        {serviceCategories.map((cat, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.1 }}
-                                viewport={{ once: true }}
-                                className="bg-white p-12 rounded-[3rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 group"
-                            >
-                                <div className="size-16 rounded-2xl bg-white shadow-md border border-gray-50 flex items-center justify-center text-google-blue mb-8 group-hover:scale-110 transition-transform">
-                                    <span className={`material-symbols-outlined text-4xl text-${cat.color}`}>{cat.icon}</span>
-                                </div>
-                                <h2 className="text-3xl font-display font-bold text-navy-deep mb-4">{cat.title}</h2>
-                                <p className="text-gray-500 mb-8 leading-relaxed italic text-lg">{cat.description}</p>
-
-                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-50 pt-8">
-                                    {cat.services.map((svc, j) => (
-                                        <li key={j} className="flex gap-3 text-sm font-bold text-gray-500 group/item">
-                                            <span className={`material-symbols-outlined text-sm text-${cat.color} group-hover/item:scale-125 transition-transform`}>check_circle</span>
-                                            {svc}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            <GoalSelector />
 
             {/* Blueprint Section */}
             <section className="py-32">
@@ -138,15 +86,13 @@ const Services: React.FC = () => {
                                         <span className="material-symbols-outlined">analytics</span>
                                         Request Technical Audit
                                     </motion.button>
-                                    <a
-                                        href={DEMO_URLS.PERSONA_LAB}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
+                                    <button
+                                        onClick={() => navigate('/ollie')}
                                         className="bg-google-blue text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-xl text-lg shadow-google-blue/20"
                                     >
                                         <span className="material-symbols-outlined">bolt</span>
                                         Try AI Demo
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
 

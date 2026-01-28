@@ -31,8 +31,8 @@ const ThemePanel: React.FC = () => {
             </div>
         </div>
     );
-    
-    const SelectInput: React.FC<{ label: string; value: string; field: keyof Customization; options: string[]}> = ({ label, value, field, options }) => (
+
+    const SelectInput: React.FC<{ label: string; value: string; field: keyof Customization; options: string[] }> = ({ label, value, field, options }) => (
         <div>
             <label className="text-sm font-medium text-text-muted">{label}</label>
             <select value={value} onChange={e => handleUpdate(field, e.target.value)} className="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md text-white">
@@ -44,14 +44,14 @@ const ThemePanel: React.FC = () => {
     return (
         <Section title="Project Theme" description="Define the visual style for all generated components.">
             <div className="space-y-4">
-                 <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                     <ColorInput label="Primary" value={customization.primaryColor} field="primaryColor" />
                     <ColorInput label="Secondary" value={customization.secondaryColor} field="secondaryColor" />
                     <ColorInput label="Accent" value={customization.accentColor} field="accentColor" />
-                 </div>
-                 <SelectInput label="Theme / Tone" value={customization.theme} field="theme" options={['Professional', 'Playful', 'Minimalist', 'Elegant']} />
-                 <SelectInput label="Font" value={customization.font} field="font" options={['Inter', 'Roboto', 'Lora', 'Montserrat']} />
-                 <SelectInput label="Corner Style" value={customization.borderRadius} field="borderRadius" options={['0px', '4px', '8px', '16px', '999px']} />
+                </div>
+                <SelectInput label="Theme / Tone" value={customization.theme} field="theme" options={['Professional', 'Playful', 'Minimalist', 'Elegant']} />
+                <SelectInput label="Font" value={customization.font} field="font" options={['Inter', 'Roboto', 'Lora', 'Montserrat']} />
+                <SelectInput label="Corner Style" value={customization.borderRadius} field="borderRadius" options={['0px', '4px', '8px', '16px', '999px']} />
             </div>
         </Section>
     );
@@ -60,7 +60,7 @@ const ThemePanel: React.FC = () => {
 
 const WebsiteBuilder: React.FC = () => {
     const { activeProject, updateActiveProject, logActivity, navigationPayload, clearNavigationPayload, updateCustomization } = useProject();
-    
+
     const [isLoading, setIsLoading] = useState(false);
     const [description, setDescription] = useState('');
     const [isWireframe, setIsWireframe] = useState(false);
@@ -70,7 +70,7 @@ const WebsiteBuilder: React.FC = () => {
     // Refinement State
     const [refinePrompt, setRefinePrompt] = useState('');
     const [isRefining, setIsRefining] = useState(false);
-    
+
     // Style Variation State
     const [styleVariations, setStyleVariations] = useState<Omit<HtmlComponent, 'id'>[]>([]);
     const [isGeneratingVariations, setIsGeneratingVariations] = useState(false);
@@ -85,8 +85,8 @@ const WebsiteBuilder: React.FC = () => {
 
     useEffect(() => {
         if (navigationPayload) {
-            if(navigationPayload.description) setDescription(navigationPayload.description);
-            if(navigationPayload.inspiration) setInspiration(navigationPayload.inspiration);
+            if (navigationPayload.description) setDescription(navigationPayload.description);
+            if (navigationPayload.inspiration) setInspiration(navigationPayload.inspiration);
             clearNavigationPayload();
         }
     }, [navigationPayload, clearNavigationPayload]);
@@ -98,7 +98,7 @@ const WebsiteBuilder: React.FC = () => {
         if (activeProject && activeProject.websiteComponents.length === 0) {
             setSelectedComponent(null);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeProject?.websiteComponents]);
 
 
@@ -107,7 +107,7 @@ const WebsiteBuilder: React.FC = () => {
         setIsLoading(true);
         try {
             let resultData;
-            if(isWireframe) {
+            if (isWireframe) {
                 resultData = await geminiService.generateWireframe(activeProject, description);
             } else {
                 resultData = await geminiService.generateHtmlSection(activeProject, description, inspiration);
@@ -121,7 +121,7 @@ const WebsiteBuilder: React.FC = () => {
 
             updateActiveProject(p => ({ ...p, websiteComponents: [...p.websiteComponents, newComponent] }));
             logActivity(`Generated ${isWireframe ? 'wireframe' : 'component'}: ${newComponent.name}`, 'website-dev', newComponent);
-            
+
             setSelectedComponent(newComponent);
             setDescription('');
             setInspiration(null);
@@ -165,7 +165,7 @@ const WebsiteBuilder: React.FC = () => {
         setIsStrategyModalOpen(false);
         try {
             const resultData = await geminiService.generateStrategicHtmlSection(activeProject, payload);
-             const newComponent: HtmlComponent = {
+            const newComponent: HtmlComponent = {
                 ...resultData,
                 id: crypto.randomUUID(),
             };
@@ -179,19 +179,19 @@ const WebsiteBuilder: React.FC = () => {
             setSelectedStrategyId('');
         }
     };
-    
+
     const handleRefine = async () => {
         if (!activeProject || !selectedComponent || !refinePrompt) return;
         setIsRefining(true);
         try {
             const refinedData = await geminiService.refineHtmlSection(activeProject, selectedComponent.htmlCode, refinePrompt);
             const updatedComponent = { ...selectedComponent, ...refinedData };
-            
+
             updateActiveProject(p => ({
                 ...p,
                 websiteComponents: p.websiteComponents.map(c => c.id === updatedComponent.id ? updatedComponent : c),
             }));
-            
+
             logActivity(`Refined component: ${updatedComponent.name}`, 'website-dev', { before: selectedComponent, after: updatedComponent, prompt: refinePrompt });
             setSelectedComponent(updatedComponent);
             setRefinePrompt('');
@@ -201,7 +201,7 @@ const WebsiteBuilder: React.FC = () => {
             setIsRefining(false);
         }
     };
-    
+
     const handleGenerateVariations = async () => {
         if (!activeProject || !selectedComponent) return;
         setIsGeneratingVariations(true);
@@ -228,7 +228,7 @@ const WebsiteBuilder: React.FC = () => {
         try {
             const designedData = await geminiService.designWireframe(activeProject, selectedComponent.htmlCode);
             const updatedComponent = { ...selectedComponent, ...designedData, isWireframe: false };
-            
+
             updateActiveProject(p => ({
                 ...p,
                 websiteComponents: p.websiteComponents.map(c => c.id === updatedComponent.id ? updatedComponent : c),
@@ -242,7 +242,7 @@ const WebsiteBuilder: React.FC = () => {
             setIsLoading(false);
         }
     };
-    
+
     const handlePreview = () => {
         if (!selectedComponent || !activeProject) return;
 
@@ -276,8 +276,11 @@ const WebsiteBuilder: React.FC = () => {
 
         const newWindow = window.open("", "_blank");
         if (newWindow) {
-            newWindow.document.write(htmlContent);
-            newWindow.document.close();
+            // Using a Blob to create a localized URL for better security isolation
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            newWindow.location.href = url;
+            // Note: revokeObjectURL after some time or on window close if possible
         }
     };
 
@@ -286,7 +289,7 @@ const WebsiteBuilder: React.FC = () => {
 
     const renderStrategyOptions = () => {
         if (!activeProject) return <option>No project data available.</option>;
-        
+
         const InfoCard: React.FC<{ title: string, moduleId: string }> = ({ title, moduleId }) => (
             <div className="text-center p-4 bg-surface rounded-lg border border-border">
                 <p className="text-sm text-text-muted">No {title} found.</p>
@@ -304,12 +307,12 @@ const WebsiteBuilder: React.FC = () => {
                 ));
             case 'seo':
                 const contentIssues = activeProject.seoAudit?.issues.filter(i => i.description.toLowerCase().includes('content')) || [];
-                 if (!contentIssues.length) return <InfoCard title="Content-related SEO Issues" moduleId="Page Performance Lab" />;
+                if (!contentIssues.length) return <InfoCard title="Content-related SEO Issues" moduleId="Page Performance Lab" />;
                 return contentIssues.map(issue => (
                     <option key={issue.description} value={issue.description}>({issue.severity}) {issue.description}</option>
                 ));
             case 'persona':
-                 if (!activeProject.personas.length) return <InfoCard title="Personas" moduleId="PersonaLab" />;
+                if (!activeProject.personas.length) return <InfoCard title="Personas" moduleId="PersonaLab" />;
                 return activeProject.personas.map(persona => (
                     <option key={persona.id} value={persona.id}>{persona.name} ({persona.role})</option>
                 ));
@@ -343,24 +346,24 @@ const WebsiteBuilder: React.FC = () => {
                                     <label htmlFor="wireframe" className="ml-2 text-sm text-text-muted">as Wireframe</label>
                                 </div>
                             </div>
-                             <div className="relative flex py-2 items-center">
+                            <div className="relative flex py-2 items-center">
                                 <div className="flex-grow border-t border-dashed border-border"></div>
                                 <span className="flex-shrink mx-4 text-xs text-text-muted">OR</span>
                                 <div className="flex-grow border-t border-dashed border-border"></div>
                             </div>
-                             <Button onClick={() => setIsStrategyModalOpen(true)} variant="secondary" className="w-full">
+                            <Button onClick={() => setIsStrategyModalOpen(true)} variant="secondary" className="w-full">
                                 ✨ Generate with Strategy
                             </Button>
                         </div>
                     </Section>
-                    
+
                     <Card className="p-6">
                         <h3 className="text-lg font-semibold text-white mb-4">Saved Components ({components.length})</h3>
                         <ul className="space-y-1">
-                             {components.map(c => (
+                            {components.map(c => (
                                 <li key={c.id}>
-                                    <button 
-                                        onClick={() => setSelectedComponent(c)} 
+                                    <button
+                                        onClick={() => setSelectedComponent(c)}
                                         className={`w-full text-left p-2 rounded ${selectedComponent?.id === c.id ? 'bg-primary' : 'bg-surface hover:bg-border'}`}
                                         aria-current={selectedComponent?.id === c.id}
                                     >
@@ -383,13 +386,13 @@ const WebsiteBuilder: React.FC = () => {
                                 {selectedComponent && (
                                     <>
                                         {selectedComponent.isWireframe ? (
-                                             <Button size="sm" onClick={handleDesignWireframe} isLoading={isLoading}>Design Wireframe</Button>
+                                            <Button size="sm" onClick={handleDesignWireframe} isLoading={isLoading}>Design Wireframe</Button>
                                         ) : (
                                             <>
                                                 <Button size="sm" variant="secondary" onClick={handleGenerateVariations}>Variations</Button>
                                                 <Button size="sm" variant="ghost" onClick={handlePreview}>
                                                     Preview
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 ml-1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 ml-1.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
                                                 </Button>
                                             </>
                                         )}
@@ -409,39 +412,39 @@ const WebsiteBuilder: React.FC = () => {
                                 </div>
                             </div>
                         )}
-                        
+
                         <div className="bg-white rounded-b-lg">
-                           {selectedComponent ? (
+                            {selectedComponent ? (
                                 <iframe
                                     title="Component Preview"
                                     srcDoc={`<html><head></head><body style="margin:0;">${selectedComponent.htmlCode}</body></html>`}
                                     className="w-full h-[600px] border-0"
-                                    sandbox="allow-scripts allow-same-origin"
+                                    sandbox="allow-same-origin"
                                 />
                             ) : (
                                 <div className="h-[600px] flex items-center justify-center bg-gray-800 text-text-muted">
-                                    {isLoading ? <Spinner showMessages/> : 'Generate a component to see the preview here.'}
+                                    {isLoading ? <Spinner showMessages /> : 'Generate a component to see the preview here.'}
                                 </div>
-                           )}
+                            )}
                         </div>
                     </Card>
                 </div>
             </div>
-            
+
             <Modal isOpen={isVariationModalOpen} onClose={() => setIsVariationModalOpen(false)} title={`Style Variations for "${selectedComponent?.name}"`}>
                 {isGeneratingVariations ? (
-                    <div className="flex justify-center items-center h-96"><Spinner showMessages size={40}/></div>
+                    <div className="flex justify-center items-center h-96"><Spinner showMessages size={40} /></div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {styleVariations.map((v, i) => (
                             <Card key={i} className="flex flex-col">
                                 <div className="bg-white rounded-t-lg h-48 overflow-hidden">
-                                     <iframe
+                                    <iframe
                                         title={`Variation ${i}`}
                                         srcDoc={`<html><head></head><body style="margin:0; overflow:hidden;"><div style="transform: scale(0.5); transform-origin: top left; width: 200%; height: 200%;">${v.htmlCode}</div></body></html>`}
                                         className="w-full h-full border-0"
                                         scrolling="no"
-                                        sandbox="allow-scripts allow-same-origin"
+                                        sandbox="allow-same-origin"
                                     />
                                 </div>
                                 <div className="p-3 flex-grow flex flex-col">
@@ -472,7 +475,7 @@ const WebsiteBuilder: React.FC = () => {
                         ))}
                     </div>
                     <div className="pt-4">
-                         <label className="text-sm font-medium text-text-muted mb-2 block">
+                        <label className="text-sm font-medium text-text-muted mb-2 block">
                             {strategyTab === 'keyword' && 'Select a Keyword Cluster'}
                             {strategyTab === 'seo' && 'Select an SEO Issue to Address'}
                             {strategyTab === 'persona' && 'Select a Target Persona'}

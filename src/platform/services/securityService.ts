@@ -20,7 +20,12 @@ const INJECTION_PATTERNS = [
     "system prompt",
     "you are not",
     "new rule",
-    "jailbreak"
+    "jailbreak",
+    "prompt injection",
+    "execute javascript",
+    "<script",
+    "onload=",
+    "onerror="
 ];
 
 export const sanitizePromptInput = (input: string, maxLength: number = 5000): string => {
@@ -37,9 +42,10 @@ export const sanitizePromptInput = (input: string, maxLength: number = 5000): st
     const lowerInput = sanitized.toLowerCase();
     INJECTION_PATTERNS.forEach(pattern => {
         if (lowerInput.includes(pattern)) {
-            console.warn(`[Security] Potential prompt injection pattern detected: "${pattern}"`);
-            // Optional: Escape the pattern to neutralize it?
-            // sanitized = sanitized.replace(new RegExp(pattern, 'gi'), `[${pattern}]`);
+            console.warn(`[Security] Potential prompt injection pattern detected and neutralized: "${pattern}"`);
+            // Aggressively neutralize the pattern
+            const regex = new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+            sanitized = sanitized.replace(regex, `[NEUTRALIZED: ${pattern}]`);
         }
     });
 

@@ -3,11 +3,18 @@ import { motion } from 'framer-motion';
 import { useOutletContext, Link } from 'react-router-dom';
 import CaribbeanRoadmap from '../components/CaribbeanRoadmap';
 
+import SEO from '../components/SEO';
+
 const BarbadosMarketing: React.FC = () => {
     const { setModalOpen }: any = useOutletContext();
 
     return (
         <div className="bg-white">
+            <SEO
+                title="Born in Barbados, Scaling Globally"
+                description="Bridging the gap between Caribbean excellence and global digital demand through institutional-grade marketing infrastructure."
+                canonicalPath="/barbados"
+            />
             {/* Hero Section - Barbados Focus */}
             <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-deep">
                 {/* Immersive Background Elements */}
