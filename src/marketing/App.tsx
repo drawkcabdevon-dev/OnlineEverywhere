@@ -15,7 +15,6 @@ import Catalyst from './pages/services/Catalyst';
 import Partnership from './pages/services/Partnership';
 import MediaIgnition from './pages/services/MediaIgnition';
 import Ollie from './pages/Ollie';
-import MobileSpeedOptimization from './pages/services/MobileSpeedOptimization';
 import TourismLanding from './TourismLanding';
 
 const App: React.FC = () => {
@@ -35,7 +34,6 @@ const App: React.FC = () => {
                     <Route path="services/conversion-catalyst" element={<Catalyst />} />
                     <Route path="services/proactive-partnership" element={<Partnership />} />
                     <Route path="services/paid-media-ignition" element={<MediaIgnition />} />
-                    <Route path="services/mobile-page-speed-optimization" element={<MobileSpeedOptimization />} />
                     <Route path="about" element={<AboutUs />} />
                     <Route path="portfolio" element={<Portfolio />} />
                     <Route path="blog" element={<Blog />} />

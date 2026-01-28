@@ -543,7 +543,7 @@ const Home: React.FC = () => {
                                 title: "Mobile Page Speed Optimization",
                                 results: "Strategic AI Partners",
                                 image: "/mobile-speed-opt.png",
-                                link: "/services/mobile-page-speed-optimization"
+                                link: "/portfolio"
                             }
                         ].map((work, i) => (
                             <motion.div

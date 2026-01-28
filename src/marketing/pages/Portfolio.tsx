@@ -38,6 +38,14 @@ const Portfolio: React.FC = () => {
             image: "https://lh3.googleusercontent.com/aida-public/AB6AXuCPUc8wJRKJL-idYU3ytHQhrGZPVnGYb0vbKABO9AfePRXqthWXoBEcNYWGPzGgRhZGRRmo84e7ZOHi3xHGb38xMj-wcCFT5Ig-6bsbAm0A-5vbnKpLM8HepUmr9O43e03_UIXQ1Yh4jBVmicRc5ItNXEnXsoqc9LZ_XhJKOaBhE9lbVxvCb-bXA3H5d9tMRCvOpPANQg2VuQLvOwPxHZ7heaZ7a8-yDmWVJU8dlssOKehykxoKH5cDjC_1NFwCKMDNhIyOQIoS1TE",
             tags: ["AI Integration", "Cloud Infrastructure", "SEO"],
             results: "Top 3 Search Ranking"
+        },
+        {
+            title: "CustomerSuccessU Mobile Speed Optimization",
+            category: "Technical Architecture",
+            description: "Achieved 40% speed increase for a global not-for-profit education platform, ensuring instant access to career development resources on mobile devices across varying network conditions.",
+            image: "/mobile-speed-opt.png",
+            tags: ["Core Web Vitals", "Mobile-First", "CDN Strategy"],
+            results: "40% Speed Increase"
         }
     ];
 
@@ -79,8 +87,8 @@ const Portfolio: React.FC = () => {
                             key={category}
                             onClick={() => setActiveCategory(category)}
                             className={`px-8 py-3 rounded-pill text-sm font-bold transition-all ${activeCategory === category
-                                    ? 'bg-navy-deep text-white shadow-xl'
-                                    : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-navy-deep'
+                                ? 'bg-navy-deep text-white shadow-xl'
+                                : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-navy-deep'
                                 }`}
                         >
                             {category}
