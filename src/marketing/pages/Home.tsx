@@ -535,8 +535,9 @@ const Home: React.FC = () => {
                             },
                             {
                                 title: "Mobile Page Speed Optimization",
-                                results: "40% Speed Increase",
-                                image: "/mobile-speed-opt.png"
+                                results: "Strategic AI Partners",
+                                image: "/mobile-speed-opt.png",
+                                link: "https://CustomerSuccessU.org"
                             }
                         ].map((work, i) => (
                             <motion.div
@@ -549,14 +550,19 @@ const Home: React.FC = () => {
                             >
                                 <img src={work.image} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-60" alt={work.title} />
                                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent" />
-                                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                                <div className="absolute bottom-8 left-8 right-8 flex justify-between items-center">
                                     <div>
                                         <h4 className="text-2xl font-display font-bold text-white mb-2">{work.title}</h4>
                                         <p className="text-google-blue font-bold text-sm tracking-widest uppercase">{work.results}</p>
                                     </div>
-                                    <Link to="/portfolio" className="size-14 rounded-full bg-white flex items-center justify-center text-gray-900 hover:bg-google-blue hover:text-white transition-all shadow-lg">
+                                    <a
+                                        href={work.link || "/portfolio"}
+                                        target={work.link ? "_blank" : "_self"}
+                                        rel={work.link ? "noopener noreferrer" : ""}
+                                        className="size-14 rounded-full bg-white flex items-center justify-center text-gray-900 hover:bg-google-blue hover:text-white transition-all shadow-lg"
+                                    >
                                         <span className="material-symbols-outlined">arrow_outward</span>
-                                    </Link>
+                                    </a>
                                 </div>
                             </motion.div>
                         ))}
