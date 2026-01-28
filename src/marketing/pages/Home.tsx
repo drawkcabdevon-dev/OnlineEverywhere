@@ -408,7 +408,7 @@ const Home: React.FC = () => {
                                     {/* Small dot on the line */}
                                     <div className={`absolute left-[0.625rem] top-2 size-2.5 rounded-full bg-white border-2 border-${item.color} z-20 group-hover:scale-150 transition-transform`}></div>
 
-                                    <div className="roadmap-item-latent group-focus:roadmap-item-active while-in-view:roadmap-item-active">
+                                    <div className="relative">
                                         <div className={`inline-flex items-center gap-2 text-${item.color} font-bold text-xs uppercase tracking-widest mb-6`}>
                                             <span className="material-symbols-outlined text-lg">{item.icon}</span>
                                             {item.stage}

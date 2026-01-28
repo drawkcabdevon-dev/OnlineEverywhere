@@ -143,25 +143,6 @@
         border-radius: 1px;
     }
 
-    .roadmap-item-latent {
-        opacity: 0.15;
-        transform: translateY(20px);
-        filter: grayscale(100%);
-        transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
 
-    .roadmap-item-active {
-        opacity: 1;
-        transform: translateY(0);
-        filter: grayscale(0%);
-    }
-
-    /* Target items specifically when in view via Framer/Tailwind */
-    .roadmap-item-active,
-    [data-active="true"] .roadmap-item-latent {
-        opacity: 1;
-        transform: translateY(0);
-        filter: grayscale(0%);
-    }
 
 }
