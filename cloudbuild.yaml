@@ -22,7 +22,6 @@ steps:
     args:
       - '-c'
       - |
-        cd marketing-site && \
         npm install && \
         npm run build
     id: 'Build Marketing Site'
@@ -45,7 +44,7 @@ steps:
 
   # 5. Deploy MARKETING SITE to GCS
   - name: 'gcr.io/cloud-builders/gsutil'
-    args: ['-m', 'rsync', '-r', '-d', 'marketing-site/dist', 'gs://$_MARKETING_BUCKET']
+    args: ['-m', 'rsync', '-r', '-d', 'dist', 'gs://$_MARKETING_BUCKET']
     id: 'Deploy Marketing Site'
 
   # 6. Set public-read permissions on all objects in the bucket
