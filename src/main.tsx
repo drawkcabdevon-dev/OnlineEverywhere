@@ -1,10 +1,31 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import MarketingApp from './marketing/App.tsx'
+import PlatformApp from './platform/App.tsx'
+import { ProjectProvider } from './platform/contexts/ProjectContext'
+import { ErrorProvider } from './platform/contexts/ErrorContext'
+import { AuthProvider } from './platform/contexts/AuthContext'
+import './marketing/index.css'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const root = ReactDOM.createRoot(document.getElementById('root')!);
+
+root.render(
     <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-)
+        <BrowserRouter>
+            <ErrorProvider>
+                <AuthProvider>
+                    <ProjectProvider>
+                        <Routes>
+                            {/* Platform / Portal Routes */}
+                            <Route path="/portal/*" element={<PlatformApp />} />
+
+                            {/* Default: Marketing Site */}
+                            <Route path="/*" element={<MarketingApp />} />
+                        </Routes>
+                    </ProjectProvider>
+                </AuthProvider>
+            </ErrorProvider>
+        </BrowserRouter>
+    </React.StrictMode>
+);

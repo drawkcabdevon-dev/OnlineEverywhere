@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Layout from './layouts/MainLayout';
 import Home from './pages/Home';
 import Services from './pages/Services';
@@ -19,7 +19,7 @@ import TourismLanding from './TourismLanding';
 
 const App: React.FC = () => {
     return (
-        <BrowserRouter>
+        <>
             <ScrollToTop />
             <Routes>
                 {/* Legacy / Direct Access for Tourism */}
@@ -47,7 +47,7 @@ const App: React.FC = () => {
                     <Route path="security" element={<div className="py-24 max-w-3xl mx-auto px-6 h-screen">Infrastructure Security Protocols.</div>} />
                 </Route>
             </Routes>
-        </BrowserRouter>
+        </>
     );
 };
 
