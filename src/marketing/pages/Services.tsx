@@ -43,9 +43,27 @@ const Services: React.FC = () => {
                             Comprehensive <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue via-google-red to-google-green">Services.</span>
                         </h1>
-                        <p className="text-xl text-gray-600 max-w-2xl leading-relaxed mx-auto lg:mx-0">
+                        <p className="text-xl text-gray-600 max-w-2xl leading-relaxed mx-auto lg:mx-0 mb-10">
                             We provide the technical leverage and strategic frameworks necessary to capture sophisticated international audiences. Our services are integrated endeavors.
                         </p>
+                        <div className="flex flex-col sm:flex-row gap-4 mx-auto lg:mx-0 w-fit">
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => setModalOpen(true, 'audit')}
+                                className="bg-google-blue text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-xl text-base shadow-google-blue/20"
+                            >
+                                <span className="material-symbols-outlined">analytics</span>
+                                Request Technical Audit
+                            </motion.button>
+                            <button
+                                onClick={() => navigate('/ollie')}
+                                className="bg-white text-navy-deep px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 transition-all shadow-lg border border-gray-200 text-base"
+                            >
+                                <span className="material-symbols-outlined">bolt</span>
+                                Try AI Demo
+                            </button>
+                        </div>
                     </motion.div>
                 </div>
             </section>

@@ -143,7 +143,7 @@ const GoalSelector: React.FC = () => {
     const navigate = useNavigate();
 
     return (
-        <section className="py-32 bg-white overflow-hidden relative border-t border-gray-100">
+        <section className="py-16 pt-16 bg-white overflow-hidden relative border-t border-gray-100">
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-surface rounded-full blur-[150px] -z-10 translate-x-1/2 -translate-y-1/2"></div>
 
             <div className="max-w-7xl mx-auto px-6">
