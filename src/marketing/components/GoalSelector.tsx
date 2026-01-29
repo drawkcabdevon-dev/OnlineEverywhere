@@ -147,20 +147,7 @@ const GoalSelector: React.FC = () => {
             <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-surface rounded-full blur-[150px] -z-10 translate-x-1/2 -translate-y-1/2"></div>
 
             <div className="max-w-7xl mx-auto px-6">
-                <div className="flex flex-col lg:flex-row justify-between items-end gap-8 mb-20 animate-fade-in">
-                    <div className="max-w-xl">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-google-blue/5 border border-google-blue/10 text-google-blue text-[10px] font-bold uppercase tracking-widest mb-6">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-google-blue opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-google-blue"></span>
-                            </span>
-                            Service Ecosystem
-                        </div>
-                        <h2 className="text-5xl lg:text-7xl font-display font-bold text-navy-deep tracking-tight leading-[0.95]">
-                            Core <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue via-google-red to-google-green">Frameworks.</span>
-                        </h2>
-                    </div>
-                </div>
+
 
                 <div className="flex flex-wrap items-center gap-3 mb-20 p-2 bg-gray-50/50 rounded-[2.5rem] border border-gray-100 w-fit">
                     {tabs.map((tab) => (
