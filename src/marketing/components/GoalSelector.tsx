@@ -149,7 +149,7 @@ const GoalSelector: React.FC = () => {
             <div className="max-w-7xl mx-auto px-6">
 
 
-                <div className="flex flex-wrap items-center gap-3 mb-20 p-2 bg-gray-50/50 rounded-[2.5rem] border border-gray-100 w-fit">
+                <div className="flex flex-wrap items-center justify-center gap-3 mb-20 p-2 bg-gray-50/50 rounded-[2.5rem] border border-gray-100 w-fit mx-auto">
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
