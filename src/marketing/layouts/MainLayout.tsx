@@ -137,22 +137,22 @@ const Layout: React.FC = () => {
             <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-xl border-b border-gray-100 py-3 shadow-sm' : 'bg-transparent py-5'}`}>
                 <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
                     {/* Logo Block */}
-                    <Link to="/" className="flex items-end gap-0.5 group pb-1">
-                        <div className="relative size-10 flex items-center justify-center">
+                    <Link to="/" className="flex items-center gap-2 group">
+                        <div className="relative size-9 lg:size-10 flex items-center justify-center shrink-0">
                             <motion.div
                                 animate={{ scale: scrolled ? 0.9 : 1 }}
                                 className="size-full rounded-full border-2 border-google-blue/20 flex items-center justify-center p-0.5"
                             >
                                 <div className="size-full rounded-full border-[3px] border-google-blue flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-google-blue text-xl font-variation-fill">ads_click</span>
+                                    <span className="material-symbols-outlined text-google-blue text-lg lg:text-xl font-variation-fill">ads_click</span>
                                 </div>
                             </motion.div>
                         </div>
                         <div className="flex flex-col">
-                            <h1 className="text-lg lg:text-xl font-display font-bold text-gray-800 leading-none">
-                                nline<span className="text-google-blue">Everywhere</span>
+                            <h1 className="text-base lg:text-xl font-display font-bold text-gray-800 leading-tight">
+                                <span className="text-google-blue">O</span>nlineEverywhere
                             </h1>
-                            <p className="text-[9px] text-gray-400 uppercase tracking-widest mt-0.5 font-bold">Strategic AI Partners</p>
+                            <p className="text-[8px] lg:text-[9px] text-gray-400 uppercase tracking-widest font-bold">Strategic AI Partners</p>
                         </div>
                     </Link>
 
@@ -279,8 +279,10 @@ const Layout: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
-                                    <h2 className="text-xl font-display font-bold text-gray-800 leading-none">nline Everywhere</h2>
-                                    <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-1 font-bold">Strategic AI Partners</p>
+                                    <h2 className="text-base lg:text-xl font-display font-bold text-gray-800 leading-tight">
+                                        <span className="text-google-blue">O</span>nlineEverywhere
+                                    </h2>
+                                    <p className="text-[8px] lg:text-[10px] text-gray-400 uppercase tracking-widest font-bold">Strategic AI Partners</p>
                                 </div>
                             </div>
                             <p className="text-sm text-gray-500 leading-relaxed">

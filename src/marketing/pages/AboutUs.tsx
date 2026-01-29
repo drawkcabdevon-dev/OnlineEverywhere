@@ -27,12 +27,12 @@ const AboutUs: React.FC = () => {
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h2 className="text-google-blue font-bold text-sm uppercase tracking-[0.2em] mb-6">Our Mission</h2>
-                            <h1 className="text-6xl lg:text-8xl font-display font-bold text-navy-deep tracking-tight mb-8 leading-[0.9]">
-                                Bridging Local <br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue via-google-red to-google-green">Excellence.</span>
+                            <h2 className="text-google-blue font-bold text-sm uppercase tracking-[0.2em] mb-4 lg:mb-6">Our Mission</h2>
+                            <h1 className="text-5xl lg:text-8xl font-display font-bold text-navy-deep tracking-tight mb-6 lg:mb-8 leading-[1.1] lg:leading-[0.9]">
+                                Bridging Local <br className="hidden lg:block" />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-google-blue via-google-red to-google-green font-display">Excellence.</span>
                             </h1>
-                            <p className="text-xl text-gray-600 leading-relaxed mb-8 max-w-xl">
+                            <p className="text-lg lg:text-xl text-gray-600 leading-relaxed mb-6 lg:mb-8 max-w-xl">
                                 OnLineEverywhere (OLE) was founded on the principle that true growth in the modern era requires a fundamental transition to a digital-first, data-driven institutional culture.
                             </p>
                             <div className="flex items-center gap-6 p-6 bg-gray-50 rounded-2xl border-l-4 border-google-blue italic">
@@ -48,13 +48,13 @@ const AboutUs: React.FC = () => {
                             transition={{ duration: 1 }}
                             className="relative"
                         >
-                            <div className="aspect-square rounded-[4rem] bg-white border border-gray-100 p-16 flex flex-col items-center justify-center text-center space-y-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] overflow-hidden group">
-                                <div className="absolute inset-0 bg-gradient-to-br from-google-blue/5 to-transparent"></div>
-                                <div className="size-32 rounded-[2rem] bg-google-blue/10 flex items-center justify-center text-google-blue mb-4">
-                                    <span className="material-symbols-outlined text-6xl font-variation-light">hub</span>
+                            <div className="aspect-square rounded-[3rem] lg:rounded-[4rem] bg-white border border-gray-100 p-10 lg:p-16 flex flex-col items-center justify-center text-center space-y-6 lg:space-y-8 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] overflow-hidden group">
+                                <div className="absolute inset-0 bg-gradient-to-br from-google-blue/5 to-transparent font-display"></div>
+                                <div className="size-24 lg:size-32 rounded-[1.5rem] lg:rounded-[2rem] bg-google-blue/10 flex items-center justify-center text-google-blue mb-4">
+                                    <span className="material-symbols-outlined text-5xl lg:text-6xl font-variation-light">hub</span>
                                 </div>
-                                <h3 className="text-3xl font-display font-bold text-navy-deep relative z-10">Institutional Integrity</h3>
-                                <p className="text-gray-500 relative z-10 text-lg leading-relaxed">Our methodology is designed to scale with your ambition, ensuring that your digital assets reflect the same excellence as your core business operations.</p>
+                                <h3 className="text-2xl lg:text-3xl font-display font-bold text-navy-deep relative z-10">Institutional Integrity</h3>
+                                <p className="text-gray-500 relative z-10 text-base lg:text-lg leading-relaxed">Our methodology is designed to scale with your ambition, ensuring that your digital assets reflect the same excellence as your core business operations.</p>
                             </div>
 
                             {/* Floating decorative nodes */}
