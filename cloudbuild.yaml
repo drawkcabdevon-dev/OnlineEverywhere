@@ -37,7 +37,7 @@ steps:
 
   # 3. Push Images (App only)
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/onlineeverywhere:$COMMIT_SHA']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA']
     id: 'Push App Image'
 
   # 4. Deploy APP to Cloud Run
