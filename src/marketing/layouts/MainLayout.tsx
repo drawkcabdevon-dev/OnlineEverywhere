@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
+import { useAuth } from '../../platform/contexts/AuthContext';
 import ScrollToTop from '../components/ScrollToTop';
 
 const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" }) => (
@@ -124,6 +125,8 @@ const Layout: React.FC = () => {
         { to: '/contact', label: 'Contact' }
     ];
 
+    const { currentUser, isGuest } = useAuth();
+
     return (
         <div className="bg-background text-gray-700 antialiased font-sans min-h-screen relative">
             <ScrollToTop />
@@ -190,12 +193,21 @@ const Layout: React.FC = () => {
                             </div>
                         ))}
 
-                        <button
-                            onClick={() => setModalConfig({ open: true, type: 'early-access' })}
-                            className="bg-google-blue text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-google-blue/20 hover:scale-105 transition-all text-xs"
-                        >
-                            Get Started
-                        </button>
+                        <div className="flex items-center gap-4">
+                            <Link
+                                to="/portal"
+                                className="text-gray-600 hover:text-navy-deep font-bold text-xs uppercase tracking-wider transition-colors"
+                            >
+                                {currentUser || isGuest ? 'Open App' : 'Log In'}
+                            </Link>
+
+                            <button
+                                onClick={() => setModalConfig({ open: true, type: 'early-access' })}
+                                className="bg-google-blue text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-google-blue/20 hover:scale-105 transition-all text-xs"
+                            >
+                                Get Started
+                            </button>
+                        </div>
                     </div>
 
                     {/* Mobile Menu Toggle */}
@@ -247,6 +259,14 @@ const Layout: React.FC = () => {
                                     )}
                                 </div>
                             ))}
+                            <Link
+                                to="/portal"
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="text-2xl font-display font-bold text-gray-800 block mt-6"
+                            >
+                                {currentUser || isGuest ? 'Open App' : 'Log In'}
+                            </Link>
+
                             <button
                                 onClick={() => {
                                     setModalConfig({ open: true, type: 'early-access' });
