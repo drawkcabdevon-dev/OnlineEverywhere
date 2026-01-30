@@ -11,8 +11,8 @@ steps:
       '--build-arg', 'VITE_FIREBASE_MESSAGING_SENDER_ID=$_FIREBASE_MESSAGING_SENDER_ID',
       '--build-arg', 'VITE_FIREBASE_APP_ID=$_FIREBASE_APP_ID',
       '--build-arg', 'VITE_GEMINI_API_KEY=$_GEMINI_API_KEY',
-      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/onlineeverywhere:$COMMIT_SHA',
-      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/onlineeverywhere:latest',
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA',
+      '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:latest',
       '.'
     ]
     id: 'Build App Image'
@@ -45,7 +45,7 @@ steps:
     entrypoint: gcloud
     args: [
       'run', 'deploy', 'onlineeverywhere',
-      '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/onlineeverywhere:$COMMIT_SHA',
+      '--image', 'us-central1-docker.pkg.dev/$PROJECT_ID/ole-dev-app-images/app-suite:$COMMIT_SHA',
       '--region', 'europe-west1',
       '--allow-unauthenticated'
     ]
@@ -72,6 +72,7 @@ steps:
     id: 'Set GCS Website Config'
 
 options:
+  machineType: 'E2_HIGHCPU_8'
   logging: CLOUD_LOGGING_ONLY
 
 substitutions:
