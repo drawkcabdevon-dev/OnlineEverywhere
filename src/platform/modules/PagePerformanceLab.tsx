@@ -30,11 +30,11 @@ const ScoreCircle: React.FC<{ score: number; label: string }> = ({ score, label 
 const StatusIcon: React.FC<{ status: 'Pass' | 'Fail' | 'Warning' }> = ({ status }) => {
     switch (status) {
         case 'Pass':
-            return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+            return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
         case 'Fail':
-            return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
+            return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>;
         case 'Warning':
-            return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>;
+            return <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>;
         default:
             return null;
     }
@@ -47,7 +47,7 @@ const ActionPlanCard: React.FC<{ action: SeoAction | ZeroClickAnalysis['recommen
     const handleBuild = () => {
         let prompt = `Fulfill the following SEO recommendation: "${action.title}. ${action.description}"`;
         let mode: 'qa' | 'article' = 'qa';
-        if(action.title.toLowerCase().includes('faq')) {
+        if (action.title.toLowerCase().includes('faq')) {
             mode = 'qa';
         }
         navigateToModule('content-creator', { topic: prompt, mode });
@@ -115,7 +115,7 @@ const PagePerformanceLab: React.FC = () => {
             setIsLoading(false);
         }
     };
-    
+
     const handleFindOpportunities = async () => {
         if (!activeProject || !auditResult?.issues) return;
         setIsFindingOpportunities(true);
@@ -129,18 +129,18 @@ const PagePerformanceLab: React.FC = () => {
             setIsFindingOpportunities(false);
         }
     };
-    
+
     const handleGoToBehavioralHub = (prompt: string) => {
         navigateToModule('behavioral-hub', { behavior: prompt });
     }
-    
+
     const severityBadge = (severity: SeoIssue['severity']) => {
-      switch (severity) {
-        case 'High': return 'bg-red-500/30 text-red-300';
-        case 'Medium': return 'bg-yellow-500/30 text-yellow-300';
-        case 'Low': return 'bg-gray-600 text-gray-300';
-        default: return '';
-      }
+        switch (severity) {
+            case 'High': return 'bg-red-500/30 text-red-300';
+            case 'Medium': return 'bg-yellow-500/30 text-yellow-300';
+            case 'Low': return 'bg-gray-600 text-gray-300';
+            default: return '';
+        }
     }
 
     const auditLoadingMessages = [
@@ -167,12 +167,12 @@ const PagePerformanceLab: React.FC = () => {
                         </div>
                         <Button onClick={handleAudit} isLoading={isLoading} disabled={!url}>Audit Page</Button>
                     </div>
-                     <p className="text-xs text-secondary mt-2 text-center">
+                    <p className="text-xs text-secondary mt-2 text-center">
                         Note: Audits are performed using real-time Google Search data for maximum accuracy, not simulated results.
                     </p>
                 </Section>
 
-                {isLoading && <div className="flex justify-center p-8"><Spinner size={40} showMessages messages={auditLoadingMessages}/></div>}
+                {isLoading && <div className="flex justify-center p-8"><Spinner size={40} showMessages messages={auditLoadingMessages} /></div>}
 
                 {auditResult && !isLoading && (
                     <div className="space-y-8">
@@ -187,7 +187,7 @@ const PagePerformanceLab: React.FC = () => {
                                 <ScoreCircle score={auditResult.scores.content} label="Content" />
                             </div>
                         </Section>
-                        
+
                         <Section
                             step={3}
                             title="AI-Search Layer Analysis"
@@ -200,7 +200,7 @@ const PagePerformanceLab: React.FC = () => {
                                 <AiSearchLayerCard title="SXO" fullName="Search Experience Optimization" analysis={auditResult.aiSearchLayerAnalysis.sxo} />
                             </div>
                         </Section>
-                        
+
                         {auditResult.suggestedSchema && (
                             <Section
                                 step={4}
@@ -216,9 +216,9 @@ const PagePerformanceLab: React.FC = () => {
                             title="Zero-Click Search Analysis"
                             description="Analyzes the page's readiness to be featured in SERP snippets, where 70% of searches end."
                         >
-                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                                 <div className="lg:col-span-1 flex justify-center">
-                                     <ScoreCircle score={auditResult.zeroClickAnalysis.readinessScore} label="Readiness Score" />
+                                    <ScoreCircle score={auditResult.zeroClickAnalysis.readinessScore} label="Readiness Score" />
                                 </div>
                                 <div className="lg:col-span-2 space-y-4">
                                     <div>
@@ -227,7 +227,7 @@ const PagePerformanceLab: React.FC = () => {
                                             {auditResult.zeroClickAnalysis.opportunities.map((opp, i) => <li key={i}>{opp}</li>)}
                                         </ul>
                                     </div>
-                                     <div>
+                                    <div>
                                         <h4 className="font-semibold text-red-400">Threats</h4>
                                         <ul className="list-disc list-inside text-sm text-text-muted font-serif space-y-1 mt-1">
                                             {auditResult.zeroClickAnalysis.threats.map((threat, i) => <li key={i}>{threat}</li>)}
@@ -235,18 +235,18 @@ const PagePerformanceLab: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="lg:col-span-3 border-t border-border pt-4">
-                                     <h4 className="font-semibold text-white mb-3">Recommendations</h4>
-                                     <div className="space-y-3">
-                                        {auditResult.zeroClickAnalysis.recommendations.map((rec, i) => <ActionPlanCard key={i} action={rec} step={`Z${i+1}`} />)}
-                                     </div>
+                                    <h4 className="font-semibold text-white mb-3">Recommendations</h4>
+                                    <div className="space-y-3">
+                                        {auditResult.zeroClickAnalysis.recommendations.map((rec, i) => <ActionPlanCard key={i} action={rec} step={`Z${i + 1}`} />)}
+                                    </div>
                                 </div>
                             </div>
                         </Section>
 
                         <Section
-                          step={6}
-                          title="Issues & Technical Checks"
-                          description="Prioritized issues and a detailed technical checklist."
+                            step={6}
+                            title="Issues & Technical Checks"
+                            description="Prioritized issues and a detailed technical checklist."
                         >
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                                 <div>
@@ -263,7 +263,7 @@ const PagePerformanceLab: React.FC = () => {
                                         <Button onClick={handleFindOpportunities} isLoading={isFindingOpportunities}>Find Personalization Opportunities</Button>
                                     </div>
                                 </div>
-                                 <div>
+                                <div>
                                     <h3 className="text-lg font-semibold text-white mb-4">Technical Audit</h3>
                                     <div className="overflow-x-auto max-h-96">
                                         <table className="min-w-full">
@@ -287,14 +287,14 @@ const PagePerformanceLab: React.FC = () => {
                             title="Action Plan"
                             description="A prioritized, step-by-step plan to address the most critical issues."
                         >
-                           <div className="space-y-4">
+                            <div className="space-y-4">
                                 {auditResult.actions.map(action => <ActionPlanCard key={action.step} action={action} step={`${action.step}`} />)}
                             </div>
                         </Section>
                     </div>
                 )}
             </div>
-            
+
             <Modal isOpen={isOpportunitiesModalOpen} onClose={() => setIsOpportunitiesModalOpen(false)} title="Personalization Opportunities">
                 <div className="space-y-6">
                     <p className="text-gray-300">Based on the SEO issues, here are some personalization strategies to consider, along with prompts for the Behavioral Intelligence Hub.</p>
