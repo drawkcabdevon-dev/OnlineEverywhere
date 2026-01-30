@@ -52,6 +52,7 @@ const App: React.FC = () => {
                         <Route path="barbados" element={<BarbadosMarketing />} />
                         <Route path="barbados-stitch" element={<BarbadosStitch />} />
                         <Route path="contact" element={<ContactUs />} />
+                        <Route path="firebase-test" element={<FirebaseTest />} />
 
                         {/* Utility Routes */}
                         <Route path="privacy" element={<div className="py-24 max-w-3xl mx-auto px-6 h-screen">Institutional Privacy Policy coming soon.</div>} />

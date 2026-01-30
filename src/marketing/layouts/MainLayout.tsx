@@ -52,16 +52,24 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
 
                 {submitted ? (
                     <div className="space-y-4">
+                        <Link
+                            to="/portal"
+                            className="w-full bg-google-blue text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-google-blue/30 transition-all transform hover:scale-[1.02]"
+                        >
+                            <span className="material-symbols-outlined">rocket_launch</span>
+                            Enter Ollie OS
+                        </Link>
+
                         <a
                             href={DEMO_URLS.PERSONA_LAB}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full bg-google-blue text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-google-blue/30 transition-all transform hover:scale-[1.02]"
+                            className="w-full bg-white border border-gray-200 text-gray-700 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 transition-all"
                         >
                             <span className="material-symbols-outlined">face</span>
                             Try PersonaLab Demo
                         </a>
-                        <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium">No account required for limited demo</p>
+                        <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium">Access Granted via Temporary Guest Pass</p>
                     </div>
                 ) : (
                     <form className="space-y-6" onSubmit={async e => {
