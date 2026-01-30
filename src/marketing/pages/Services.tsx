@@ -4,14 +4,10 @@ import { useOutletContext, useNavigate } from 'react-router-dom';
 import { DEMO_URLS } from '../config';
 import GoalSelector from '../components/GoalSelector';
 
-const ColorStripDivider: React.FC = () => (
-    <div className="flex h-1.5 w-full">
-        <div className="flex-1 bg-google-blue"></div>
-        <div className="flex-1 bg-google-red"></div>
-        <div className="flex-1 bg-google-yellow"></div>
-        <div className="flex-1 bg-google-green"></div>
-    </div>
-);
+import WaveDivider from '../components/WaveDivider';
+
+// Removed ColorStripDivider
+
 
 import SEO from '../components/SEO';
 
@@ -26,7 +22,7 @@ const Services: React.FC = () => {
                 description="Comprehensive digital solutions including AI-native infrastructure, conversion optimization, and global market acquirements."
                 canonicalPath="/services"
             />
-            <ColorStripDivider />
+            <WaveDivider />
 
             {/* Services Hero */}
             <section className="relative py-24 lg:py-32 overflow-hidden">

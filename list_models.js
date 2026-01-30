@@ -1,12 +1,10 @@
 
 import { GoogleGenAI } from "@google/genai";
-import dotenv from 'dotenv';
-dotenv.config({ path: '.env.local' });
 
 const listModels = async () => {
     const key = process.env.VITE_GEMINI_API_KEY;
     if (!key) {
-        console.error("No API key found");
+        console.error("No API key found in VITE_GEMINI_API_KEY environment variable");
         return;
     }
     const ai = new GoogleGenAI({ apiKey: key });
