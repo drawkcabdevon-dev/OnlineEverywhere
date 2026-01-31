@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { GlobalIntentVisual, InvisibleGapVisual, StrategicProjectionVisual, InstitutionalGrowthVisual } from '../components/RoadmapVisuals';
 import { useOutletContext, Link } from 'react-router-dom';
 import TabbedScenarios from '../components/TabbedScenarios';
+import FAQ from '../components/FAQ';
 
 const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" }) => (
     <div className={`flex h-1.5 w-full ${className}`}>
@@ -656,6 +657,10 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+            <ColorStripDivider />
+            <FAQ />
+            <ColorStripDivider />
 
             {/* CTA Section */}
             <section className="py-24 bg-white overflow-hidden">
