@@ -250,7 +250,7 @@ const ContentCreator: React.FC = () => {
             );
         }
         if ('subjectLines' in result) {
-            const emailResult = result as any; // Cast to EmailContentResult
+            const emailResult = result as EmailContentResult;
             return (
                 <div className="space-y-6 animate-slide-in-up">
                     <div>
@@ -273,7 +273,7 @@ const ContentCreator: React.FC = () => {
             );
         }
         if ('headlines' in result) {
-            const adResult = result as any; // Cast to AdCopyResult
+            const adResult = result as AdCopyResult;
             return (
                 <div className="space-y-6 animate-slide-in-up">
                     <div className="flex items-center justify-between">
@@ -297,7 +297,7 @@ const ContentCreator: React.FC = () => {
             );
         }
         if ('script' in result) {
-            const videoResult = result as any; // Cast to VideoScriptResult
+            const videoResult = result as VideoScriptResult;
             return (
                 <div className="space-y-6 animate-slide-in-up">
                     <div>

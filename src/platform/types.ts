@@ -376,7 +376,7 @@ export interface ZeroClickResult {
     faqSchema: string;
 }
 
-export type GeneratedContentResult = PostGenerationResult | string[] | ZeroClickResult | HtmlComponent;
+export type GeneratedContentResult = PostGenerationResult | string[] | ZeroClickResult | HtmlComponent | EmailContentResult | AdCopyResult | VideoScriptResult;
 
 export type ContentMode = 'post' | 'comment' | 'qa' | 'article' | 'email' | 'ad_copy' | 'video_script';
 export interface ContentOpportunity {
