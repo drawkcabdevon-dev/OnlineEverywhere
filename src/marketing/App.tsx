@@ -18,6 +18,7 @@ const Partnership = React.lazy(() => import('./pages/services/Partnership'));
 const MediaIgnition = React.lazy(() => import('./pages/services/MediaIgnition'));
 const Ollie = React.lazy(() => import('./pages/Ollie'));
 const TourismLanding = React.lazy(() => import('./TourismLanding'));
+const FirebaseTest = React.lazy(() => import('./pages/FirebaseTest'));
 
 const LoadingFallback = () => (
     <div className="h-screen w-full flex items-center justify-center bg-white">

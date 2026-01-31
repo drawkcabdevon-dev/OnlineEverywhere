@@ -22,8 +22,6 @@ const Services: React.FC = () => {
                 description="Comprehensive digital solutions including AI-native infrastructure, conversion optimization, and global market acquirements."
                 canonicalPath="/services"
             />
-            <WaveDivider />
-
             {/* Services Hero */}
             <section className="relative py-24 lg:py-32 overflow-hidden">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(66,133,244,0.05)_0%,transparent_50%)]"></div>
@@ -63,6 +61,8 @@ const Services: React.FC = () => {
                     </motion.div>
                 </div>
             </section>
+
+            <WaveDivider />
 
             <GoalSelector />
 
