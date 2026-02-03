@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
+import { submitToGoogleForm } from '../lib/googleForms';
 import { useAuth } from '../../platform/contexts/AuthContext';
 import ScrollToTop from '../components/ScrollToTop';
 
@@ -81,6 +82,13 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                             business: formData.get('business'),
                         };
                         const res = await submitLead(type, data);
+                        // Also submit to Google Form
+                        await submitToGoogleForm({
+                            name: data.name as string,
+                            email: data.email as string,
+                            business: data.business as string
+                        });
+
                         if (res.success) {
                             setSubmitted(true);
                         } else {
@@ -155,15 +163,15 @@ const Layout: React.FC = () => {
                                 className="size-full rounded-full border-2 border-google-blue/20 flex items-center justify-center p-0.5"
                             >
                                 <div className="size-full rounded-full border-[3px] border-google-blue flex items-center justify-center">
-                                    <span className="material-symbols-outlined text-google-blue text-lg lg:text-xl font-variation-fill">ads_click</span>
+                                    <span className="material-symbols-outlined text-black text-lg lg:text-xl font-variation-fill">ads_click</span>
                                 </div>
                             </motion.div>
                         </div>
                         <div className="flex flex-col">
                             <h1 className="text-base lg:text-xl font-display font-bold text-gray-800 leading-tight">
-                                <span className="text-google-blue">O</span>nlineEverywhere
+                                <span className="text-black">O</span>nline<span className="text-google-blue">Everywhere</span>
                             </h1>
-                            <p className="text-[8px] lg:text-[9px] text-gray-400 uppercase tracking-widest font-bold">Strategic AI Partners</p>
+                            <p className="text-[8px] lg:text-[9px] text-gray-400 uppercase tracking-widest font-bold">Click to Client</p>
                         </div>
                     </Link>
 

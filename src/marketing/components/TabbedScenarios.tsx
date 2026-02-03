@@ -106,16 +106,24 @@ const TabbedScenarios: React.FC = () => {
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`flex items-center gap-4 p-6 rounded-2xl text-left transition-all duration-300 group ${activeTab === tab.id
-                                        ? 'bg-google-blue text-white shadow-xl shadow-google-blue/20'
-                                        : 'bg-surface hover:bg-white hover:shadow-lg text-navy-muted'
+                                className={`relative flex items-center gap-4 p-6 rounded-2xl text-left transition-all duration-300 group overflow-hidden ${activeTab === tab.id
+                                    ? 'text-white shadow-xl shadow-google-blue/20'
+                                    : 'bg-surface hover:bg-white hover:shadow-lg text-navy-muted'
                                     }`}
                             >
-                                <span className={`material-symbols-outlined text-2xl ${activeTab === tab.id ? 'text-white' : 'text-google-blue'
+                                {activeTab === tab.id && (
+                                    <motion.div
+                                        layoutId="activeTabBackground"
+                                        className="absolute inset-0 bg-google-blue z-0"
+                                        initial={false}
+                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                    />
+                                )}
+                                <span className={`relative z-10 material-symbols-outlined text-2xl ${activeTab === tab.id ? 'text-white' : 'text-google-blue'
                                     } group-hover:scale-110 transition-transform`}>
                                     {tab.icon}
                                 </span>
-                                <span className="text-lg font-bold font-display">{tab.title}</span>
+                                <span className="relative z-10 text-lg font-bold font-display">{tab.title}</span>
                             </button>
                         ))}
                     </nav>
@@ -131,7 +139,7 @@ const TabbedScenarios: React.FC = () => {
                                         animate={{ opacity: 1, x: 0 }}
                                         exit={{ opacity: 0, x: -20 }}
                                         transition={{ duration: 0.4, ease: "easeOut" }}
-                                        className="bg-surface rounded-[2.5rem] p-8 lg:p-12 border border-gray-100 shadow-sm h-full flex flex-col justify-center"
+                                        className="bg-white rounded-[2.5rem] p-8 lg:p-12 border border-gray-100 shadow-sm h-full flex flex-col justify-center"
                                     >
                                         <h4 className="text-3xl lg:text-4xl font-display font-bold text-navy-deep mb-8">
                                             {tab.heading}

@@ -104,7 +104,7 @@ export const refreshProjectSuggestions = async (project: Project): Promise<Found
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -117,7 +117,7 @@ const generateSuggestions = async (prompt: string): Promise<Suggestion[]> => {
         items: { type: Type.OBJECT, properties: { name: { type: Type.STRING }, description: { type: Type.STRING } } }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -144,7 +144,7 @@ export const generateSwotAnalysis = async (project: Project): Promise<SwotAnalys
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -167,7 +167,7 @@ export const getDashboardInsights = async (project: Project): Promise<DashboardI
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -188,7 +188,7 @@ export const getGoogleSearchUpdates = async (project: Project): Promise<GoogleUp
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: "List the latest confirmed Google Search algorithm updates from the last 6 months." }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -223,7 +223,7 @@ export const generatePersonaBatch = async (project: Project, criteria: any, coun
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -268,7 +268,7 @@ export const analyzeCompetitor = async (project: Project, url: string): Promise<
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -282,7 +282,7 @@ export const suggestCompetitors = async (project: Project): Promise<{ url: strin
         items: { type: Type.OBJECT, properties: { url: { type: Type.STRING }, reason: { type: Type.STRING } } }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -301,7 +301,7 @@ export const compareCompetitors = async (project: Project, c1: CompetitiveAnalys
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -322,7 +322,7 @@ export const getKeywordDetails = async (project: Project, keyword: string): Prom
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -344,7 +344,7 @@ const componentSchema = {
 export const generateHtmlSection = async (project: Project, description: string, inspiration?: any): Promise<HtmlComponent> => {
     const prompt = `${getBusinessContextPrompt(project)} Generate a valid HTML snippet (using Tailwind CSS classes) for a website section: ${description}. Inspiration: ${JSON.stringify(inspiration)}`;
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -354,7 +354,7 @@ export const generateHtmlSection = async (project: Project, description: string,
 export const generateWireframe = async (project: Project, description: string): Promise<HtmlComponent> => {
     const prompt = `${getBusinessContextPrompt(project)} Generate a low-fidelity wireframe HTML snippet (using Tailwind CSS) for: ${description}. Use gray placeholders.`;
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -364,7 +364,7 @@ export const generateWireframe = async (project: Project, description: string): 
 export const generateStrategicHtmlSection = async (project: Project, payload: StrategicComponentPayload): Promise<HtmlComponent> => {
     const prompt = `${getBusinessContextPrompt(project)} Generate a strategic HTML component based on: ${JSON.stringify(payload)}`;
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -374,7 +374,7 @@ export const generateStrategicHtmlSection = async (project: Project, payload: St
 export const refineHtmlSection = async (project: Project, htmlCode: string, instruction: string): Promise<HtmlComponent> => {
     const prompt = `Refine this HTML code: ${htmlCode}. Instruction: ${instruction}.`;
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -385,7 +385,7 @@ export const generateStyleVariations = async (project: Project, component: HtmlC
     const prompt = `Generate 3 style variations for this component. Return as array.`;
     const schema = { type: Type.ARRAY, items: componentSchema };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -395,7 +395,7 @@ export const generateStyleVariations = async (project: Project, component: HtmlC
 export const designWireframe = async (project: Project, htmlCode: string): Promise<HtmlComponent> => {
     const prompt = `Apply the project's brand style to this wireframe HTML: ${htmlCode}.`;
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: componentSchema }
     });
@@ -450,7 +450,7 @@ export const keywordStrategy = async (project: Project, topic: string): Promise<
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -497,7 +497,7 @@ export const generateStrategyBrief = async (project: Project, campaignGoal: stri
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema, thinkingConfig: { thinkingBudget: 32768 } }
     });
@@ -524,7 +524,7 @@ export const analyzePersonaTouchpoints = async (project: Project, persona: Perso
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -548,7 +548,7 @@ export const generateBehavioralIntelligencePlan = async (project: Project, perso
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -573,7 +573,7 @@ export const seoAudit = async (project: Project, url: string): Promise<SeoAuditR
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -584,7 +584,7 @@ export const suggestPersonalizationForSeo = async (project: Project, issues: Seo
     const prompt = `Suggest personalization opportunities for these SEO issues: ${JSON.stringify(issues)}.`;
     const schema = { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { opportunity: { type: Type.STRING }, behaviorPrompt: { type: Type.STRING } } } };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -608,7 +608,7 @@ export const generateContentOpportunities = async (project: Project): Promise<Co
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -626,7 +626,7 @@ export const generatePost = async (project: Project, topic: string): Promise<Pos
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -637,7 +637,7 @@ export const generateComments = async (project: Project, topic: string): Promise
     const prompt = `${getBusinessContextPrompt(project)} Write 3 comments for this post: ${topic}.`;
     const schema = { type: Type.ARRAY, items: { type: Type.STRING } };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -654,7 +654,7 @@ export const zeroClick = async (project: Project, topic: string): Promise<ZeroCl
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -676,7 +676,7 @@ export const refinePost = async (project: Project, original: PostGenerationResul
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: p,
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -698,7 +698,7 @@ export const generateEmailCampaign = async (project: Project, goal: string, pers
         }
     };
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -773,7 +773,7 @@ export const generateEmailContent = async (project: Project, topic: string, pers
     };
 
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -798,7 +798,7 @@ export const generateAdCopy = async (project: Project, productInfo: string, plat
     };
 
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });
@@ -820,7 +820,7 @@ export const generateVideoScript = async (project: Project, topic: string): Prom
     };
 
     const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash-latest',
+        model: 'gemini-2.5-flash',
         contents: [{ role: 'user', parts: [{ text: prompt }] }],
         config: { responseMimeType: 'application/json', responseSchema: schema }
     });

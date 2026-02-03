@@ -11,6 +11,7 @@ import Spinner from './components/Spinner';
 import Auth from './modules/Auth';
 import ProjectHub from './modules/ProjectHub';
 import Dashboard from './modules/Dashboard';
+const AdminLeads = React.lazy(() => import('./modules/AdminLeads'));
 
 // Lazy load heavy feature modules
 const Settings = React.lazy(() => import('./modules/Settings'));
@@ -109,6 +110,7 @@ const App: React.FC = () => {
               case 'content-creator': return <ContentCreator />;
               case 'visual-studio': return <VisualStudio />;
               case 'email-campaigner': return <EmailCampaigner />;
+              case 'admin-leads': return <AdminLeads />;
               default: return <Dashboard />;
             }
           })()}

@@ -5,7 +5,7 @@ import Card from '../components/Card';
 import { IconCpu } from '../constants';
 
 const Auth: React.FC = () => {
-    const { signInWithGoogle, loading } = useAuth();
+    const { signInWithGoogle, loginAsGuest, loading } = useAuth();
     const [error, setError] = React.useState<string | null>(null);
 
     const handleLogin = async () => {
@@ -42,6 +42,15 @@ const Auth: React.FC = () => {
                 <Button className="w-full" size="lg" onClick={handleLogin} disabled={loading}>
                     {loading ? 'Signing in...' : 'Sign in with Google'}
                 </Button>
+
+                <div className="mt-4 pt-4 border-t border-gray-100">
+                    <button
+                        onClick={loginAsGuest}
+                        className="w-full py-3 px-4 rounded-xl text-sm font-bold text-gray-500 hover:text-google-blue hover:bg-gray-50 transition-all border border-transparent hover:border-gray-100"
+                    >
+                        Try Demo (Guest Access)
+                    </button>
+                </div>
             </Card>
         </div>
     );

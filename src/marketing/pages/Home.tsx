@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import DigitalUniverseBackground from '../components/DigitalUniverseBackground';
 import { GlobalIntentVisual, InvisibleGapVisual, StrategicProjectionVisual, InstitutionalGrowthVisual } from '../components/RoadmapVisuals';
 import { useOutletContext, Link } from 'react-router-dom';
 import TabbedScenarios from '../components/TabbedScenarios';
@@ -139,7 +140,8 @@ const Home: React.FC = () => {
             />
             {/* Hero Section */}
             <section className="relative min-h-screen flex flex-col items-center pt-32 pb-32 px-6 lg:px-12 overflow-hidden bg-white">
-                <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50/40 via-white to-white"></div>
+                {/* Background */}
+                <DigitalUniverseBackground />
 
                 <div className="relative z-10 max-w-4xl mx-auto text-center mb-20">
                     <motion.div
@@ -177,8 +179,8 @@ const Home: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Floating Cards Visual Area */}
-                <div className="relative w-full max-w-7xl mx-auto h-[500px] lg:h-[700px] perspective-[2000px] mt-12 mb-12 lg:mb-0">
+                {/* Floating Cards Visual Area (Desktop Only) */}
+                <div className="hidden lg:block relative w-full max-w-7xl mx-auto h-[500px] lg:h-[700px] perspective-[2000px] mt-12 mb-12 lg:mb-0">
                     {/* Background Blur Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-google-blue/5 rounded-full blur-[150px] -z-10 pointer-events-none animate-pulse"></div>
 
@@ -336,6 +338,82 @@ const Home: React.FC = () => {
                         </div>
                     </motion.div>
                 </div>
+
+                {/* Mobile View (Stacked) */}
+                <div className="lg:hidden w-full max-w-lg mx-auto flex flex-col gap-6 px-4 mt-8 pb-12">
+                    {/* Card 3: Analytics (Core) - Shows first on mobile */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="w-full bg-white rounded-google shadow-xl border border-gray-100 overflow-hidden"
+                    >
+                        <div className="h-10 bg-gray-50 border-b border-gray-100 flex items-center px-4 gap-2">
+                            <div className="flex gap-1.5">
+                                <div className="w-2.5 h-2.5 rounded-full bg-google-red"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-google-yellow"></div>
+                                <div className="w-2.5 h-2.5 rounded-full bg-google-green"></div>
+                            </div>
+                            <div className="mx-auto bg-white border border-gray-100 rounded-pill w-1/2 h-5 flex items-center px-3">
+                                <span className="text-[8px] text-gray-400 font-mono">analytics/core</span>
+                            </div>
+                        </div>
+                        <div className="p-6">
+                            <div className="flex items-end justify-between mb-6">
+                                <div>
+                                    <h3 className="text-3xl font-display font-bold text-navy-deep">+32.4%</h3>
+                                    <p className="text-xs text-google-green font-bold flex items-center gap-1">Week over Week</p>
+                                </div>
+                                <div className="size-10 rounded-xl bg-google-blue flex items-center justify-center text-white">
+                                    <span className="material-symbols-outlined">insights</span>
+                                </div>
+                            </div>
+                            <div className="h-32 flex items-end gap-1">
+                                {[35, 55, 45, 75, 65, 95, 85].map((h, i) => (
+                                    <div key={i} className={`flex-1 rounded-t-sm ${i === 5 ? 'bg-google-blue' : 'bg-google-blue/20'}`} style={{ height: `${h}%` }}></div>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Card 1: Social */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="w-full bg-white rounded-google shadow-lg border border-gray-100 overflow-hidden"
+                    >
+                        <div className="p-6 flex items-center justify-between">
+                            <div>
+                                <div className="text-google-red font-bold text-2xl">84%</div>
+                                <div className="text-[10px] text-navy-muted uppercase font-bold">Engagement</div>
+                            </div>
+                            <div className="flex -space-x-2">
+                                <div className="w-8 h-8 rounded-full bg-google-blue/10 flex items-center justify-center text-google-blue border border-white"><span className="material-symbols-outlined text-xs">person</span></div>
+                                <div className="w-8 h-8 rounded-full bg-google-red/10 flex items-center justify-center text-google-red border border-white"><span className="material-symbols-outlined text-xs">favorite</span></div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Card 2: Campaigns */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="w-full bg-white rounded-google shadow-lg border border-gray-100 overflow-hidden"
+                    >
+                        <div className="p-6 flex items-center gap-4">
+                            <div className="w-10 h-10 rounded-xl bg-google-yellow/20 flex items-center justify-center text-google-yellow">
+                                <span className="material-symbols-outlined">bolt</span>
+                            </div>
+                            <div className="flex-1">
+                                <div className="h-1.5 w-full bg-gray-100 rounded overflow-hidden">
+                                    <div className="h-full bg-google-yellow w-2/3"></div>
+                                </div>
+                            </div>
+                            <div className="text-navy-deep font-bold text-lg">$1.2k</div>
+                        </div>
+                    </motion.div>
+                </div>
             </section>
 
             <ColorStripDivider />
@@ -451,6 +529,9 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+            <ColorStripDivider />
+
             {/* Packages Section */}
             <section className="py-24 bg-white border-t border-gray-100" id="packages">
                 <div className="max-w-7xl mx-auto px-6">
@@ -506,6 +587,9 @@ const Home: React.FC = () => {
                 </div>
             </section>
 
+            <ColorStripDivider />
+
+
             {/* Trusted By Section */}
             <section className="py-16 bg-white border-y border-gray-100">
                 <div className="max-w-7xl mx-auto px-6">
@@ -519,13 +603,16 @@ const Home: React.FC = () => {
                             "Endeavor Hospitality Group",
                             "Atlantic Digital Services"
                         ].map((brand, i) => (
-                            <div key={i} className="text-gray-600 font-display font-bold text-lg hover:text-google-blue transition-colors">
+                            <div key={i} className="text-gray-600 font-display font-bold text-lg hover:text-google-blue transition-all cursor-pointer">
                                 {brand}
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
+
+            <ColorStripDivider />
+
 
             {/* Selected Work Section */}
             <section className="py-24 bg-surface" id="work">
@@ -589,6 +676,9 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+            <ColorStripDivider />
+
 
             {/* Featured Insights Section */}
             <section className="py-24 bg-background overflow-hidden px-4 sm:px-0">

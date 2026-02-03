@@ -14,38 +14,59 @@ const SEO: React.FC<SEOProps> = ({ title, description, canonicalPath = "", ogIma
         document.title = fullTitle;
 
         // Update Description
-        const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) {
-            metaDesc.setAttribute('content', description);
+        let metaDesc = document.querySelector('meta[name="description"]');
+        if (!metaDesc) {
+            metaDesc = document.createElement('meta');
+            metaDesc.setAttribute('name', 'description');
+            document.head.appendChild(metaDesc);
         }
+        metaDesc.setAttribute('content', description);
 
         // Update Canonical
         const baseUrl = "https://www.onlineverywhere.com";
-        const fullCanonical = `${baseUrl}${canonicalPath}`;
+        const fullCanonical = `${baseUrl}${canonicalPath.startsWith('/') ? canonicalPath : '/' + canonicalPath}`;
         let canonicalLink = document.querySelector('link[rel="canonical"]');
-        if (canonicalLink) {
-            canonicalLink.setAttribute('href', fullCanonical);
-        } else {
+        if (!canonicalLink) {
             canonicalLink = document.createElement('link');
             canonicalLink.setAttribute('rel', 'canonical');
-            canonicalLink.setAttribute('href', fullCanonical);
             document.head.appendChild(canonicalLink);
         }
+        canonicalLink.setAttribute('href', fullCanonical);
 
         // Update OG Tags
-        const ogTitle = document.querySelector('meta[property="og:title"]');
-        if (ogTitle) ogTitle.setAttribute('content', fullTitle);
+        const updateOrCreateMeta = (property: string, content: string) => {
+            let el = document.querySelector(`meta[property="${property}"]`);
+            if (!el) {
+                el = document.createElement('meta');
+                el.setAttribute('property', property);
+                document.head.appendChild(el);
+            }
+            el.setAttribute('content', content);
+        };
 
-        const ogDesc = document.querySelector('meta[property="og:description"]');
-        if (ogDesc) ogDesc.setAttribute('content', description);
+        updateOrCreateMeta('og:title', fullTitle);
+        updateOrCreateMeta('og:description', description);
+        updateOrCreateMeta('og:url', fullCanonical);
+        updateOrCreateMeta('og:type', 'website');
 
-        const ogUrl = document.querySelector('meta[property="og:url"]');
-        if (ogUrl) ogUrl.setAttribute('content', fullCanonical);
+        const finalOgImage = ogImage || `${baseUrl}/og-image.jpg`;
+        updateOrCreateMeta('og:image', finalOgImage);
 
-        if (ogImage) {
-            const ogImg = document.querySelector('meta[property="og:image"]');
-            if (ogImg) ogImg.setAttribute('content', ogImage);
-        }
+        // Update Twitter Tags
+        const updateOrCreateTwitter = (name: string, content: string) => {
+            let el = document.querySelector(`meta[name="${name}"]`);
+            if (!el) {
+                el = document.createElement('meta');
+                el.setAttribute('name', name);
+                document.head.appendChild(el);
+            }
+            el.setAttribute('content', content);
+        };
+
+        updateOrCreateTwitter('twitter:card', 'summary_large_image');
+        updateOrCreateTwitter('twitter:title', fullTitle);
+        updateOrCreateTwitter('twitter:description', description);
+        updateOrCreateTwitter('twitter:image', finalOgImage);
 
     }, [title, description, canonicalPath, ogImage]);
 
