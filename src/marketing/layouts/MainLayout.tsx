@@ -6,6 +6,8 @@ import { submitToGoogleForm } from '../lib/googleForms';
 import { useAuth } from '../../platform/contexts/AuthContext';
 import ScrollToTop from '../components/ScrollToTop';
 
+import { APP_URL, DEMO_URLS } from '../config';
+
 const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" }) => (
     <div className={`flex h-1.5 w-full ${className}`}>
         <div className="flex-1 bg-google-blue"></div>
@@ -15,13 +17,12 @@ const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" })
     </div>
 );
 
-import { APP_URL, DEMO_URLS } from '../config';
-
 const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { isOpen: boolean, onClose: () => void, initialType?: 'early-access' | 'audit' }) => {
     if (!isOpen) return null;
 
     const [type, setType] = useState(initialType);
     const [submitted, setSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-md" onClick={onClose}>
@@ -51,70 +52,99 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                     </button>
                 </div>
 
-                {submitted ? (
-                    <div className="space-y-4">
-                        <Link
-                            to="/portal"
-                            className="w-full bg-google-blue text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-google-blue/30 transition-all transform hover:scale-[1.02]"
+                <AnimatePresence mode="wait">
+                    {submitted ? (
+                        <motion.div
+                            key="success"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="space-y-4 pt-4"
                         >
-                            <span className="material-symbols-outlined">rocket_launch</span>
-                            Enter Ollie OS
-                        </Link>
+                            <div className="size-20 bg-google-green/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <span className="material-symbols-outlined text-4xl text-google-green animate-bounce">verified_user</span>
+                            </div>
 
-                        <a
-                            href={DEMO_URLS.PERSONA_LAB}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full bg-white border border-gray-200 text-gray-700 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 transition-all"
-                        >
-                            <span className="material-symbols-outlined">face</span>
-                            Try PersonaLab Demo
-                        </a>
-                        <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium">Access Granted via Temporary Guest Pass</p>
-                    </div>
-                ) : (
-                    <form className="space-y-6" onSubmit={async e => {
-                        e.preventDefault();
-                        const formData = new FormData(e.currentTarget);
-                        const data = {
-                            name: formData.get('name'),
-                            email: formData.get('email'),
-                            business: formData.get('business'),
-                        };
-                        const res = await submitLead(type, data);
-                        // Also submit to Google Form
-                        await submitToGoogleForm({
-                            name: data.name as string,
-                            email: data.email as string,
-                            business: data.business as string
-                        });
+                            <Link
+                                to="/portal"
+                                className="w-full bg-google-blue text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-google-blue/30 transition-all transform hover:scale-[1.02]"
+                            >
+                                <span className="material-symbols-outlined">rocket_launch</span>
+                                Enter Ollie OS
+                            </Link>
 
-                        if (res.success) {
-                            setSubmitted(true);
-                        } else {
-                            alert('Submission failed. Please try again.');
-                        }
-                    }}>
-                        <div className="space-y-4">
-                            <div>
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Full Name</label>
-                                <input name="name" type="text" placeholder="John Doe" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
+                            <a
+                                href={DEMO_URLS.PERSONA_LAB}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full bg-white border border-gray-200 text-gray-700 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 transition-all"
+                            >
+                                <span className="material-symbols-outlined">face</span>
+                                Try PersonaLab Demo
+                            </a>
+                            <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium">Access Granted via Temporary Guest Pass</p>
+                        </motion.div>
+                    ) : (
+                        <form key="form" className="space-y-6" onSubmit={async e => {
+                            e.preventDefault();
+                            const formData = new FormData(e.currentTarget);
+                            const data = {
+                                name: formData.get('name'),
+                                email: formData.get('email'),
+                                business: formData.get('business'),
+                            };
+
+                            setIsSubmitting(true);
+                            try {
+                                const res = await submitLead(type, data);
+                                // Also submit to Google Form
+                                await submitToGoogleForm({
+                                    name: data.name as string,
+                                    email: data.email as string,
+                                    business: data.business as string
+                                });
+
+                                if (res.success) {
+                                    setSubmitted(true);
+                                } else {
+                                    alert('Submission failed. Please try again.');
+                                }
+                            } finally {
+                                setIsSubmitting(false);
+                            }
+                        }}>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Full Name</label>
+                                    <input name="name" type="text" placeholder="John Doe" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
+                                </div>
+                                <div>
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Business Email</label>
+                                    <input name="email" type="email" placeholder="john@company.com" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
+                                </div>
+                                <div>
+                                    <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Company / Industry</label>
+                                    <input name="business" type="text" placeholder="Endeavor Tourism" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" />
+                                </div>
                             </div>
-                            <div>
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Business Email</label>
-                                <input name="email" type="email" placeholder="john@company.com" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" required />
-                            </div>
-                            <div>
-                                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block ml-1">Company / Industry</label>
-                                <input name="business" type="text" placeholder="Endeavor Tourism" className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-5 py-4 text-gray-900 focus:border-google-blue focus:ring-1 focus:ring-google-blue outline-none transition-all" />
-                            </div>
-                        </div>
-                        <button type="submit" className={`w-full ${type === 'audit' ? 'bg-google-red hover:bg-red-600 shadow-google-red/20' : 'bg-google-blue hover:bg-blue-600 shadow-google-blue/20'} text-white py-5 rounded-2xl font-bold transition-all transform hover:scale-[1.02] shadow-xl`}>
-                            {type === 'audit' ? 'Confirm Audit Request' : 'Request Early Access'}
-                        </button>
-                        <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium text-gray-300">Secured by OnLineEverywhere Protocols</p>
-                    </form>
-                )}
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className={`w-full ${type === 'audit' ? 'bg-google-red hover:bg-red-600 shadow-google-red/20' : 'bg-google-blue hover:bg-blue-600 shadow-google-blue/20'} text-white py-5 rounded-2xl font-bold transition-all transform hover:scale-[1.02] shadow-xl disabled:opacity-70 disabled:scale-100 flex items-center justify-center gap-3`}
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <div className="size-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        <span>Transmitting...</span>
+                                    </>
+                                ) : (
+                                    type === 'audit' ? 'Confirm Audit Request' : 'Request Early Access'
+                                )}
+                            </button>
+                            <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium text-gray-300">Secured by OnLineEverywhere Protocols</p>
+                        </form>
+                    )}
+                </AnimatePresence>
             </motion.div>
         </div>
     );
