@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
-import { submitToGoogleForm } from '../lib/googleForms';
+import { submitToGoogleSheet } from '../lib/googleSheets';
 import { useAuth } from '../../platform/contexts/AuthContext';
 import ScrollToTop from '../components/ScrollToTop';
 
@@ -97,11 +97,13 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                             setIsSubmitting(true);
                             try {
                                 const res = await submitLead(type, data);
-                                // Also submit to Google Form
-                                await submitToGoogleForm({
+                                // Also submit to Google Sheet (Direct API)
+                                await submitToGoogleSheet({
                                     name: data.name as string,
                                     email: data.email as string,
-                                    business: data.business as string
+                                    business: data.business as string,
+                                    role: 'Early Access', // Adding context since it's a generic lead
+                                    source: type === 'audit' ? 'Audit Request' : 'Early Access Modal'
                                 });
 
                                 if (res.success) {

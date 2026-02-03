@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
-import { submitToGoogleForm } from '../lib/googleForms';
+import { submitToGoogleSheet } from '../lib/googleSheets';
 
 const ColorStripDivider: React.FC = () => (
     <div className="flex h-1.5 w-full">
@@ -124,12 +124,13 @@ const ContactUs: React.FC = () => {
                                             try {
                                                 const res = await submitLead('contact', data);
 
-                                                // Also submit to Google Form
-                                                await submitToGoogleForm({
+                                                // Also submit to Google Sheet (Direct API)
+                                                await submitToGoogleSheet({
                                                     name: data.name as string,
                                                     email: data.email as string,
                                                     service: data.service as string,
-                                                    message: data.message as string
+                                                    message: data.message as string,
+                                                    source: 'Contact Page'
                                                 });
 
                                                 if (res.success) {
