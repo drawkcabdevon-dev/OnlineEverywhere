@@ -122,36 +122,20 @@ const ContactUs: React.FC = () => {
 
                                             setIsSubmitting(true);
                                             try {
-                                                // Run both submissions in parallel
-                                                const [firebaseResult, sheetsResult] = await Promise.allSettled([
-                                                    submitLead('contact', data),
-                                                    submitToGoogleSheet({
-                                                        name: data.name as string,
-                                                        email: data.email as string,
-                                                        service: data.service as string,
-                                                        message: data.message as string,
-                                                        source: 'Contact Page'
-                                                    })
-                                                ]);
+                                                // 1. Submit to Firebase (Primary Source of Truth)
+                                                const res = await submitLead('contact', data);
 
-                                                // Check results
-                                                const firebaseSuccess = firebaseResult.status === 'fulfilled' && firebaseResult.value.success;
-                                                const sheetsSuccess = sheetsResult.status === 'fulfilled' && sheetsResult.value.success;
+                                                // 2. Submit to Google Sheets (Background / Fire-and-Forget)
+                                                submitToGoogleSheet({
+                                                    name: data.name as string,
+                                                    email: data.email as string,
+                                                    service: data.service as string,
+                                                    message: data.message as string,
+                                                    source: 'Contact Page'
+                                                }).catch(err => console.error('Background Sheet Submission Error:', err));
 
-                                                console.log('Submission Results:', {
-                                                    firebase: firebaseSuccess ? 'OK' : firebaseResult,
-                                                    sheets: sheetsSuccess ? 'OK' : sheetsResult
-                                                });
-
-                                                if (firebaseResult.status === 'rejected') {
-                                                    console.error('Firebase submission crashed:', firebaseResult.reason);
-                                                }
-                                                if (sheetsResult.status === 'rejected') {
-                                                    console.error('Google Sheets submission crashed:', sheetsResult.reason);
-                                                }
-
-                                                // Success if EITHER works
-                                                if (firebaseSuccess || sheetsSuccess) {
+                                                // 3. Instant UI Feedback
+                                                if (res.success) {
                                                     setSubmitted(true);
                                                 } else {
                                                     alert('Error transmitting data. Please try again or email us directly.');

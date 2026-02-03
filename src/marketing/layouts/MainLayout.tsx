@@ -97,35 +97,22 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                             setIsSubmitting(true);
                             try {
                                 // Run both submissions in parallel
-                                const [firebaseResult, sheetsResult] = await Promise.allSettled([
-                                    submitLead(type, data),
-                                    submitToGoogleSheet({
-                                        name: data.name as string,
-                                        email: data.email as string,
-                                        business: data.business as string,
-                                        role: 'Early Access',
-                                        source: type === 'audit' ? 'Audit Request' : 'Early Access Modal'
-                                    })
-                                ]);
+                                // 1. Submit to Firebase (Primary Source of Truth)
+                                const res = await submitLead(type, data);
 
-                                // Check results
-                                const firebaseSuccess = firebaseResult.status === 'fulfilled' && firebaseResult.value.success;
-                                const sheetsSuccess = sheetsResult.status === 'fulfilled' && sheetsResult.value.success;
+                                // 2. Submit to Google Sheets (Background / Fire-and-Forget)
+                                // We don't await this because 'no-cors' requests can be slow/opaque 
+                                // and shouldn't block the user's success experience.
+                                submitToGoogleSheet({
+                                    name: data.name as string,
+                                    email: data.email as string,
+                                    business: data.business as string,
+                                    role: 'Early Access',
+                                    source: type === 'audit' ? 'Audit Request' : 'Early Access Modal'
+                                }).catch(err => console.error('Background Sheet Submission Error:', err));
 
-                                console.log('Submission Results:', {
-                                    firebase: firebaseSuccess ? 'OK' : firebaseResult,
-                                    sheets: sheetsSuccess ? 'OK' : sheetsResult
-                                });
-
-                                if (firebaseResult.status === 'rejected') {
-                                    console.error('Firebase submission crashed:', firebaseResult.reason);
-                                }
-                                if (sheetsResult.status === 'rejected') {
-                                    console.error('Google Sheets submission crashed:', sheetsResult.reason);
-                                }
-
-                                // Success if EITHER works (redundancy)
-                                if (firebaseSuccess || sheetsSuccess) {
+                                // 3. Instant UI Feedback
+                                if (res.success) {
                                     setSubmitted(true);
                                 } else {
                                     alert('Submission failed. Please try again.');
