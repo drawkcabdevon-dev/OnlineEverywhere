@@ -4,7 +4,7 @@
  */
 
 // Placeholder URL - User needs to update this after deploying their script
-export const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTiaDAEIBz_uLNYW-eMcNcmfXqOPNI1DxmE517deI/exec';
+export const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxYa56Gg7GOW2hi0__aBW_v0E1pWQaIfLLczbSfrFKSaFSSK-RIA_aiTCsd4gyOUZRt/exec';
 
 export async function submitToGoogleSheet(data: {
     name: string;

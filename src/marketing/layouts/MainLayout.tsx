@@ -96,17 +96,29 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
 
                             setIsSubmitting(true);
                             try {
-                                const res = await submitLead(type, data);
-                                // Also submit to Google Sheet (Direct API)
-                                await submitToGoogleSheet({
-                                    name: data.name as string,
-                                    email: data.email as string,
-                                    business: data.business as string,
-                                    role: 'Early Access', // Adding context since it's a generic lead
-                                    source: type === 'audit' ? 'Audit Request' : 'Early Access Modal'
-                                });
+                                // Run both submissions in parallel
+                                const [firebaseResult, sheetsResult] = await Promise.allSettled([
+                                    submitLead(type, data),
+                                    submitToGoogleSheet({
+                                        name: data.name as string,
+                                        email: data.email as string,
+                                        business: data.business as string,
+                                        role: 'Early Access',
+                                        source: type === 'audit' ? 'Audit Request' : 'Early Access Modal'
+                                    })
+                                ]);
 
-                                if (res.success) {
+                                // Check Firebase result (primary)
+                                const success = firebaseResult.status === 'fulfilled' && firebaseResult.value.success;
+
+                                if (firebaseResult.status === 'rejected') {
+                                    console.error('Firebase submission crashed:', firebaseResult.reason);
+                                }
+                                if (sheetsResult.status === 'rejected') {
+                                    console.error('Google Sheets submission crashed:', sheetsResult.reason);
+                                }
+
+                                if (success) {
                                     setSubmitted(true);
                                 } else {
                                     alert('Submission failed. Please try again.');
