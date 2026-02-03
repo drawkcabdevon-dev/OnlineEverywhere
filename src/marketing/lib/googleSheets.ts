@@ -18,14 +18,24 @@ export async function submitToGoogleSheet(data: {
     // URL is configured
 
     try {
+        console.log('Starting Google Sheet submission...', { url: GOOGLE_SCRIPT_URL, data });
+
+        // Add a timeout to prevent infinite hanging
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
         const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Important: Google Apps Script Web Apps require no-cors for simple text/plain POSTs from browser
+            mode: 'no-cors',
             headers: {
-                'Content-Type': 'text/plain;charset=utf-8', // Apps Script treats this as string payload
+                'Content-Type': 'text/plain;charset=utf-8',
             },
             body: JSON.stringify(data),
+            signal: controller.signal
         });
+
+        clearTimeout(timeoutId);
+        console.log('Google Sheet submission fetch completed (opaque/no-cors)');
 
         // specific no-cors note: 
         // We still won't get a readable JSON response in 'no-cors' mode due to browser security.
