@@ -9,16 +9,32 @@ export const GOOGLE_FORM_ENTRIES = {
     NAME: 'entry.1117717146',
     EMAIL: 'entry.874130450',
     BUSINESS: 'entry.1603127174',
+    ROLE: 'entry.523937590',
+    SERVICE: 'entry.1256132317',
+    MESSAGE: 'entry.214890039',
 };
 
-export async function submitToGoogleForm(data: { name: string; email: string; business?: string }) {
+export async function submitToGoogleForm(data: {
+    name: string;
+    email: string;
+    business?: string;
+    role?: string;
+    service?: string;
+    message?: string;
+}) {
     const formUrl = `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`;
 
     const formData = new URLSearchParams();
     formData.append(GOOGLE_FORM_ENTRIES.NAME, data.name);
     formData.append(GOOGLE_FORM_ENTRIES.EMAIL, data.email);
-    if (data.business) {
-        formData.append(GOOGLE_FORM_ENTRIES.BUSINESS, data.business);
+
+    if (data.business) formData.append(GOOGLE_FORM_ENTRIES.BUSINESS, data.business);
+    if (data.role) formData.append(GOOGLE_FORM_ENTRIES.ROLE, data.role);
+    if (data.service && GOOGLE_FORM_ENTRIES.SERVICE !== 'entry.YOUR_SERVICE_ID') {
+        formData.append(GOOGLE_FORM_ENTRIES.SERVICE, data.service);
+    }
+    if (data.message && GOOGLE_FORM_ENTRIES.MESSAGE !== 'entry.YOUR_MESSAGE_ID') {
+        formData.append(GOOGLE_FORM_ENTRIES.MESSAGE, data.message);
     }
 
     try {

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
+import { submitToGoogleForm } from '../lib/googleForms';
 
 const ColorStripDivider: React.FC = () => (
     <div className="flex h-1.5 w-full">
@@ -89,6 +90,15 @@ const ContactUs: React.FC = () => {
                                         message: formData.get('message'),
                                     };
                                     const res = await submitLead('contact', data);
+
+                                    // Also submit to Google Form
+                                    await submitToGoogleForm({
+                                        name: data.name as string,
+                                        email: data.email as string,
+                                        service: data.service as string,
+                                        message: data.message as string
+                                    });
+
                                     if (res.success) {
                                         alert('Request received. Our strategic team will contact you shortly.');
                                         (e.target as HTMLFormElement).reset();
