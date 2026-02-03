@@ -122,18 +122,36 @@ const ContactUs: React.FC = () => {
 
                                             setIsSubmitting(true);
                                             try {
-                                                const res = await submitLead('contact', data);
+                                                // Run both submissions in parallel
+                                                const [firebaseResult, sheetsResult] = await Promise.allSettled([
+                                                    submitLead('contact', data),
+                                                    submitToGoogleSheet({
+                                                        name: data.name as string,
+                                                        email: data.email as string,
+                                                        service: data.service as string,
+                                                        message: data.message as string,
+                                                        source: 'Contact Page'
+                                                    })
+                                                ]);
 
-                                                // Also submit to Google Sheet (Direct API)
-                                                await submitToGoogleSheet({
-                                                    name: data.name as string,
-                                                    email: data.email as string,
-                                                    service: data.service as string,
-                                                    message: data.message as string,
-                                                    source: 'Contact Page'
+                                                // Check results
+                                                const firebaseSuccess = firebaseResult.status === 'fulfilled' && firebaseResult.value.success;
+                                                const sheetsSuccess = sheetsResult.status === 'fulfilled' && sheetsResult.value.success;
+
+                                                console.log('Submission Results:', {
+                                                    firebase: firebaseSuccess ? 'OK' : firebaseResult,
+                                                    sheets: sheetsSuccess ? 'OK' : sheetsResult
                                                 });
 
-                                                if (res.success) {
+                                                if (firebaseResult.status === 'rejected') {
+                                                    console.error('Firebase submission crashed:', firebaseResult.reason);
+                                                }
+                                                if (sheetsResult.status === 'rejected') {
+                                                    console.error('Google Sheets submission crashed:', sheetsResult.reason);
+                                                }
+
+                                                // Success if EITHER works
+                                                if (firebaseSuccess || sheetsSuccess) {
                                                     setSubmitted(true);
                                                 } else {
                                                     alert('Error transmitting data. Please try again or email us directly.');

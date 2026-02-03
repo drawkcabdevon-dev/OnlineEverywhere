@@ -108,8 +108,14 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                                     })
                                 ]);
 
-                                // Check Firebase result (primary)
-                                const success = firebaseResult.status === 'fulfilled' && firebaseResult.value.success;
+                                // Check results
+                                const firebaseSuccess = firebaseResult.status === 'fulfilled' && firebaseResult.value.success;
+                                const sheetsSuccess = sheetsResult.status === 'fulfilled' && sheetsResult.value.success;
+
+                                console.log('Submission Results:', {
+                                    firebase: firebaseSuccess ? 'OK' : firebaseResult,
+                                    sheets: sheetsSuccess ? 'OK' : sheetsResult
+                                });
 
                                 if (firebaseResult.status === 'rejected') {
                                     console.error('Firebase submission crashed:', firebaseResult.reason);
@@ -118,7 +124,8 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                                     console.error('Google Sheets submission crashed:', sheetsResult.reason);
                                 }
 
-                                if (success) {
+                                // Success if EITHER works (redundancy)
+                                if (firebaseSuccess || sheetsSuccess) {
                                     setSubmitted(true);
                                 } else {
                                     alert('Submission failed. Please try again.');
