@@ -5,7 +5,7 @@ import Card from '../components/Card';
 import Button from '../components/Button';
 import Spinner from '../components/Spinner';
 import * as geminiService from '../services/geminiService';
-import { GeneratedContentResult, PostGenerationResult, ZeroClickResult, HtmlComponent, ContentOpportunity, ContentMode } from '../types';
+import { GeneratedContentResult, PostGenerationResult, ZeroClickResult, HtmlComponent, ContentOpportunity, ContentMode, AdCopyResult, EmailContentResult, VideoScriptResult } from '../types';
 import CodeBlock from '../components/CodeBlock';
 import Section from '../components/Section';
 import Modal from '../components/Modal';

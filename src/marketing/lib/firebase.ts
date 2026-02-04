@@ -15,16 +15,18 @@ export const db = getFirestore(app);
 
 export const submitLead = async (type: 'early-access' | 'audit' | 'contact', data: any) => {
     try {
+        console.log(`[Firebase] Starting submitLead type=${type}`, data);
         const leadsRef = collection(db, "leads");
-        await addDoc(leadsRef, {
+        const docRef = await addDoc(leadsRef, {
             ...data,
             type,
             status: 'new',
             createdAt: serverTimestamp()
         });
+        console.log(`[Firebase] Successfully added doc with ID: ${docRef.id}`);
         return { success: true };
     } catch (error) {
-        console.error("Error submitting lead:", error);
+        console.error("[Firebase] Error submitting lead:", error);
         return { success: false, error };
     }
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
 import { submitToGoogleSheet } from '../lib/googleSheets';
@@ -13,6 +14,7 @@ const ColorStripDivider: React.FC = () => (
 );
 
 const ContactUs: React.FC = () => {
+    const navigate = useNavigate();
     const [submitted, setSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -121,26 +123,36 @@ const ContactUs: React.FC = () => {
                                             };
 
                                             setIsSubmitting(true);
+                                            console.log('[Contact] onSubmit triggered');
                                             try {
                                                 // 1. Submit to Firebase (Primary Source of Truth)
+                                                console.log('[Contact] Submitting to Firebase...');
                                                 const res = await submitLead('contact', data);
+                                                console.log('[Contact] Firebase Result:', res);
 
                                                 // 2. Submit to Google Sheets (Background / Fire-and-Forget)
+                                                console.log('[Contact] Starting background Google Sheets submission...');
                                                 submitToGoogleSheet({
                                                     name: data.name as string,
                                                     email: data.email as string,
                                                     service: data.service as string,
                                                     message: data.message as string,
                                                     source: 'Contact Page'
-                                                }).catch(err => console.error('Background Sheet Submission Error:', err));
+                                                }).then(() => console.log('[Contact] Google Sheets background task resolved'))
+                                                    .catch(err => console.error('[Contact] Background Sheet Submission Error:', err));
 
-                                                // 3. Instant UI Feedback
+                                                // 3. Instant UI Feedback -> Redirect
                                                 if (res.success) {
-                                                    setSubmitted(true);
+                                                    console.log('[Contact] Success state detected, navigating to /success');
+                                                    navigate('/success');
                                                 } else {
+                                                    console.warn('[Contact] Submission failed reported in res.success');
                                                     alert('Error transmitting data. Please try again or email us directly.');
                                                 }
+                                            } catch (err) {
+                                                console.error('[Contact] CRITICAL ERROR in form handler:', err);
                                             } finally {
+                                                console.log('[Contact] onSubmit finally block');
                                                 setIsSubmitting(false);
                                             }
                                         }}>

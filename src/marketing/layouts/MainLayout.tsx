@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
 import { submitToGoogleSheet } from '../lib/googleSheets';
@@ -20,8 +20,9 @@ const ColorStripDivider: React.FC<{ className?: string }> = ({ className = "" })
 const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { isOpen: boolean, onClose: () => void, initialType?: 'early-access' | 'audit' }) => {
     if (!isOpen) return null;
 
+    const navigate = useNavigate();
     const [type, setType] = useState(initialType);
-    const [submitted, setSubmitted] = useState(false);
+    const [submitted, setSubmitted] = useState(false); // Can be removed later if unused
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     return (
@@ -111,9 +112,13 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                                     source: type === 'audit' ? 'Audit Request' : 'Early Access Modal'
                                 }).catch(err => console.error('Background Sheet Submission Error:', err));
 
-                                // 3. Instant UI Feedback
+                                // 3. Instant UI Feedback -> Redirect
                                 if (res.success) {
-                                    setSubmitted(true);
+                                    // Close modal first if needed, but navigation will unmount it anyway
+                                    // setSubmitted(true); // Legacy
+                                    navigate('/success');
+                                    // Ensure modal closes if we stay on same page (but we aren't)
+                                    // onClose(); 
                                 } else {
                                     alert('Submission failed. Please try again.');
                                 }

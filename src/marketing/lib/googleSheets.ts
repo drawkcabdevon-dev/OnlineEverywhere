@@ -18,11 +18,19 @@ export async function submitToGoogleSheet(data: {
     // URL is configured
 
     try {
-        console.log('Starting Google Sheet submission...', { url: GOOGLE_SCRIPT_URL, data });
+        const payload = JSON.stringify(data);
+        console.log('[Sheets] Starting submission...', {
+            url: GOOGLE_SCRIPT_URL,
+            payloadSize: payload.length,
+            data
+        });
 
         // Add a timeout to prevent infinite hanging
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const timeoutId = setTimeout(() => {
+            console.warn('[Sheets] TIMEOUT - aborting fetch');
+            controller.abort();
+        }, 15000); // Increased to 15s timeout
 
         const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
@@ -30,22 +38,22 @@ export async function submitToGoogleSheet(data: {
             headers: {
                 'Content-Type': 'text/plain;charset=utf-8',
             },
-            body: JSON.stringify(data),
+            body: payload,
             signal: controller.signal
         });
 
         clearTimeout(timeoutId);
-        console.log('Google Sheet submission fetch completed (opaque/no-cors)');
+        console.log('[Sheets] Fetch completed (Opaque/no-cors mode)');
 
-        // specific no-cors note: 
-        // We still won't get a readable JSON response in 'no-cors' mode due to browser security.
-        // However, this method allows the JSON payload to reach the script successfully.
-        // If we want readable responses, we'd need a proxy, but this is sufficient for fire-and-forget success.
-
+        // Note: in 'no-cors' mode, we can't read the response body or status.
         return { success: true };
 
     } catch (error) {
-        console.error('Google Sheet submission error:', error);
+        if (error.name === 'AbortError') {
+            console.error('[Sheets] Request timed out or was aborted');
+        } else {
+            console.error('[Sheets] Submission error:', error);
+        }
         return { success: false, error };
     }
 }

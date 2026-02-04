@@ -18,6 +18,7 @@ const Partnership = React.lazy(() => import('./pages/services/Partnership'));
 const MediaIgnition = React.lazy(() => import('./pages/services/MediaIgnition'));
 const Ollie = React.lazy(() => import('./pages/Ollie'));
 const TourismLanding = React.lazy(() => import('./TourismLanding'));
+const Success = React.lazy(() => import('./pages/Success'));
 const FirebaseTest = React.lazy(() => import('./pages/FirebaseTest'));
 
 const LoadingFallback = () => (
@@ -53,6 +54,7 @@ const App: React.FC = () => {
                         <Route path="barbados" element={<BarbadosMarketing />} />
                         <Route path="barbados-stitch" element={<BarbadosStitch />} />
                         <Route path="contact" element={<ContactUs />} />
+                        <Route path="success" element={<Success />} />
                         <Route path="firebase-test" element={<FirebaseTest />} />
 
                         {/* Utility Routes */}

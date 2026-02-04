@@ -11,6 +11,7 @@ import Spinner from './components/Spinner';
 import Auth from './modules/Auth';
 import ProjectHub from './modules/ProjectHub';
 import Dashboard from './modules/Dashboard';
+import Onboarding from './modules/Onboarding';
 const AdminLeads = React.lazy(() => import('./modules/AdminLeads'));
 
 // Lazy load heavy feature modules
@@ -31,6 +32,7 @@ const EmailCampaigner = React.lazy(() => import('./modules/EmailCampaigner'));
 
 const App: React.FC = () => {
   const {
+    projects,
     activeProjectId,
     activeModule,
     navigateToModule,
@@ -62,10 +64,10 @@ const App: React.FC = () => {
 
   // Handle Guest Project Init
   React.useEffect(() => {
-    if (isGuest && !activeProjectId) {
+    if (isGuest && !activeProjectId && projects.length === 0) {
       createDemoProject('Demo Business');
     }
-  }, [isGuest, activeProjectId, createDemoProject]);
+  }, [isGuest, activeProjectId, projects.length, createDemoProject]);
 
   const handleLogout = async () => {
     if (isGuest) {
@@ -86,6 +88,11 @@ const App: React.FC = () => {
   }
 
   if (!currentUser && !isGuest) return <><ErrorBanner /><Auth /></>;
+
+  // Initiation Phase: If no projects exist, show Onboarding
+  if (projects.length === 0) return <><ErrorBanner /><Onboarding /></>;
+
+  // If projects exist but none is active, show Project Hub
   if (!activeProjectId) return <><ErrorBanner /><ProjectHub /></>;
 
   const renderModule = () => {
