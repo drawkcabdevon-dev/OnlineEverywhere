@@ -15,7 +15,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
-    const [isGuest, setIsGuest] = useState(() => sessionStorage.getItem('isGuest') === 'true');
+    const [isGuest, setIsGuest] = useState(false);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const stored = sessionStorage.getItem('isGuest');
+            if (stored === 'true') {
+                setIsGuest(true);
+            }
+        }
+    }, []);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

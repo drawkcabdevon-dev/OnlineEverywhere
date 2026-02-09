@@ -62,12 +62,12 @@ const App: React.FC = () => {
     }
   }, [currentUser, loginAsGuest, navigateToModule]);
 
-  // Handle Guest Project Init
-  React.useEffect(() => {
-    if (isGuest && !activeProjectId && projects.length === 0) {
-      createDemoProject('Demo Business');
-    }
-  }, [isGuest, activeProjectId, projects.length, createDemoProject]);
+  // Handle Guest Project Init - REMOVED to allow Onboarding flow
+  // React.useEffect(() => {
+  //   if (isGuest && !activeProjectId && projects.length === 0) {
+  //     createDemoProject('Demo Business');
+  //   }
+  // }, [isGuest, activeProjectId, projects.length, createDemoProject]);
 
   const handleLogout = async () => {
     if (isGuest) {
