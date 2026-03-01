@@ -31,7 +31,7 @@ steps:
         export VITE_FIREBASE_MESSAGING_SENDER_ID=$_FIREBASE_MESSAGING_SENDER_ID && \
         export VITE_FIREBASE_APP_ID=$_FIREBASE_APP_ID && \
         export VITE_GEMINI_API_KEY=$_GEMINI_API_KEY && \
-        npm install && \
+        npm install --legacy-peer-deps && \
         npm run build
     id: 'Build Marketing Site'
 

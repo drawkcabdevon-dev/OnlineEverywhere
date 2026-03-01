@@ -1,5 +1,5 @@
 # Stage 1: Build the React Application
-FROM node:20-alpine as builder
+FROM node:20 as builder
 
 WORKDIR /app
 
@@ -7,8 +7,8 @@ WORKDIR /app
 COPY package.json package-lock.json* ./
 
 # Install dependencies
-# Note: In a real scenario, use 'npm ci' if lockfile exists
-RUN npm install
+# Using '--legacy-peer-deps' to bypass strict resolution checks for React 19 compatibility
+RUN npm install --legacy-peer-deps
 
 # Copy source code
 COPY . .
