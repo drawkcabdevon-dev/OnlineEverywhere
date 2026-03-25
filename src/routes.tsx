@@ -1,7 +1,6 @@
 import React, { Suspense } from 'react';
 import { RouteObject } from 'react-router-dom';
 import Layout from './marketing/layouts/MainLayout';
-import PlatformApp from './platform/App';
 import ScrollToTop from './marketing/components/ScrollToTop';
 
 // Marketing Pages (Lazy Loaded)
@@ -17,10 +16,11 @@ const Launchpad = React.lazy(() => import('./marketing/pages/services/Launchpad'
 const Catalyst = React.lazy(() => import('./marketing/pages/services/Catalyst'));
 const Partnership = React.lazy(() => import('./marketing/pages/services/Partnership'));
 const MediaIgnition = React.lazy(() => import('./marketing/pages/services/MediaIgnition'));
-const Ollie = React.lazy(() => import('./marketing/pages/Ollie'));
 const TourismLanding = React.lazy(() => import('./marketing/TourismLanding'));
 const Success = React.lazy(() => import('./marketing/pages/Success'));
 const FirebaseTest = React.lazy(() => import('./marketing/pages/FirebaseTest'));
+const PaymentError = React.lazy(() => import('./marketing/pages/PaymentError'));
+const NotFound = React.lazy(() => import('./marketing/pages/NotFound'));
 
 const LoadingFallback = () => (
     <div className="h-screen w-full flex items-center justify-center bg-white">
@@ -43,10 +43,6 @@ const RootWrapper = ({ children }: { children: React.ReactNode }) => (
 
 export const routes: RouteObject[] = [
     {
-        path: '/portal/*',
-        element: <PlatformApp />
-    },
-    {
         path: '/tourism',
         element: (
             <RootWrapper>
@@ -63,7 +59,6 @@ export const routes: RouteObject[] = [
         ),
         children: [
             { index: true, element: <Home /> },
-            { path: 'ollie', element: <Ollie /> },
             { path: 'services', element: <Services /> },
             { path: 'services/digital-launchpad', element: <Launchpad /> },
             { path: 'services/conversion-catalyst', element: <Catalyst /> },
@@ -79,7 +74,9 @@ export const routes: RouteObject[] = [
             { path: 'firebase-test', element: <FirebaseTest /> },
             { path: 'privacy', element: <div className="py-24 max-w-3xl mx-auto px-6 h-screen">Institutional Privacy Policy coming soon.</div> },
             { path: 'terms', element: <div className="py-24 max-w-3xl mx-auto px-6 h-screen">Terms of Service coming soon.</div> },
-            { path: 'security', element: <div className="py-24 max-w-3xl mx-auto px-6 h-screen">Infrastructure Security Protocols.</div> }
+            { path: 'security', element: <div className="py-24 max-w-3xl mx-auto px-6 h-screen">Infrastructure Security Protocols.</div> },
+            { path: 'payment-error', element: <PaymentError /> },
+            { path: '*', element: <NotFound /> }
         ]
     }
 ];

@@ -23,13 +23,6 @@ const Success: React.FC = () => {
                 </p>
 
                 <div className="space-y-4">
-                    <Link
-                        to="/portal"
-                        className="w-full bg-google-blue text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-google-blue/30 transition-all transform hover:scale-[1.02]"
-                    >
-                        <span className="material-symbols-outlined">rocket_launch</span>
-                        Enter Ollie OS
-                    </Link>
 
                     <Link
                         to="/"

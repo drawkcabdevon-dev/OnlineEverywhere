@@ -8,10 +8,7 @@ interface FAQItem {
 }
 
 const faqs: FAQItem[] = [
-    {
-        question: "What exactly is Ollie, the AI Co-Pilot?",
-        answer: "Ollie is our proprietary AI core designed to act as a strategic partner for your business. It doesn't just generate text; it analyzes market intent, optimizes conversion paths, and provides real-time insights based on your specific digital infrastructure."
-    },
+
     {
         question: "How does OnlineEverywhere help tourism businesses specifically?",
         answer: "Tourism is an international search game. We specialize in identifying 'Global Intent'—where international travelers are searching for Caribbean experiences—and ensuring your business appears in those high-value digital streams through AI-native infrastructure."
@@ -69,8 +66,8 @@ const FAQ: React.FC = () => {
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.05 }}
                             className={`border rounded-2xl transition-all duration-300 ${openIndex === index
-                                    ? 'border-google-blue bg-blue-50/30'
-                                    : 'border-gray-100 bg-white hover:border-gray-200 shadow-sm'
+                                ? 'border-google-blue bg-blue-50/30'
+                                : 'border-gray-100 bg-white hover:border-gray-200 shadow-sm'
                                 }`}
                         >
                             <button

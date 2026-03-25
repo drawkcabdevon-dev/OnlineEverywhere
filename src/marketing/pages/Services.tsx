@@ -50,13 +50,7 @@ const Services: React.FC = () => {
                                 <span className="material-symbols-outlined">analytics</span>
                                 Request Technical Audit
                             </motion.button>
-                            <button
-                                onClick={() => navigate('/ollie')}
-                                className="bg-white text-navy-deep px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 transition-all shadow-lg border border-gray-200 text-base"
-                            >
-                                <span className="material-symbols-outlined">bolt</span>
-                                Try AI Demo
-                            </button>
+
                         </div>
                     </motion.div>
                 </div>
@@ -100,13 +94,7 @@ const Services: React.FC = () => {
                                         <span className="material-symbols-outlined">analytics</span>
                                         Request Technical Audit
                                     </motion.button>
-                                    <button
-                                        onClick={() => navigate('/ollie')}
-                                        className="bg-google-blue text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-xl text-lg shadow-google-blue/20"
-                                    >
-                                        <span className="material-symbols-outlined">bolt</span>
-                                        Try AI Demo
-                                    </button>
+
                                 </div>
                             </div>
 

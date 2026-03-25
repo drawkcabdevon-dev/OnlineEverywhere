@@ -3,7 +3,6 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { submitLead } from '../lib/firebase';
 import { submitToGoogleSheet } from '../lib/googleSheets';
-import { useAuth } from '../../platform/contexts/AuthContext';
 import ScrollToTop from '../components/ScrollToTop';
 
 import { APP_URL, DEMO_URLS } from '../config';
@@ -66,23 +65,6 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                                 <span className="material-symbols-outlined text-4xl text-google-green animate-bounce">verified_user</span>
                             </div>
 
-                            <Link
-                                to="/portal"
-                                className="w-full bg-google-blue text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg hover:shadow-google-blue/30 transition-all transform hover:scale-[1.02]"
-                            >
-                                <span className="material-symbols-outlined">rocket_launch</span>
-                                Enter Ollie OS
-                            </Link>
-
-                            <a
-                                href={DEMO_URLS.PERSONA_LAB}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="w-full bg-white border border-gray-200 text-gray-700 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-gray-50 transition-all"
-                            >
-                                <span className="material-symbols-outlined">face</span>
-                                Try PersonaLab Demo
-                            </a>
                             <p className="text-[10px] text-center text-gray-400 uppercase tracking-widest font-medium">Access Granted via Temporary Guest Pass</p>
                         </motion.div>
                     ) : (
@@ -158,8 +140,8 @@ const EarlyAccessModal = ({ isOpen, onClose, initialType = 'early-access' }: { i
                         </form>
                     )}
                 </AnimatePresence>
-            </motion.div>
-        </div>
+            </motion.div >
+        </div >
     );
 };
 
@@ -176,15 +158,12 @@ const Layout: React.FC = () => {
 
     const navLinks = [
         { to: '/', label: 'Overview' },
-        { to: '/ollie', label: 'Ollie Co-Pilot' },
         { to: '/services', label: 'Solutions', hasDropdown: true },
         { to: '/portfolio', label: 'Work' },
         { to: '/blog', label: 'Insights' },
         { to: '/about', label: 'About' },
         { to: '/contact', label: 'Contact' }
     ];
-
-    const { currentUser, isGuest } = useAuth();
 
     return (
         <div className="bg-background text-gray-700 antialiased font-sans min-h-screen relative">
@@ -253,13 +232,6 @@ const Layout: React.FC = () => {
                         ))}
 
                         <div className="flex items-center gap-4">
-                            <Link
-                                to="/portal"
-                                className="text-gray-600 hover:text-navy-deep font-bold text-xs uppercase tracking-wider transition-colors"
-                            >
-                                {currentUser || isGuest ? 'Open App' : 'Log In'}
-                            </Link>
-
                             <button
                                 onClick={() => setModalConfig({ open: true, type: 'early-access' })}
                                 className="bg-google-blue text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-google-blue/20 hover:scale-105 transition-all text-xs"
@@ -318,13 +290,6 @@ const Layout: React.FC = () => {
                                     )}
                                 </div>
                             ))}
-                            <Link
-                                to="/portal"
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="text-2xl font-display font-bold text-gray-800 block mt-6"
-                            >
-                                {currentUser || isGuest ? 'Open App' : 'Log In'}
-                            </Link>
 
                             <button
                                 onClick={() => {
@@ -371,7 +336,6 @@ const Layout: React.FC = () => {
                         <div>
                             <h4 className="font-bold text-sm text-gray-900 mb-6 uppercase tracking-wider">Solutions</h4>
                             <ul className="space-y-4 text-sm text-gray-500 font-medium">
-                                <li><Link className="hover:text-google-blue transition-colors" to="/ollie">Ollie Co-Pilot</Link></li>
                                 <li><Link className="hover:text-google-blue transition-colors" to="/services/digital-launchpad">Digital Launchpad</Link></li>
                                 <li><Link className="hover:text-google-blue transition-colors" to="/services/conversion-catalyst">Conversion Catalyst</Link></li>
                                 <li><Link className="hover:text-google-blue transition-colors" to="/services/proactive-partnership">Proactive Partnership</Link></li>

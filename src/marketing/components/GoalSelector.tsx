@@ -227,18 +227,7 @@ const GoalSelector: React.FC = () => {
                                     ))}
                                 </div>
 
-                                <div className="pt-6">
-                                    <motion.button
-                                        whileHover={{ scale: 1.02, x: 5 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        onClick={() => navigate('/ollie')}
-                                        className={`${bgColorMap[activeTab.color]} text-white px-12 py-6 rounded-2xl font-bold flex items-center justify-center gap-4 hover:brightness-110 transition-all shadow-2xl ${shadowColorMap[activeTab.color]} text-lg`}
-                                    >
-                                        <span className="material-symbols-outlined">bolt</span>
-                                        Benchmark with Ollie
-                                        <span className="material-symbols-outlined text-sm opacity-50">arrow_forward</span>
-                                    </motion.button>
-                                </div>
+
                             </div>
                         </div>
 
