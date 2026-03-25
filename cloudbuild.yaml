@@ -23,6 +23,18 @@ steps:
     args: ['-m', 'rsync', '-r', '-d', 'dist', 'gs://$_MARKETING_BUCKET']
     id: 'Deploy Marketing Site'
 
+  # 5b. Generate Clean URLs
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        cd dist && find . -name "*.html" -type f -not -name "index.html" | while read -r f; do
+          f_no_ext="${f%.html}"
+          gsutil -h "Content-Type:text/html" cp "$f" "gs://$_MARKETING_BUCKET/${f_no_ext:2}"
+        done
+    id: 'Fix Subpage Extensionless Routing'
+
   # 6. Set public-read permissions on all objects in the bucket
   - name: 'gcr.io/cloud-builders/gsutil'
     args: ['-m', 'iam', 'ch', 'allUsers:objectViewer', 'gs://$_MARKETING_BUCKET']
